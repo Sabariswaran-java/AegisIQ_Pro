@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Play, Loader2, ChevronRight, ShieldAlert, Thermometer } from "lucide-react";
 import { useAegis } from "../../context/AegisContext";
+import { evaluateScenario } from "../../services/api";
 
 export default function ScenarioTab({ assets, setActiveTab }) {
   const { selectedAsset, setAiWorkflowData } = useAegis();
@@ -144,18 +145,11 @@ export default function ScenarioTab({ assets, setActiveTab }) {
                 setIsSimulatingTwin(true);
                 setScenarioResult(null); 
 
-                await new Promise((resolve) => setTimeout(resolve, 3000));
-
-               const response = await apiClient.post('/ai/scenarios/what-if', payload); {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ 
-                    loadPercentage: scenarioLoad,
-                    memoryPercentage: memorySaturation
-                  })
+                const data = await evaluateScenario({
+                  loadPercentage: scenarioLoad,
+                  memoryPercentage: memorySaturation,
+                  assetName: selectedAsset.name
                 });
-
-                const data = await response.json();
 
                 const resultData = {
                   failoverRiskIndex: data.failoverRiskIndex,
