@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Loader2, Download, ChevronLeft, ChevronRight, UploadCloud, FileText } from "lucide-react";
+import { Loader2, ChevronLeft, ChevronRight, UploadCloud, FileText } from "lucide-react";
 import { useAegis } from "../../context/AegisContext";
+import apiClient from "../../services/api";
 
 export default function MemoryTab({ setActiveTab }) {
   const { selectedAsset, aiWorkflowData, setAiWorkflowData } = useAegis();
@@ -156,15 +157,13 @@ export default function MemoryTab({ setActiveTab }) {
                       formData.append("assetName", selectedAsset ? selectedAsset.name : "Main-Server-Alpha");
 
                       try {
-const response = await apiClient.post('/ai/rag-audit/analyze', formData); {
-                            method: 'POST',
-                            body: formData
+                        const response = await apiClient.post('/ai/rag-audit/analyze', formData, {
+                          headers: { 'Content-Type': 'multipart/form-data' }
                         });
-                        const data = await response.json();
+                        const data = response.data;
 
                         const isMatch = !data.confidence.includes("0.0%");
 
-                        // SCREEN-LA DISPLAY AAGURA EXACT LAYOUT-ODA MATCH AGURA FULL REPORT TEXT
                         const generatedFullReport = `AEGISIQ ENTERPRISE INCIDENT AND REMEDIATION REPORT
 
 TIMESTAMP: ${new Date().toLocaleString()}
@@ -210,7 +209,6 @@ STATUS: READY FOR DEPLOYMENT / AUDIT CLOSED`;
 
                         setIncidentResult(reportPayload);
                         
-                        // Push to Context so DeployTab can access it instantly
                         if (setAiWorkflowData) {
                             setAiWorkflowData(prev => ({
                                 ...prev,
