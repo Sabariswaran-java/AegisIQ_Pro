@@ -1,7 +1,6 @@
 package com.aegis.aegisiq.controller;
 
 import com.aegis.aegisiq.dto.DependencyGraphResponse;
-import com.aegis.aegisiq.dto.DependencyGraphResponse.Edge; // <--- Intha import-a add panniruken
 import com.aegis.aegisiq.service.BfsImpactService; 
 import com.aegis.aegisiq.service.TopologicalSortService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/decision-graph")
+@CrossOrigin(origins = "*")
 public class DecisionGraphController {
 
     @Autowired
@@ -32,18 +32,18 @@ public class DecisionGraphController {
 
 class GraphRequest {
     private List<String> nodes;
-    private List<Edge> edges;
+    private List<DependencyGraphResponse.EdgeDto> edges;
 
     public List<String> getNodes() { return nodes; }
-    public List<Edge> getEdges() { return edges; }
+    public List<DependencyGraphResponse.EdgeDto> getEdges() { return edges; }
 }
 
 class GraphImpactRequest {
     private List<String> nodes;
-    private List<Edge> edges;
+    private List<DependencyGraphResponse.EdgeDto> edges;
     private String failedNode;
 
     public List<String> getNodes() { return nodes; }
-    public List<Edge> getEdges() { return edges; }
+    public List<DependencyGraphResponse.EdgeDto> getEdges() { return edges; }
     public String getFailedNode() { return failedNode; }
 }
