@@ -1,5 +1,6 @@
 package com.aegis.aegisiq.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public class DependencyGraphResponse {
@@ -25,6 +26,8 @@ public class DependencyGraphResponse {
         private String type;
         private String status;
 
+        public NodeDto() {}
+
         public NodeDto(String id, String label, String type, String status) {
             this.id = id;
             this.label = label;
@@ -33,15 +36,25 @@ public class DependencyGraphResponse {
         }
 
         public String getId() { return id; }
+        public void setId(String id) { this.id = id; }
         public String getLabel() { return label; }
+        public void setLabel(String label) { this.label = label; }
         public String getType() { return type; }
+        public void setType(String type) { this.type = type; }
         public String getStatus() { return status; }
+        public void setStatus(String status) { this.status = status; }
     }
 
     public static class EdgeDto {
         private String id;
+        
+        @JsonProperty("from")
         private String source;
+        
+        @JsonProperty("to")
         private String target;
+
+        public EdgeDto() {}
 
         public EdgeDto(String id, String source, String target) {
             this.id = id;
@@ -50,7 +63,10 @@ public class DependencyGraphResponse {
         }
 
         public String getId() { return id; }
+        public void setId(String id) { this.id = id; }
         public String getSource() { return source; }
+        public void setSource(String source) { this.source = source; }
         public String getTarget() { return target; }
+        public void setTarget(String target) { this.target = target; }
     }
 }
