@@ -23,6 +23,15 @@ export const getHistoricalIncidents = async (query) => (await apiClient.post("/a
 export const evaluateDeployment = async (payload) => (await apiClient.post("/ai/deploy-optimizer", payload)).data;
 
 // Decision Graph & Impact Analysis API functions (Connected to Render Backend)
+export const getDependencyGraph = async () => ({
+  nodes: [
+    { id: "NODE-01", label: "Primary Database Cluster", type: "DATABASE", status: "HEALTHY" },
+    { id: "NODE-02", label: "Industrial Turbine Gateway", type: "GATEWAY", status: "HEALTHY" },
+    { id: "NODE-03", label: "Core Auth Microservice", type: "SERVICE", status: "HEALTHY" }
+  ],
+  edges: []
+});
+
 export const getDependencyOrder = async (nodes, edges) => 
   (await apiClient.post("/decision-graph/order", { nodes, edges })).data;
 
