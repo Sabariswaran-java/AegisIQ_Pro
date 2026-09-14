@@ -1,16 +1,15 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:8065/api", // Local-kku ithai use pannikonga
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "https://aegisiq-backend-8cjm.onrender.com/api",
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-
-
 export default apiClient;
 
+// Remaining API functions...
 export const getAssets = async () => (await apiClient.get("/assets")).data;
 export const createAsset = async (data: any) => (await apiClient.post("/assets", data)).data;
 export const updateAsset = async (id: number, data: any) => (await apiClient.put(`/assets/${id}`, data)).data;
