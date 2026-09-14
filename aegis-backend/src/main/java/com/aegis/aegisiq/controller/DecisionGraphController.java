@@ -20,7 +20,9 @@ public class DecisionGraphController {
                 Object nodesObj = request.get("nodes");
                 if (nodesObj instanceof List) {
                     for (Object node : (List<?>) nodesObj) {
-                        sortedOrder.add(String.valueOf(node));
+                        if (node != null) {
+                            sortedOrder.add(String.valueOf(node));
+                        }
                     }
                 }
             }
@@ -41,7 +43,9 @@ public class DecisionGraphController {
                 Object nodesObj = request.get("nodes");
                 if (nodesObj instanceof List) {
                     for (Object node : (List<?>) nodesObj) {
-                        impacted.add(String.valueOf(node));
+                        if (node != null) {
+                            impacted.add(String.valueOf(node));
+                        }
                     }
                 }
             }
