@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Network, ChevronRight, AlertTriangle, GitBranch, Server, Lock } from "lucide-react";
 import { useAegis } from "../../context/AegisContext";
+import apiClient from "../../services/api"; // Make sure the path to your apiClient is correct
 
 export default function GraphTab({ assets, setActiveTab }) {
   const { selectedAsset } = useAegis();
@@ -10,15 +11,15 @@ export default function GraphTab({ assets, setActiveTab }) {
   const [isSimulating, setIsSimulating] = useState(false);
   const [hasSimulated, setHasSimulated] = useState(false); // Track if simulation has been run
 
-  // 1. Topological Sort API Call
+  // 1. Topological Sort API Call (Using apiClient.post as per backend endpoint)
   const fetchDependencyOrder = async (nodesList, edgesList) => {
     try {
-     const response = await apiClient.get('/decision-graph/order', ...);{
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nodes: nodesList, edges: edgesList })
+      const response = await apiClient.post('/decision-graph/order', {
+        nodes: nodesList,
+        edges: edgesList
       });
-      const sortedOrder = await response.json();
+      // Axios stores the response JSON inside response.data
+      const sortedOrder = response.data;
       setExecutionOrder(sortedOrder);
       return sortedOrder;
     } catch (error) {
@@ -26,16 +27,17 @@ export default function GraphTab({ assets, setActiveTab }) {
     }
   };
 
-  // 2. BFS Impact Analysis API Call
+  // 2. BFS Impact Analysis API Call (Using apiClient.post)
   const simulateFailureImpact = async (nodesList, edgesList, targetFailedNode) => {
     try {
       setIsSimulating(true);
-      const data = await apiClient.post('/decision-graph/impact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nodes: nodesList, edges: edgesList, failedNode: targetFailedNode })
+      const response = await apiClient.post('/decision-graph/impact', {
+        nodes: nodesList,
+        edges: edgesList,
+        failedNode: targetFailedNode
       });
-      const impacted = await response.json();
+      // Axios stores the response JSON inside response.data
+      const impacted = response.data;
       setImpactedNodes(impacted);
       setHasSimulated(true); // Unlock Decision Twin button once simulation runs successfully
     } catch (error) {
