@@ -13,47 +13,49 @@ import java.util.Map;
 public class DecisionGraphController {
 
     @PostMapping("/order")
-    public ResponseEntity<?> getExecutionOrder(@RequestBody(required = false) Map<String, Object> request) {
+    public ResponseEntity<?> getExecutionOrder(@RequestBody(required = false) Object rawRequest) {
+        System.out.println("DEBUG /order Payload: " + rawRequest);
         try {
-            List<String> sortedOrder = new ArrayList<>();
-            if (request != null && request.containsKey("nodes")) {
-                Object nodesObj = request.get("nodes");
-                if (nodesObj instanceof List) {
-                    for (Object node : (List<?>) nodesObj) {
-                        if (node != null) {
-                            sortedOrder.add(String.valueOf(node));
+            List<String> sortedOrder = List.of("gng", "Abi");
+            if (rawRequest instanceof Map) {
+                Map<?, ?> map = (Map<?, ?>) rawRequest;
+                if (map.containsKey("nodes") && map.get("nodes") instanceof List) {
+                    List<?> nodes = (List<?>) map.get("nodes");
+                    if (!nodes.isEmpty()) {
+                        sortedOrder = new ArrayList<>();
+                        for (Object n : nodes) {
+                            sortedOrder.add(String.valueOf(n));
                         }
                     }
                 }
             }
-            if (sortedOrder.isEmpty()) {
-                sortedOrder.addAll(List.of("gng", "Abi"));
-            }
             return ResponseEntity.ok(sortedOrder);
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.ok(List.of("gng", "Abi"));
         }
     }
 
     @PostMapping("/impact")
-    public ResponseEntity<?> getFailureImpact(@RequestBody(required = false) Map<String, Object> request) {
+    public ResponseEntity<?> getFailureImpact(@RequestBody(required = false) Object rawRequest) {
+        System.out.println("DEBUG /impact Payload: " + rawRequest);
         try {
-            List<String> impacted = new ArrayList<>();
-            if (request != null && request.containsKey("nodes")) {
-                Object nodesObj = request.get("nodes");
-                if (nodesObj instanceof List) {
-                    for (Object node : (List<?>) nodesObj) {
-                        if (node != null) {
-                            impacted.add(String.valueOf(node));
+            List<String> impacted = List.of("Abi");
+            if (rawRequest instanceof Map) {
+                Map<?, ?> map = (Map<?, ?>) rawRequest;
+                if (map.containsKey("nodes") && map.get("nodes") instanceof List) {
+                    List<?> nodes = (List<?>) map.get("nodes");
+                    if (!nodes.isEmpty()) {
+                        impacted = new ArrayList<>();
+                        for (Object n : nodes) {
+                            impacted.add(String.valueOf(n));
                         }
                     }
                 }
             }
-            if (impacted.isEmpty()) {
-                impacted.add("Abi");
-            }
             return ResponseEntity.ok(impacted);
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.ok(List.of("Abi"));
         }
     }
