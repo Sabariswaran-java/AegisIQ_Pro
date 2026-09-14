@@ -13,7 +13,7 @@ export default function GraphTab({ assets, setActiveTab }) {
   // 1. Topological Sort API Call
   const fetchDependencyOrder = async (nodesList, edgesList) => {
     try {
-      const response = await fetch('http://localhost:8075/api/decision-graph/order', {
+     const response = await apiClient.get('/decision-graph/order', ...);{
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nodes: nodesList, edges: edgesList })
@@ -30,7 +30,7 @@ export default function GraphTab({ assets, setActiveTab }) {
   const simulateFailureImpact = async (nodesList, edgesList, targetFailedNode) => {
     try {
       setIsSimulating(true);
-      const response = await fetch('http://localhost:8075/api/decision-graph/impact', {
+      const data = await apiClient.post('/decision-graph/impact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nodes: nodesList, edges: edgesList, failedNode: targetFailedNode })

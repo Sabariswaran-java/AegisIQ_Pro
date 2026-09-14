@@ -65,7 +65,7 @@ export default function ReportsTab({ assets ,syncData}) {
       <div className="bg-[#0E131F] border border-[#1E293B] p-5 rounded-2xl space-y-4 shadow-md w-full">
         <div className="flex justify-between items-center border-b border-[#1E293B] pb-3 w-full">
           <h3 className="text-xs font-bold text-white uppercase tracking-wider">Fleet Operational Audit Ledger</h3>
-          <span className="text-[11px] text-slate-400 font-mono">Database Source: Active (Port 8075)</span>
+         <span className="text-[11px] text-slate-400 font-mono">Database Source: Active (Cloud / Supabase)</span>
         </div>
 
         <div className="overflow-x-auto w-full">

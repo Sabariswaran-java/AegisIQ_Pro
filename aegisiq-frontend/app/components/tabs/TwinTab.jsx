@@ -81,7 +81,7 @@ export default function TwinTab({ assets, setActiveTab }) {
 
                   await new Promise((resolve) => setTimeout(resolve, 5000));
 
-                  const response = await fetch('http://localhost:8075/api/ai/decision-twin', {
+                  const response = await apiClient.post('/ai/decision-twin', payload); {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ assetId: selectedAsset.name })

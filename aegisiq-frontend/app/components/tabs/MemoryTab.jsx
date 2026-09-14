@@ -156,7 +156,7 @@ export default function MemoryTab({ setActiveTab }) {
                       formData.append("assetName", selectedAsset ? selectedAsset.name : "Main-Server-Alpha");
 
                       try {
-                        const response = await fetch('http://localhost:8075/api/ai/rag-audit/analyze', {
+                       const response = await apiClient.post('/ai/rag-audit/analyze', payload); {
                             method: 'POST',
                             body: formData
                         });
