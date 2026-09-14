@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Cpu, Loader2, ChevronRight, AlertTriangle, ShieldAlert } from "lucide-react";
 import { useAegis } from "../../context/AegisContext";
+import { simulateDecisionTwin } from "../../services/api";
 
 export default function TwinTab({ assets, setActiveTab }) {
   const { selectedAsset, setAiWorkflowData } = useAegis();
@@ -79,15 +80,7 @@ export default function TwinTab({ assets, setActiveTab }) {
                   setIsSimulatingTwin(true);
                   setTwinResult(null); 
 
-                  await new Promise((resolve) => setTimeout(resolve, 5000));
-
-                  const response = await apiClient.post('/ai/decision-twin', payload); {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ assetId: selectedAsset.name })
-                  });
-                  
-                  const data = await response.json();
+                  const data = await simulateDecisionTwin({ assetId: selectedAsset.name });
 
                   const resultData = {
                     assetName: selectedAsset.name,
