@@ -146,7 +146,7 @@ export default function ScenarioTab({ assets, setActiveTab }) {
 
                 await new Promise((resolve) => setTimeout(resolve, 3000));
 
-                const response = await apiClient.post('/ai-scenarios/what-if', payload); {
+               const response = await apiClient.post('/ai/scenarios/what-if', payload); {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({ 
