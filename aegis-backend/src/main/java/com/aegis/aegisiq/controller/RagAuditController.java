@@ -15,7 +15,7 @@ public class RagAuditController {
         Map<String, Object> response = new HashMap<>();
         response.put("status", "success");
         response.put("message", "Log file analyzed successfully");
-        response.put("filename", file.getOriginalName());
+       response.put("filename", file.getOriginalFilename());
         return ResponseEntity.ok(response);
     }
 }
