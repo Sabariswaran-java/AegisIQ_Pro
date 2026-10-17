@@ -1,15 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area, XAxis, YAxis, Tooltip } from "recharts";
-
-const telemetryTrend = [
-  { time: "21:00", val: 42 },
-  { time: "21:10", val: 46 },
-  { time: "21:20", val: 55 },
-  { time: "21:30", val: 48 },
-  { time: "21:40", val: 62 },
-  { time: "21:50", val: 54 },
-  { time: "22:00", val: 45 },
-];
 
 export default function DashboardTab({ assets, setActiveTab }) {
   const totalAssetsCount = assets.length;
@@ -35,6 +25,29 @@ export default function DashboardTab({ assets, setActiveTab }) {
     { name: "Warning", value: warningCount, color: "#f59e0b" },
     { name: "Critical", value: criticalCount, color: "#ef4444" },
   ];
+
+  // Natural Flowing Chart Data State
+  const [telemetryTrend, setTelemetryTrend] = useState([
+    { time: "21:00", val: 42 },
+    { time: "21:10", val: 46 },
+    { time: "21:20", val: 55 },
+    { time: "21:30", val: 48 },
+    { time: "21:40", val: 62 },
+    { time: "21:50", val: 54 },
+    { time: "22:00", val: 45 },
+  ]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTelemetryTrend((prev) =>
+        prev.map((item) => ({
+          ...item,
+          val: Math.max(20, Math.min(80, item.val + (Math.floor(Math.random() * 7) - 3))),
+        }))
+      );
+    }, 1500);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="space-y-6 w-full">
@@ -87,7 +100,7 @@ export default function DashboardTab({ assets, setActiveTab }) {
                 <XAxis dataKey="time" stroke="#475569" fontSize={11} tickLine={false} />
                 <YAxis stroke="#475569" fontSize={11} tickLine={false} domain={[0, 100]} />
                 <Tooltip contentStyle={{ backgroundColor: "#0d1424", borderColor: "#1e293b", borderRadius: "8px", fontSize: "11px", color: "#F8FAFC" }} />
-                <Area type="monotone" dataKey="val" stroke="#38bdf8" strokeWidth={2} fillOpacity={1} fill="url(#seaBlueGlow)" />
+                <Area type="monotone" dataKey="val" stroke="#38bdf8" strokeWidth={2} fillOpacity={1} fill="url(#seaBlueGlow)" isAnimationActive={true} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -142,7 +155,7 @@ export default function DashboardTab({ assets, setActiveTab }) {
         ))}
       </div>
 
-      {/* Bottom Tables */}
+      {/* Bottom Tables Without Inner Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 w-full">
         <div className="bg-[#131a2b] border border-[#1e293b] rounded-xl p-5 space-y-3 shadow-sm w-full">
           <div className="flex justify-between items-center border-b border-[#1e293b] pb-2.5 w-full">
@@ -153,15 +166,15 @@ export default function DashboardTab({ assets, setActiveTab }) {
           {faultyAssets.length === 0 ? (
             <div className="text-xs text-slate-500 py-6 text-center w-full">No active alerts registered.</div>
           ) : (
-            <div className="space-y-2 w-full">
+            <div className="divide-y divide-[#1e293b] w-full">
               {faultyAssets.slice(0, 3).map((item) => (
-                <div key={item.id} className="p-3 bg-[#0b0f19] border border-[#1e293b] rounded-lg flex items-center justify-between text-xs w-full">
+                <div key={item.id} className="py-2.5 flex items-center justify-between text-xs w-full">
                   <div>
                     <span className="font-medium text-slate-200 block">{item.name}</span>
                     <span className="text-[11px] text-slate-400">Node: {item.type} • Temperature: {item.temperature || 44}°C</span>
                   </div>
-                  <span className={`text-[10px] px-2 py-0.5 rounded font-semibold uppercase ${
-                    item.status === 'CRITICAL' ? 'bg-rose-500/20 text-rose-400' : 'bg-amber-500/20 text-amber-400'
+                  <span className={`text-[10px] font-semibold uppercase ${
+                    item.status === 'CRITICAL' ? 'text-rose-400' : 'text-amber-400'
                   }`}>
                     {item.status}
                   </span>
@@ -180,17 +193,17 @@ export default function DashboardTab({ assets, setActiveTab }) {
           {assets.length === 0 ? (
             <div className="text-xs text-slate-500 py-6 text-center w-full">No assets registered.</div>
           ) : (
-            <div className="space-y-2 w-full">
+            <div className="divide-y divide-[#1e293b] w-full">
               {assets.slice(0, 3).map((asset) => (
-                <div key={asset.id} className="p-3 bg-[#0b0f19] border border-[#1e293b] rounded-lg flex items-center justify-between text-xs w-full">
+                <div key={asset.id} className="py-2.5 flex items-center justify-between text-xs w-full">
                   <div>
                     <span className="font-medium text-slate-200 block">{asset.name}</span>
                     <span className="text-[11px] text-slate-400">Type: {asset.type}</span>
                   </div>
                   <div className="flex items-center space-x-3 text-xs">
                     <span className="text-slate-400">Load: <b className="text-slate-200 font-mono">{asset.cpuUsage || 0}%</b></span>
-                    <span className={`text-[10px] px-2 py-0.5 rounded font-semibold uppercase ${
-                      asset.status === 'HEALTHY' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'
+                    <span className={`text-[10px] font-semibold uppercase ${
+                      asset.status === 'HEALTHY' ? 'text-emerald-400' : 'text-amber-400'
                     }`}>
                       {asset.status}
                     </span>
