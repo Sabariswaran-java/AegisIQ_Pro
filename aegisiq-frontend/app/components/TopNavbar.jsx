@@ -1,9 +1,11 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import { Search, RefreshCw, Bell, X } from "lucide-react";
 
 export default function TopNavbar({ searchQuery, setSearchQuery, syncData, isSyncing, assets }) {
   const [currentDateTime, setCurrentDateTime] = useState("");
   const [showNotificationPopup, setShowNotificationPopup] = useState(false);
+  const [localReloading, setLocalReloading] = useState(false);
 
   const faultyAssets = assets.filter((a) => a.status === "WARNING" || a.status === "CRITICAL");
 
@@ -16,6 +18,14 @@ export default function TopNavbar({ searchQuery, setSearchQuery, syncData, isSyn
     const timerInterval = setInterval(updateTime, 1000);
     return () => clearInterval(timerInterval);
   }, []);
+
+  const handleRefreshClick = () => {
+    setLocalReloading(true);
+    syncData();
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
+  };
 
   return (
     <header className="border-b border-[#1E293B] bg-[#0E131F] px-6 h-14 flex items-center justify-between sticky top-0 z-50 w-full shrink-0">
@@ -31,12 +41,15 @@ export default function TopNavbar({ searchQuery, setSearchQuery, syncData, isSyn
       </div>
 
       <div className="flex items-center space-x-4 text-xs shrink-0">
-        <button onClick={syncData} className="px-3 py-1.5 rounded-lg border border-[#25324A] bg-[#141B2B] hover:bg-[#1B2538] text-slate-300 transition flex items-center gap-1.5 text-xs font-medium cursor-pointer focus:outline-none">
-          <RefreshCw className={`h-3 w-3 text-slate-400 ${isSyncing ? 'animate-spin' : ''}`} />
-          <span>Refresh</span>
+        <button 
+          onClick={handleRefreshClick} 
+          disabled={localReloading || isSyncing} 
+          className="px-3 py-1.5 rounded-lg border border-[#25324A] bg-[#141B2B] hover:bg-[#1B2538] text-slate-300 transition flex items-center gap-1.5 text-xs font-medium cursor-pointer focus:outline-none"
+        >
+          <RefreshCw className={`h-3 w-3 text-slate-400 ${localReloading || isSyncing ? 'animate-spin' : ''}`} />
+          <span>{localReloading ? "Reloading..." : "Refresh"}</span>
         </button>
 
-        {/* Date Time without card box */}
         <span className="text-slate-400 text-xs font-mono">
           {currentDateTime || "Loading..."}
         </span>
@@ -48,11 +61,12 @@ export default function TopNavbar({ searchQuery, setSearchQuery, syncData, isSyn
           >
             <Bell className="h-4 w-4" />
             {faultyAssets.length > 0 && (
-              <span className="absolute top-0 right-0 h-2 w-2 bg-rose-500 rounded-full"></span>
+              <span className="absolute -top-1 -right-1 h-4 w-4 bg-rose-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center">
+                {faultyAssets.length}
+              </span>
             )}
           </button>
 
-          {/* Notification popup without inner mini cards */}
           {showNotificationPopup && (
             <div className="absolute right-0 mt-2 w-72 bg-[#141B2B] border border-[#2E3F5E] rounded-xl shadow-2xl p-3 z-50 space-y-2">
               <div className="flex justify-between items-center border-b border-[#25324A] pb-1.5 text-xs font-semibold text-slate-200">
@@ -82,7 +96,6 @@ export default function TopNavbar({ searchQuery, setSearchQuery, syncData, isSyn
           )}
         </div>
 
-        {/* Profile S badge without outer box card */}
         <div className="flex items-center space-x-2 pl-2 border-l border-[#25324A]">
           <div className="h-7 w-7 rounded-lg bg-[#38bdf8] text-slate-950 font-bold flex items-center justify-center text-xs">
             S
