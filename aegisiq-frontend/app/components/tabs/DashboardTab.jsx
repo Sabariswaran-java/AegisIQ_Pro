@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import { ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area, XAxis, YAxis, Tooltip } from "recharts";
 
@@ -26,7 +27,6 @@ export default function DashboardTab({ assets, setActiveTab }) {
     { name: "Critical", value: criticalCount, color: "#ef4444" },
   ];
 
-  // Natural Flowing Chart Data State
   const [telemetryTrend, setTelemetryTrend] = useState([
     { time: "21:00", val: 42 },
     { time: "21:10", val: 46 },
@@ -60,7 +60,6 @@ export default function DashboardTab({ assets, setActiveTab }) {
         </p>
       </div>
 
-      {/* 5 Sea-Blue Matte Professional KPI Cards */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3.5 w-full">
         {[
           { title: "Fleet Nodes", val: totalAssetsCount.toString(), desc: "Registered Nodes" },
@@ -77,7 +76,7 @@ export default function DashboardTab({ assets, setActiveTab }) {
         ))}
       </div>
 
-      {/* Middle Section: Waveform & Distribution Donut */}
+      {/* Middle Section: Waveform & Distribution Donut (Dynamic Streaming Tag Removed) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 w-full">
         <div className="lg:col-span-8 bg-[#131a2b] border border-[#1e293b] rounded-xl p-5 space-y-3 shadow-sm">
           <div className="flex justify-between items-center border-b border-[#1e293b] pb-3 w-full">
@@ -85,7 +84,6 @@ export default function DashboardTab({ assets, setActiveTab }) {
               <span className="text-xs font-bold text-white">Live Telemetry Ingestion (50+ Parameters)</span>
               <span className="text-[11px] text-slate-400 block mt-0.5">Aggregated Compute Load & Thermal Metrics</span>
             </div>
-            <span className="text-[11px] text-[#38bdf8] bg-[#0ea5e9]/10 border border-[#0ea5e9]/20 px-2.5 py-1 rounded-md font-medium font-mono">Dynamic Streaming</span>
           </div>
 
           <div className="h-48 w-full pt-2">
@@ -137,7 +135,6 @@ export default function DashboardTab({ assets, setActiveTab }) {
         </div>
       </div>
 
-      {/* Parameter Gauges Strip */}
       <div className="grid grid-cols-2 md:grid-cols-6 gap-3.5 w-full">
         {[
           { label: "Vibration Sensor", val: "0.03 g", status: "Harmonic Stable" },
@@ -155,7 +152,6 @@ export default function DashboardTab({ assets, setActiveTab }) {
         ))}
       </div>
 
-      {/* Bottom Tables Without Inner Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 w-full">
         <div className="bg-[#131a2b] border border-[#1e293b] rounded-xl p-5 space-y-3 shadow-sm w-full">
           <div className="flex justify-between items-center border-b border-[#1e293b] pb-2.5 w-full">
