@@ -3,7 +3,7 @@ import Image from "next/image";
 import { LayoutDashboard, Database, Activity, Bell, FileText, GitFork, Cpu, Sliders, HelpCircle, History, Rocket } from "lucide-react";
 
 const BrandLogo = () => (
-  <div className="flex items-center justify-start px-1">
+  <div className="flex items-center justify-start px-1 py-1">
     <Image 
       src="/AegisIQ logo.png" 
       alt="AegisIQ Logo" 
@@ -19,14 +19,12 @@ export default function Sidebar({ activeTab, setActiveTab }) {
   return (
     <aside className="w-60 bg-[#0d1424] border-r border-[#1a233a] flex flex-col justify-between h-screen sticky top-0 shrink-0 z-40 select-none overflow-hidden">
       <div>
-        {/* Fixed Top Left Logo Area - Exact Height h-14 to match TopNavbar */}
-        <div className="h-14 px-3.5 border-b border-[#1a233a] bg-[#0b0f19] flex items-center">
+        <div className="p-3.5 border-b border-[#1a233a] bg-[#0b0f19]">
           <BrandLogo />
         </div>
 
-        {/* Navigation List */}
         <div className="p-3 space-y-1 text-xs">
-          <div className="px-3 pt-2 pb-1 text-[10px] font-semibold text-slate-400 uppercase tracking-wider font-mono">
+          <div className="px-3 pt-3 pb-1 text-[10px] font-semibold text-slate-400 uppercase tracking-wider font-mono">
             Platform
           </div>
           {[
