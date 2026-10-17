@@ -1,26 +1,17 @@
 import React from "react";
+import Image from "next/image";
 import { LayoutDashboard, Database, Activity, Bell, FileText, GitFork, Cpu, Sliders, HelpCircle, History, Rocket } from "lucide-react";
 
 const BrandLogo = () => (
-  <div className="flex items-center space-x-3 px-1 py-1.5">
-    <div className="relative flex items-center justify-center h-9 w-9 rounded-xl bg-[#0ea5e9] border border-[#38bdf8]/30 shadow-lg shadow-[#0ea5e9]/25 shrink-0">
-      <svg width="24" height="24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="48" cy="48" r="36" stroke="#FFFFFF" strokeWidth="8" fill="none" />
-        <line x1="68" y1="68" x2="88" y2="88" stroke="#FFFFFF" strokeWidth="8" strokeLinecap="round" />
-        <text x="47" y="58" textAnchor="middle" fill="#FFFFFF" fontSize="32" fontWeight="900" fontFamily="sans-serif" letterSpacing="-1">AI</text>
-      </svg>
-    </div>
-
-    <div className="flex flex-col justify-center">
-      <div className="flex items-center leading-tight">
-        <span className="text-[14px] font-black tracking-widest text-white">
-          AEGIS<span className="text-[#38bdf8] ml-0.5">IQ</span>
-        </span>
-      </div>
-      <span className="text-[8px] tracking-[0.2em] text-slate-400 font-mono font-bold uppercase mt-1 block">
-        AUTONOMOUS RELIABILITY OS
-      </span>
-    </div>
+  <div className="flex items-center justify-start px-1 py-1">
+    <Image 
+      src="/AegisIQ logo.png" 
+      alt="AegisIQ Logo" 
+      width={180} 
+      height={50} 
+      className="object-contain h-auto w-full max-w-[170px]"
+      priority
+    />
   </div>
 );
 
