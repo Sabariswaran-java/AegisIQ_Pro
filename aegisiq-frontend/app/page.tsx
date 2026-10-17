@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useAegis } from "./context/AegisContext";
 import { getAssets, getDependencyGraph } from "./services/api";
 
-
 // Components Import
 import Sidebar from "./components/Sidebar";
 import TopNavbar from "./components/TopNavbar";
@@ -56,7 +55,7 @@ export default function EnterpriseDashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0b0f19] text-[#F8FAFC] flex font-sans antialiased selection:bg-[#0ea5e9]/30 selection:text-white">
+    <div className="min-h-screen bg-[#0b0f19] text-[#F8FAFC] flex font-sans antialiased selection:bg-[#0ea5e9]/20 selection:text-white">
       {/* Fixed Sidebar */}
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
