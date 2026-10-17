@@ -1,6 +1,5 @@
 import React from "react";
 import { ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area, XAxis, YAxis, Tooltip } from "recharts";
-import { ShieldCheck } from "lucide-react";
 
 const telemetryTrend = [
   { time: "21:00", val: 42 },
@@ -32,8 +31,8 @@ export default function DashboardTab({ assets, setActiveTab }) {
     : "100.0";
 
   const dynamicDistributionData = [
-    { name: "Nominal", value: healthyCount, color: "#22c55e" },
-    { name: "Warning", value: warningCount, color: "#eab308" },
+    { name: "Nominal", value: healthyCount, color: "#10b981" },
+    { name: "Warning", value: warningCount, color: "#f59e0b" },
     { name: "Critical", value: criticalCount, color: "#ef4444" },
   ];
 
@@ -48,53 +47,53 @@ export default function DashboardTab({ assets, setActiveTab }) {
         </p>
       </div>
 
-      {/* 5 Matte Professional KPI Cards */}
+      {/* 5 Sea-Blue Industry KPI Cards */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3.5 w-full">
         {[
           { title: "Fleet Nodes", val: totalAssetsCount.toString(), desc: "Registered Nodes" },
           { title: "System SLA", val: `${systemHealthPercentage}%`, desc: "Operating Bound" },
-          { title: "Active Faults", val: faultyAssets.length.toString(), desc: faultyAssets.length > 0 ? "Requires Review" : "All Nominal" },
+          { title: "Active Faults", val: faultyAssets.length.toString(), desc: faultyAssets.length > 0 ? "Requires Review" : "All Nominal", alert: faultyAssets.length > 0 },
           { title: "Avg Temperature", val: `${avgTemp}°C`, desc: "Threshold < 65°C" },
           { title: "Downtime Cut", val: "25%", desc: "AI Decision Twin" },
         ].map((kpi, idx) => (
-          <div key={idx} className="bg-[#0E131F] border border-[#1E293B] p-4 rounded-xl space-y-1.5 shadow-sm">
+          <div key={idx} className="bg-[#131a2b] border border-[#1e293b] p-4 rounded-xl space-y-1.5 shadow-sm hover:border-[#0ea5e9]/40 transition-all">
             <span className="text-xs text-slate-400 block font-medium">{kpi.title}</span>
-            <div className="text-xl font-bold text-white font-mono tracking-tight">{kpi.val}</div>
-            <span className="text-[11px] text-slate-500 block pt-1 border-t border-[#161F30]">{kpi.desc}</span>
+            <div className={`text-xl font-bold font-mono tracking-tight ${kpi.alert ? 'text-amber-400' : 'text-white'}`}>{kpi.val}</div>
+            <span className="text-[11px] text-slate-500 block pt-1 border-t border-[#1e293b]">{kpi.desc}</span>
           </div>
         ))}
       </div>
 
       {/* Middle Section: Waveform & Distribution Donut */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 w-full">
-        <div className="lg:col-span-8 bg-[#0E131F] border border-[#1E293B] rounded-xl p-5 space-y-3 shadow-sm">
-          <div className="flex justify-between items-center border-b border-[#1E293B] pb-3 w-full">
+        <div className="lg:col-span-8 bg-[#131a2b] border border-[#1e293b] rounded-xl p-5 space-y-3 shadow-sm">
+          <div className="flex justify-between items-center border-b border-[#1e293b] pb-3 w-full">
             <div>
               <span className="text-xs font-bold text-white">Live Telemetry Ingestion (50+ Parameters)</span>
-              <span className="text-[11px] text-slate-500 block mt-0.5">Aggregated Compute Load & Thermal Metrics</span>
+              <span className="text-[11px] text-slate-400 block mt-0.5">Aggregated Compute Load & Thermal Metrics</span>
             </div>
-            <span className="text-[11px] text-emerald-400 font-medium font-mono">Dynamic Streaming</span>
+            <span className="text-[11px] text-[#38bdf8] bg-[#0ea5e9]/10 border border-[#0ea5e9]/20 px-2.5 py-1 rounded-md font-medium font-mono">Dynamic Streaming</span>
           </div>
 
           <div className="h-48 w-full pt-2">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={telemetryTrend}>
                 <defs>
-                  <linearGradient id="slateGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#475569" stopOpacity={0.5}/>
-                    <stop offset="95%" stopColor="#475569" stopOpacity={0.0}/>
+                  <linearGradient id="seaBlueGlow" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#0ea5e9" stopOpacity={0.35}/>
+                    <stop offset="95%" stopColor="#0ea5e9" stopOpacity={0.0}/>
                   </linearGradient>
                 </defs>
                 <XAxis dataKey="time" stroke="#475569" fontSize={11} tickLine={false} />
                 <YAxis stroke="#475569" fontSize={11} tickLine={false} domain={[0, 100]} />
-                <Tooltip contentStyle={{ backgroundColor: "#141B2B", borderColor: "#25324A", borderRadius: "8px", fontSize: "11px", color: "#F8FAFC" }} />
-                <Area type="monotone" dataKey="val" stroke="#94A3B8" strokeWidth={2} fillOpacity={1} fill="url(#slateGradient)" />
+                <Tooltip contentStyle={{ backgroundColor: "#0d1424", borderColor: "#1e293b", borderRadius: "8px", fontSize: "11px", color: "#F8FAFC" }} />
+                <Area type="monotone" dataKey="val" stroke="#38bdf8" strokeWidth={2} fillOpacity={1} fill="url(#seaBlueGlow)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        <div className="lg:col-span-4 bg-[#0E131F] border border-[#1E293B] rounded-xl p-5 flex flex-col justify-between shadow-sm">
+        <div className="lg:col-span-4 bg-[#131a2b] border border-[#1e293b] rounded-xl p-5 flex flex-col justify-between shadow-sm">
           <span className="text-xs font-bold text-white">Fleet Distribution</span>
           <div className="h-36 w-full relative flex items-center justify-center my-1">
             <ResponsiveContainer width="100%" height="100%">
@@ -108,10 +107,10 @@ export default function DashboardTab({ assets, setActiveTab }) {
             </ResponsiveContainer>
             <div className="absolute text-center pointer-events-none">
               <span className="text-lg font-bold text-white font-mono">{totalAssetsCount}</span>
-              <span className="text-[9px] text-slate-500 uppercase block font-mono">Nodes</span>
+              <span className="text-[9px] text-slate-400 uppercase block font-mono">Nodes</span>
             </div>
           </div>
-          <div className="space-y-1.5 text-xs pt-2 border-t border-[#1E293B] w-full">
+          <div className="space-y-1.5 text-xs pt-2 border-t border-[#1e293b] w-full">
             {dynamicDistributionData.map((d, i) => (
               <div key={i} className="flex justify-between items-center text-slate-400 w-full">
                 <div className="flex items-center space-x-2">
@@ -135,7 +134,7 @@ export default function DashboardTab({ assets, setActiveTab }) {
           { label: "Acoustic Decibel", val: "44.1 dB", status: "Standard Noise" },
           { label: "Failover Headroom", val: "94.2%", status: "Safe Redundancy" },
         ].map((gauge, idx) => (
-          <div key={idx} className="bg-[#0E131F] border border-[#1E293B] p-3.5 rounded-xl space-y-1 shadow-sm">
+          <div key={idx} className="bg-[#131a2b] border border-[#1e293b] p-3.5 rounded-xl space-y-1 shadow-sm hover:border-[#0ea5e9]/30 transition-all">
             <span className="text-[11px] text-slate-400 font-medium block truncate">{gauge.label}</span>
             <div className="text-sm font-semibold text-white font-mono">{gauge.val}</div>
             <span className="text-[10px] text-slate-500 block">{gauge.status}</span>
@@ -145,10 +144,10 @@ export default function DashboardTab({ assets, setActiveTab }) {
 
       {/* Bottom Tables */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 w-full">
-        <div className="bg-[#0E131F] border border-[#1E293B] rounded-xl p-5 space-y-3 shadow-sm w-full">
-          <div className="flex justify-between items-center border-b border-[#1E293B] pb-2.5 w-full">
+        <div className="bg-[#131a2b] border border-[#1e293b] rounded-xl p-5 space-y-3 shadow-sm w-full">
+          <div className="flex justify-between items-center border-b border-[#1e293b] pb-2.5 w-full">
             <h3 className="text-xs font-bold text-white uppercase tracking-wider">Priority Alerts</h3>
-            <button onClick={() => setActiveTab("alerts")} className="text-[11px] text-slate-400 hover:text-white hover:underline cursor-pointer">View All →</button>
+            <button onClick={() => setActiveTab("alerts")} className="text-[11px] text-[#38bdf8] hover:underline cursor-pointer">View All →</button>
           </div>
 
           {faultyAssets.length === 0 ? (
@@ -156,7 +155,7 @@ export default function DashboardTab({ assets, setActiveTab }) {
           ) : (
             <div className="space-y-2 w-full">
               {faultyAssets.slice(0, 3).map((item) => (
-                <div key={item.id} className="p-3 bg-[#141B2B] border border-[#25324A] rounded-lg flex items-center justify-between text-xs w-full">
+                <div key={item.id} className="p-3 bg-[#0b0f19] border border-[#1e293b] rounded-lg flex items-center justify-between text-xs w-full">
                   <div>
                     <span className="font-medium text-slate-200 block">{item.name}</span>
                     <span className="text-[11px] text-slate-400">Node: {item.type} • Temperature: {item.temperature || 44}°C</span>
@@ -172,10 +171,10 @@ export default function DashboardTab({ assets, setActiveTab }) {
           )}
         </div>
 
-        <div className="bg-[#0E131F] border border-[#1E293B] rounded-xl p-5 space-y-3 shadow-sm w-full">
-          <div className="flex justify-between items-center border-b border-[#1E293B] pb-2.5 w-full">
+        <div className="bg-[#131a2b] border border-[#1e293b] rounded-xl p-5 space-y-3 shadow-sm w-full">
+          <div className="flex justify-between items-center border-b border-[#1e293b] pb-2.5 w-full">
             <h3 className="text-xs font-bold text-white uppercase tracking-wider">Fleet Inventory</h3>
-            <button onClick={() => setActiveTab("assets")} className="text-[11px] text-slate-400 hover:text-white hover:underline cursor-pointer">Manage Fleet →</button>
+            <button onClick={() => setActiveTab("assets")} className="text-[11px] text-[#38bdf8] hover:underline cursor-pointer">Manage Fleet →</button>
           </div>
 
           {assets.length === 0 ? (
@@ -183,7 +182,7 @@ export default function DashboardTab({ assets, setActiveTab }) {
           ) : (
             <div className="space-y-2 w-full">
               {assets.slice(0, 3).map((asset) => (
-                <div key={asset.id} className="p-3 bg-[#141B2B] border border-[#25324A] rounded-lg flex items-center justify-between text-xs w-full">
+                <div key={asset.id} className="p-3 bg-[#0b0f19] border border-[#1e293b] rounded-lg flex items-center justify-between text-xs w-full">
                   <div>
                     <span className="font-medium text-slate-200 block">{asset.name}</span>
                     <span className="text-[11px] text-slate-400">Type: {asset.type}</span>
