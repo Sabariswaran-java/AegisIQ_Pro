@@ -1,206 +1,108 @@
 import React from "react";
-import { ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area, XAxis, YAxis, Tooltip } from "recharts";
-import { ShieldCheck } from "lucide-react";
+import { LayoutDashboard, Database, Activity, Bell, FileText, GitFork, Cpu, Sliders, HelpCircle, History, Rocket } from "lucide-react";
 
-const telemetryTrend = [
-  { time: "21:00", val: 42 },
-  { time: "21:10", val: 46 },
-  { time: "21:20", val: 55 },
-  { time: "21:30", val: 48 },
-  { time: "21:40", val: 62 },
-  { time: "21:50", val: 54 },
-  { time: "22:00", val: 45 },
-];
+const BrandLogo = () => (
+  <div className="flex items-center space-x-3 px-1 py-1.5">
+    <div className="relative flex items-center justify-center h-9 w-9 rounded-xl bg-[#0ea5e9] border border-[#38bdf8]/30 shadow-lg shadow-[#0ea5e9]/25 shrink-0">
+      <svg width="24" height="24" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="48" cy="48" r="36" stroke="#FFFFFF" strokeWidth="8" fill="none" />
+        <line x1="68" y1="68" x2="88" y2="88" stroke="#FFFFFF" strokeWidth="8" strokeLinecap="round" />
+        <text x="47" y="58" textAnchor="middle" fill="#FFFFFF" fontSize="32" fontWeight="900" fontFamily="sans-serif" letterSpacing="-1">AI</text>
+      </svg>
+    </div>
 
-export default function DashboardTab({ assets, setActiveTab }) {
-  const totalAssetsCount = assets.length;
-  const healthyAssets = assets.filter((a) => a.status === "HEALTHY");
-  const warningAssets = assets.filter((a) => a.status === "WARNING");
-  const criticalAssets = assets.filter((a) => a.status === "CRITICAL");
-  const faultyAssets = [...criticalAssets, ...warningAssets];
+    <div className="flex flex-col justify-center">
+      <div className="flex items-center leading-tight">
+        <span className="text-[14px] font-black tracking-widest text-white">
+          AEGIS<span className="text-[#38bdf8] ml-0.5">IQ</span>
+        </span>
+      </div>
+      <span className="text-[8px] tracking-[0.2em] text-slate-400 font-mono font-bold uppercase mt-1 block">
+        AUTONOMOUS RELIABILITY OS
+      </span>
+    </div>
+  </div>
+);
 
-  const healthyCount = healthyAssets.length;
-  const warningCount = warningAssets.length;
-  const criticalCount = criticalAssets.length;
+export default function Sidebar({ activeTab, setActiveTab }) {
+  return (
+    <aside className="w-60 bg-[#0d1424] border-r border-[#1a233a] flex flex-col justify-between h-screen sticky top-0 shrink-0 z-40 select-none">
+      <div>
+        <div className="p-3.5 border-b border-[#1a233a] bg-[#0b0f19]">
+          <BrandLogo />
+        </div>
 
-  const avgTemp = totalAssetsCount > 0 
-    ? (assets.reduce((acc, curr) => acc + (Number(curr.temperature) || 42), 0) / totalAssetsCount).toFixed(1)
-    : "42.0";
+        <div className="p-3 space-y-1 text-xs overflow-y-auto max-h-[calc(100vh-140px)]">
+          <div className="px-3 pt-3 pb-1 text-[10px] font-semibold text-slate-400 uppercase tracking-wider font-mono">
+            Platform
+          </div>
+          {[
+            { id: "dashboard", label: "Overview", icon: LayoutDashboard },
+            { id: "assets", label: "Asset Fleet", icon: Database },
+            { id: "monitoring", label: "Live Telemetry", icon: Activity },
+            { id: "alerts", label: "Incidents & Alerts", icon: Bell },
+            { id: "reports", label: "Reports", icon: FileText },
+          ].map((nav) => {
+            const Icon = nav.icon;
+            const isActive = activeTab === nav.id;
+            return (
+              <button
+                key={nav.id}
+                onClick={() => setActiveTab(nav.id)}
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs transition-all duration-200 cursor-pointer outline-none focus:outline-none ${
+                  isActive 
+                    ? "bg-[#0ea5e9] text-white font-semibold shadow-lg shadow-[#0ea5e9]/25 border border-[#38bdf8]/30" 
+                    : "text-slate-400 hover:bg-[#131a2b] hover:text-slate-200 border border-transparent"
+                }`}
+              >
+                <div className="flex items-center space-x-2.5">
+                  <Icon className={`h-4 w-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                  <span>{nav.label}</span>
+                </div>
+              </button>
+            );
+          })}
 
-  const systemHealthPercentage = totalAssetsCount > 0 
-    ? ((healthyCount / totalAssetsCount) * 100).toFixed(1)
-    : "100.0";
+          <div className="pt-5 pb-1 px-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider font-mono">
+            AI Intelligence
+          </div>
+          {[
+            { id: "graph", label: "Decision Graph", icon: GitFork },
+            { id: "twin", label: "Decision Twin", icon: Cpu },
+            { id: "scenario", label: "What-If Simulation", icon: Sliders },
+            { id: "explainable", label: "Explainable AI", icon: HelpCircle },
+            { id: "memory", label: "Incident Memory", icon: History },
+            { id: "deploy", label: "Deployment Optimizer", icon: Rocket },
+          ].map((nav) => {
+            const Icon = nav.icon;
+            const isActive = activeTab === nav.id;
+            return (
+              <button
+                key={nav.id}
+                onClick={() => setActiveTab(nav.id)}
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs transition-all duration-200 cursor-pointer outline-none focus:outline-none ${
+                  isActive 
+                    ? "bg-[#0ea5e9] text-white font-semibold shadow-lg shadow-[#0ea5e9]/25 border border-[#38bdf8]/30" 
+                    : "text-slate-400 hover:bg-[#131a2b] hover:text-slate-200 border border-transparent"
+                }`}
+              >
+                <div className="flex items-center space-x-2.5">
+                  <Icon className={`h-4 w-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                  <span>{nav.label}</span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
-  const dynamicDistributionData = [
-    { name: "Nominal", value: healthyCount, color: "#22c55e" },
-    { name: "Warning", value: warningCount, color: "#eab308" },
-    { name: "Critical", value: criticalCount, color: "#ef4444" },
-  ];
-
-  return (
-    <div className="space-y-6 w-full">
-      <div className="w-full">
-        <h1 className="text-base font-bold text-white tracking-tight">
-          Industrial Telemetry & Operational Health
-        </h1>
-        <p className="text-xs text-slate-400 mt-0.5">
-          Real-time sensor monitoring across 50+ asset parameters and AI decision engines.
-        </p>
-      </div>
-
-      {/* 5 Matte Professional KPI Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-3.5 w-full">
-        {[
-          { title: "Fleet Nodes", val: totalAssetsCount.toString(), desc: "Registered Nodes" },
-          { title: "System SLA", val: `${systemHealthPercentage}%`, desc: "Operating Bound" },
-          { title: "Active Faults", val: faultyAssets.length.toString(), desc: faultyAssets.length > 0 ? "Requires Review" : "All Nominal" },
-          { title: "Avg Temperature", val: `${avgTemp}°C`, desc: "Threshold < 65°C" },
-          { title: "Downtime Cut", val: "25%", desc: "AI Decision Twin" },
-        ].map((kpi, idx) => (
-          <div key={idx} className="bg-[#0E131F] border border-[#1E293B] p-4 rounded-xl space-y-1.5 shadow-sm">
-            <span className="text-xs text-slate-400 block font-medium">{kpi.title}</span>
-            <div className="text-xl font-bold text-white font-mono tracking-tight">{kpi.val}</div>
-            <span className="text-[11px] text-slate-500 block pt-1 border-t border-[#161F30]">{kpi.desc}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* Middle Section: Waveform & Distribution Donut */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 w-full">
-        <div className="lg:col-span-8 bg-[#0E131F] border border-[#1E293B] rounded-xl p-5 space-y-3 shadow-sm">
-          <div className="flex justify-between items-center border-b border-[#1E293B] pb-3 w-full">
-            <div>
-              <span className="text-xs font-bold text-white">Live Telemetry Ingestion (50+ Parameters)</span>
-              <span className="text-[11px] text-slate-500 block mt-0.5">Aggregated Compute Load & Thermal Metrics</span>
-            </div>
-            <span className="text-[11px] text-emerald-400 font-medium font-mono">Dynamic Streaming</span>
-          </div>
-
-          <div className="h-48 w-full pt-2">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={telemetryTrend}>
-                <defs>
-                  <linearGradient id="slateGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#475569" stopOpacity={0.5}/>
-                    <stop offset="95%" stopColor="#475569" stopOpacity={0.0}/>
-                  </linearGradient>
-                </defs>
-                <XAxis dataKey="time" stroke="#475569" fontSize={11} tickLine={false} />
-                <YAxis stroke="#475569" fontSize={11} tickLine={false} domain={[0, 100]} />
-                <Tooltip contentStyle={{ backgroundColor: "#141B2B", borderColor: "#25324A", borderRadius: "8px", fontSize: "11px", color: "#F8FAFC" }} />
-                <Area type="monotone" dataKey="val" stroke="#94A3B8" strokeWidth={2} fillOpacity={1} fill="url(#slateGradient)" />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        <div className="lg:col-span-4 bg-[#0E131F] border border-[#1E293B] rounded-xl p-5 flex flex-col justify-between shadow-sm">
-          <span className="text-xs font-bold text-white">Fleet Distribution</span>
-          <div className="h-36 w-full relative flex items-center justify-center my-1">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie data={dynamicDistributionData} innerRadius={46} outerRadius={62} paddingAngle={4} dataKey="value">
-                  {dynamicDistributionData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
-            <div className="absolute text-center pointer-events-none">
-              <span className="text-lg font-bold text-white font-mono">{totalAssetsCount}</span>
-              <span className="text-[9px] text-slate-500 uppercase block font-mono">Nodes</span>
-            </div>
-          </div>
-          <div className="space-y-1.5 text-xs pt-2 border-t border-[#1E293B] w-full">
-            {dynamicDistributionData.map((d, i) => (
-              <div key={i} className="flex justify-between items-center text-slate-400 w-full">
-                <div className="flex items-center space-x-2">
-                  <span className="h-2 w-2 rounded-full" style={{ backgroundColor: d.color }}></span>
-                  <span>{d.name}</span>
-                </div>
-                <span className="font-medium text-slate-200 font-mono">{d.value}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Parameter Gauges Strip */}
-      <div className="grid grid-cols-2 md:grid-cols-6 gap-3.5 w-full">
-        {[
-          { label: "Vibration Sensor", val: "0.03 g", status: "Harmonic Stable" },
-          { label: "Hydraulic Pressure", val: "4.2 Bar", status: "Nominal Range" },
-          { label: "Motor Current", val: "18.4 A", status: "Continuous Flow" },
-          { label: "Turbine RPM", val: "2,840 RPM", status: "Continuous Speed" },
-          { label: "Acoustic Decibel", val: "44.1 dB", status: "Standard Noise" },
-          { label: "Failover Headroom", val: "94.2%", status: "Safe Redundancy" },
-        ].map((gauge, idx) => (
-          <div key={idx} className="bg-[#0E131F] border border-[#1E293B] p-3.5 rounded-xl space-y-1 shadow-sm">
-            <span className="text-[11px] text-slate-400 font-medium block truncate">{gauge.label}</span>
-            <div className="text-sm font-semibold text-white font-mono">{gauge.val}</div>
-            <span className="text-[10px] text-slate-500 block">{gauge.status}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* Bottom Tables */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 w-full">
-        <div className="bg-[#0E131F] border border-[#1E293B] rounded-xl p-5 space-y-3 shadow-sm w-full">
-          <div className="flex justify-between items-center border-b border-[#1E293B] pb-2.5 w-full">
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider">Priority Alerts</h3>
-            <button onClick={() => setActiveTab("alerts")} className="text-[11px] text-slate-400 hover:text-white hover:underline cursor-pointer">View All →</button>
-          </div>
-
-          {faultyAssets.length === 0 ? (
-            <div className="text-xs text-slate-500 py-6 text-center w-full">No active alerts registered.</div>
-          ) : (
-            <div className="space-y-2 w-full">
-              {faultyAssets.slice(0, 3).map((item) => (
-                <div key={item.id} className="p-3 bg-[#141B2B] border border-[#25324A] rounded-lg flex items-center justify-between text-xs w-full">
-                  <div>
-                    <span className="font-medium text-slate-200 block">{item.name}</span>
-                    <span className="text-[11px] text-slate-400">Node: {item.type} • Temperature: {item.temperature || 44}°C</span>
-                  </div>
-                  <span className={`text-[10px] px-2 py-0.5 rounded font-semibold uppercase ${
-                    item.status === 'CRITICAL' ? 'bg-rose-500/20 text-rose-400' : 'bg-amber-500/20 text-amber-400'
-                  }`}>
-                    {item.status}
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div className="bg-[#0E131F] border border-[#1E293B] rounded-xl p-5 space-y-3 shadow-sm w-full">
-          <div className="flex justify-between items-center border-b border-[#1E293B] pb-2.5 w-full">
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider">Fleet Inventory</h3>
-            <button onClick={() => setActiveTab("assets")} className="text-[11px] text-slate-400 hover:text-white hover:underline cursor-pointer">Manage Fleet →</button>
-          </div>
-
-          {assets.length === 0 ? (
-            <div className="text-xs text-slate-500 py-6 text-center w-full">No assets registered.</div>
-          ) : (
-            <div className="space-y-2 w-full">
-              {assets.slice(0, 3).map((asset) => (
-                <div key={asset.id} className="p-3 bg-[#141B2B] border border-[#25324A] rounded-lg flex items-center justify-between text-xs w-full">
-                  <div>
-                    <span className="font-medium text-slate-200 block">{asset.name}</span>
-                    <span className="text-[11px] text-slate-400">Type: {asset.type}</span>
-                  </div>
-                  <div className="flex items-center space-x-3 text-xs">
-                    <span className="text-slate-400">Load: <b className="text-slate-200 font-mono">{asset.cpuUsage || 0}%</b></span>
-                    <span className={`text-[10px] px-2 py-0.5 rounded font-semibold uppercase ${
-                      asset.status === 'HEALTHY' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'
-                    }`}>
-                      {asset.status}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
+      <div className="p-3.5 border-t border-[#1a233a] bg-[#0b0f19] text-xs shrink-0">
+        <div className="flex items-center space-x-2">
+          <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span className="text-slate-300 font-medium">Cluster Active</span>
+        </div>
+        <span className="text-[10px] text-slate-400 font-mono mt-0.5 block">Telemetry: Dynamic Hz</span>
+      </div>
+    </aside>
+  );
+}
