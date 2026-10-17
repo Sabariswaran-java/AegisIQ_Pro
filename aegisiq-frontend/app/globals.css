@@ -1,8 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* IndustryOS Deep Slate Theme Colors */
+  --background: #0b0f19;         /* Deep Industry Dark Background */
+  --foreground: #f8fafc;         /* Crisp White Text */
+  
+  /* UI Surface & Borders */
+  --card-bg: #131a2b;          /* Sleek Card Surface */
+  --card-border: #1e293b;      /* Subtle Clean Borders */
+  
+  /* Sea Blue / Cyan Accents */
+  --accent-sea-blue: #0ea5e9;  /* Primary Sea Blue Accent */
+  --accent-sea-hover: #0284c7; /* Darker Sea Blue for Hover */
+  --accent-cyan-glow: #38bdf8;  /* Vibrant Cyan Highlight */
 }
 
 @theme inline {
@@ -12,25 +22,19 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
 }
-/* Sidebar button focus ring-a ellam remove pannidum */
+
+/* Sidebar & Navigation Button Focus Styling */
 button:focus {
   outline: none !important;
   box-shadow: none !important;
 }
 
-/* Navigation button active status-la varura default ring-um varathu */
 button:focus-visible {
   outline: none !important;
   box-shadow: none !important;
@@ -40,21 +44,21 @@ button:focus-visible {
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Dark Smooth Scrollbar for AegisIQ */
+/* Custom Industrial Sea-Blue Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #070A0F;
+  background: #0b0f19;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1E293B;
-  border-radius: 3px;
+  background: #1e293b;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #0ea5e9; /* Sea Blue Hover Glow */
 }
