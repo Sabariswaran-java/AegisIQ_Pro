@@ -26,13 +26,13 @@ const BrandLogo = () => (
 
 export default function Sidebar({ activeTab, setActiveTab }) {
   return (
-    <aside className="w-60 bg-[#0d1424] border-r border-[#1a233a] flex flex-col justify-between h-screen sticky top-0 shrink-0 z-40 select-none">
+    <aside className="w-60 bg-[#0d1424] border-r border-[#1a233a] flex flex-col justify-between h-screen sticky top-0 shrink-0 z-40 select-none overflow-hidden">
       <div>
         <div className="p-3.5 border-b border-[#1a233a] bg-[#0b0f19]">
           <BrandLogo />
         </div>
 
-        <div className="p-3 space-y-1 text-xs overflow-y-auto max-h-[calc(100vh-140px)]">
+        <div className="p-3 space-y-1 text-xs">
           <div className="px-3 pt-3 pb-1 text-[10px] font-semibold text-slate-400 uppercase tracking-wider font-mono">
             Platform
           </div>
@@ -49,7 +49,7 @@ export default function Sidebar({ activeTab, setActiveTab }) {
               <button
                 key={nav.id}
                 onClick={() => setActiveTab(nav.id)}
-                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs transition-all duration-200 cursor-pointer outline-none focus:outline-none ${
+                className={`w-full flex items-center justify-between px-3.5 py-2 rounded-xl text-xs transition-all duration-200 cursor-pointer outline-none focus:outline-none ${
                   isActive 
                     ? "bg-[#0ea5e9] text-white font-semibold shadow-lg shadow-[#0ea5e9]/25 border border-[#38bdf8]/30" 
                     : "text-slate-400 hover:bg-[#131a2b] hover:text-slate-200 border border-transparent"
@@ -63,7 +63,7 @@ export default function Sidebar({ activeTab, setActiveTab }) {
             );
           })}
 
-          <div className="pt-5 pb-1 px-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider font-mono">
+          <div className="pt-3 pb-1 px-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider font-mono">
             AI Intelligence
           </div>
           {[
@@ -80,7 +80,7 @@ export default function Sidebar({ activeTab, setActiveTab }) {
               <button
                 key={nav.id}
                 onClick={() => setActiveTab(nav.id)}
-                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs transition-all duration-200 cursor-pointer outline-none focus:outline-none ${
+                className={`w-full flex items-center justify-between px-3.5 py-2 rounded-xl text-xs transition-all duration-200 cursor-pointer outline-none focus:outline-none ${
                   isActive 
                     ? "bg-[#0ea5e9] text-white font-semibold shadow-lg shadow-[#0ea5e9]/25 border border-[#38bdf8]/30" 
                     : "text-slate-400 hover:bg-[#131a2b] hover:text-slate-200 border border-transparent"
