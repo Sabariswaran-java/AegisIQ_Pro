@@ -55,12 +55,12 @@ export default function EnterpriseDashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#070A0F] text-[#E2E8F0] flex font-sans antialiased selection:bg-slate-700 selection:text-white">
+    <div className="min-h-screen bg-[#0b0f19] text-[#F8FAFC] flex font-sans antialiased selection:bg-[#0ea5e9]/30 selection:text-white">
       {/* Fixed Sidebar */}
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {/* Main Workspace Area */}
-      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
+      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto bg-[#0b0f19]">
         <TopNavbar 
           searchQuery={searchQuery} 
           setSearchQuery={setSearchQuery} 
@@ -69,7 +69,7 @@ export default function EnterpriseDashboard() {
           assets={assets} 
         />
 
-        <main className="px-6 pt-8 pb-6 space-y-6 flex-1 w-full">
+        <main className="px-6 pt-6 pb-8 space-y-6 flex-1 w-full bg-[#0b0f19]">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -86,7 +86,7 @@ export default function EnterpriseDashboard() {
               {activeTab === "reports" && <ReportsTab assets={assets} syncData={syncData} />}
               {activeTab === "graph" && <GraphTab assets={assets} setActiveTab={setActiveTab} />}
               {activeTab === "twin" && <TwinTab assets={assets} setActiveTab={setActiveTab} />}
-{activeTab === "scenario" && <ScenarioTab assets={assets} setActiveTab={setActiveTab} />}
+              {activeTab === "scenario" && <ScenarioTab assets={assets} setActiveTab={setActiveTab} />}
               {activeTab === "explainable" && <ExplainableTab setActiveTab={setActiveTab} />}
               {activeTab === "memory" && <MemoryTab setActiveTab={setActiveTab} />}
               {activeTab === "deploy" && <DeployTab assets={assets} syncData={syncData} setActiveTab={setActiveTab} />}
