@@ -47,7 +47,7 @@ export default function DashboardTab({ assets, setActiveTab }) {
         </p>
       </div>
 
-      {/* 5 Sea-Blue Industry KPI Cards */}
+      {/* 5 Sea-Blue Matte Professional KPI Cards */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3.5 w-full">
         {[
           { title: "Fleet Nodes", val: totalAssetsCount.toString(), desc: "Registered Nodes" },
@@ -56,7 +56,7 @@ export default function DashboardTab({ assets, setActiveTab }) {
           { title: "Avg Temperature", val: `${avgTemp}°C`, desc: "Threshold < 65°C" },
           { title: "Downtime Cut", val: "25%", desc: "AI Decision Twin" },
         ].map((kpi, idx) => (
-          <div key={idx} className="bg-[#131a2b] border border-[#1e293b] p-4 rounded-xl space-y-1.5 shadow-sm hover:border-[#0ea5e9]/40 transition-all">
+          <div key={idx} className="bg-[#131a2b] border border-[#1e293b] p-4 rounded-xl space-y-1.5 shadow-sm hover:border-[#38bdf8]/30 transition-all">
             <span className="text-xs text-slate-400 block font-medium">{kpi.title}</span>
             <div className={`text-xl font-bold font-mono tracking-tight ${kpi.alert ? 'text-amber-400' : 'text-white'}`}>{kpi.val}</div>
             <span className="text-[11px] text-slate-500 block pt-1 border-t border-[#1e293b]">{kpi.desc}</span>
@@ -134,7 +134,7 @@ export default function DashboardTab({ assets, setActiveTab }) {
           { label: "Acoustic Decibel", val: "44.1 dB", status: "Standard Noise" },
           { label: "Failover Headroom", val: "94.2%", status: "Safe Redundancy" },
         ].map((gauge, idx) => (
-          <div key={idx} className="bg-[#131a2b] border border-[#1e293b] p-3.5 rounded-xl space-y-1 shadow-sm hover:border-[#0ea5e9]/30 transition-all">
+          <div key={idx} className="bg-[#131a2b] border border-[#1e293b] p-3.5 rounded-xl space-y-1 shadow-sm hover:border-[#38bdf8]/30 transition-all">
             <span className="text-[11px] text-slate-400 font-medium block truncate">{gauge.label}</span>
             <div className="text-sm font-semibold text-white font-mono">{gauge.val}</div>
             <span className="text-[10px] text-slate-500 block">{gauge.status}</span>
