@@ -7,7 +7,7 @@ export default function TopNavbar({ searchQuery, setSearchQuery, syncData, isSyn
   const [showNotificationPopup, setShowNotificationPopup] = useState(false);
   const [localReloading, setLocalReloading] = useState(false);
 
-  const faultyAssets = assets.filter((a) => a.status === "WARNING" || a.status === "CRITICAL");
+  const faultyAssets = assets ? assets.filter((a) => a.status === "WARNING" || a.status === "CRITICAL") : [];
 
   useEffect(() => {
     const updateTime = () => {
@@ -21,14 +21,14 @@ export default function TopNavbar({ searchQuery, setSearchQuery, syncData, isSyn
 
   const handleRefreshClick = () => {
     setLocalReloading(true);
-    syncData();
+    if (syncData) syncData();
     setTimeout(() => {
       window.location.reload();
     }, 2000);
   };
 
   return (
-    <header className="border-b border-[#1E293B] bg-[#0E131F] px-6 h-14 flex items-center justify-between sticky top-0 z-50 w-full shrink-0">
+    <header className="border-b border-[#1a233a] bg-[#0E131F] px-6 h-14 flex items-center justify-between sticky top-0 z-50 w-full shrink-0">
       <div className="flex items-center space-x-2.5 bg-[#141B2B] border border-[#25324A] px-3.5 py-1.5 rounded-lg w-80 focus-within:border-slate-500 transition">
         <Search className="h-3.5 w-3.5 text-slate-400" />
         <input 
