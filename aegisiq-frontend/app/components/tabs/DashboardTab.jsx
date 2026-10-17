@@ -22,9 +22,9 @@ export default function DashboardTab({ assets, setActiveTab }) {
     : "100.0";
 
   const dynamicDistributionData = [
-    { name: "Nominal", value: healthyCount, color: "#10b981" },
-    { name: "Warning", value: warningCount, color: "#f59e0b" },
-    { name: "Critical", value: criticalCount, color: "#ef4444" },
+    { name: "Nominal", value: healthyCount, color: "#14B8A6" },
+    { name: "Warning", value: warningCount, color: "#F59E0B" },
+    { name: "Critical", value: criticalCount, color: "#F43F5E" },
   ];
 
   const [telemetryTrend, setTelemetryTrend] = useState([
@@ -76,7 +76,7 @@ export default function DashboardTab({ assets, setActiveTab }) {
         ))}
       </div>
 
-      {/* Middle Section: Waveform & Distribution Donut (Dynamic Streaming Tag Removed) */}
+      {/* Middle Section: Waveform & Distribution Donut */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 w-full">
         <div className="lg:col-span-8 bg-[#131a2b] border border-[#1e293b] rounded-xl p-5 space-y-3 shadow-sm">
           <div className="flex justify-between items-center border-b border-[#1e293b] pb-3 w-full">
@@ -121,14 +121,14 @@ export default function DashboardTab({ assets, setActiveTab }) {
               <span className="text-[9px] text-slate-400 uppercase block font-mono">Nodes</span>
             </div>
           </div>
-          <div className="space-y-1.5 text-xs pt-2 border-t border-[#1e293b] w-full">
+          <div className="grid grid-cols-3 gap-2 pt-2 border-t border-[#1e293b] w-full text-xs">
             {dynamicDistributionData.map((d, i) => (
-              <div key={i} className="flex justify-between items-center text-slate-400 w-full">
-                <div className="flex items-center space-x-2">
+              <div key={i} className="bg-[#0e1320] border border-[#1e293b] p-2 rounded-lg flex flex-col justify-between">
+                <div className="flex items-center space-x-1.5">
                   <span className="h-2 w-2 rounded-full" style={{ backgroundColor: d.color }}></span>
-                  <span>{d.name}</span>
+                  <span className="text-slate-400 text-[11px] font-medium">{d.name}</span>
                 </div>
-                <span className="font-medium text-slate-200 font-mono">{d.value}</span>
+                <span className="text-slate-100 font-bold text-sm mt-1 font-mono">{d.value}</span>
               </div>
             ))}
           </div>
@@ -199,7 +199,7 @@ export default function DashboardTab({ assets, setActiveTab }) {
                   <div className="flex items-center space-x-3 text-xs">
                     <span className="text-slate-400">Load: <b className="text-slate-200 font-mono">{asset.cpuUsage || 0}%</b></span>
                     <span className={`text-[10px] font-semibold uppercase ${
-                      asset.status === 'HEALTHY' ? 'text-emerald-400' : 'text-amber-400'
+                      asset.status === 'HEALTHY' ? 'text-teal-400' : 'text-amber-400'
                     }`}>
                       {asset.status}
                     </span>
