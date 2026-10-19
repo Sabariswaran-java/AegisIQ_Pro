@@ -127,7 +127,7 @@ export default function AssetsTab({ assets, syncData }) {
         ))}
       </div>
 
-      {/* 🚀 REGISTER NEW ASSET MODAL */}
+      {/* Modal dialogs maintain original business logic */}
       {showAssetModal && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-[#0B0F19] border border-[#1E293B] rounded-2xl w-full max-w-xl p-6 space-y-6 shadow-2xl relative">
@@ -205,7 +205,6 @@ export default function AssetsTab({ assets, syncData }) {
         </div>
       )}
 
-      {/* ✏️ EDIT ASSET MODAL */}
       {editingAsset && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-[#0B0F19] border border-[#1E293B] rounded-2xl w-full max-w-xl p-6 space-y-6 shadow-2xl relative">
