@@ -142,4 +142,141 @@ export default function AssetsTab({ assets, syncData }) {
               <div>
                 <label className="text-[10px] uppercase font-semibold text-slate-400 block mb-1">ASSET TAG</label>
                 <input 
-                  name="
+                  name="name" 
+                  type="text" 
+                  placeholder="e.g. Turbine-Pump-02" 
+                  required 
+                  autoComplete="off"
+                  className="w-full bg-[#131A29] border border-[#22304A] rounded-lg p-3 text-sm text-white focus:outline-none focus:border-blue-500" 
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-[10px] uppercase font-semibold text-slate-400 block mb-1">NODE TYPE</label>
+                  <select name="type" className="w-full bg-[#131A29] border border-[#22304A] rounded-lg p-3 text-sm text-white focus:outline-none focus:border-blue-500 cursor-pointer">
+                    <option value="TURBINE_PUMP" className="bg-[#131A29] text-white">TURBINE_PUMP</option>
+                    <option value="STEAM_BOILER" className="bg-[#131A29] text-white">STEAM_BOILER</option>
+                    <option value="COMPRESSOR" className="bg-[#131A29] text-white">COMPRESSOR</option>
+                    <option value="SERVER" className="bg-[#131A29] text-white">SERVER</option>
+                    <option value="DATABASE" className="bg-[#131A29] text-white">DATABASE</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-[10px] uppercase font-semibold text-slate-400 block mb-1">STATUS</label>
+                  <select name="status" className="w-full bg-[#131A29] border border-[#22304A] rounded-lg p-3 text-sm text-white focus:outline-none focus:border-blue-500 cursor-pointer">
+                    <option value="HEALTHY" className="bg-[#131A29] text-white">HEALTHY</option>
+                    <option value="WARNING" className="bg-[#131A29] text-white">WARNING</option>
+                    <option value="CRITICAL" className="bg-[#131A29] text-white">CRITICAL</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-[10px] uppercase font-semibold text-slate-400 block mb-1">CPU LOAD (%) [0-100]</label>
+                  <input name="cpuUsage" type="number" min="0" max="100" placeholder="e.g. 45" className="w-full bg-[#131A29] border border-[#22304A] rounded-lg p-3 text-sm text-white focus:outline-none focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                </div>
+                <div>
+                  <label className="text-[10px] uppercase font-semibold text-slate-400 block mb-1">MEMORY (%) [0-100]</label>
+                  <input name="memoryUsage" type="number" min="0" max="100" placeholder="e.g. 50" className="w-full bg-[#131A29] border border-[#22304A] rounded-lg p-3 text-sm text-white focus:outline-none focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-[10px] uppercase font-semibold text-slate-400 block mb-1">TEMP (°C) [-50 to 200]</label>
+                  <input name="temperature" type="number" step="0.1" min="-50" max="200" placeholder="e.g. 44" className="w-full bg-[#131A29] border border-[#22304A] rounded-lg p-3 text-sm text-white focus:outline-none focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                </div>
+                <div>
+                  <label className="text-[10px] uppercase font-semibold text-slate-400 block mb-1">VIBRATION (G) [0 to 10]</label>
+                  <input name="vibration" type="number" step="0.01" min="0" max="10" placeholder="e.g. 0.03" className="w-full bg-[#131A29] border border-[#22304A] rounded-lg p-3 text-sm text-white focus:outline-none focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 pt-2">
+                <button type="submit" className="flex-1 py-3 bg-[#1B2538] hover:bg-[#253450] border border-[#2E3F5E] text-white rounded-xl text-xs font-bold tracking-wider cursor-pointer transition">
+                  SAVE ASSET NODE
+                </button>
+                <button type="button" onClick={() => setShowAssetModal(false)} className="px-6 py-3 bg-[#131A29] hover:bg-[#1A2336] border border-[#22304A] text-slate-300 rounded-xl text-xs font-bold cursor-pointer transition">
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ✏️ EDIT ASSET MODAL */}
+      {editingAsset && (
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-[#0B0F19] border border-[#1E293B] rounded-2xl w-full max-w-xl p-6 space-y-6 shadow-2xl relative">
+            <div className="flex justify-between items-center">
+              <h3 className="text-base font-bold text-white tracking-wider">EDIT ASSET NODE</h3>
+              <button onClick={() => setEditingAsset(null)} className="text-slate-400 hover:text-white cursor-pointer">✕</button>
+            </div>
+
+            <form onSubmit={(e) => handleUpdateAsset(e, editingAsset.id)} className="space-y-4">
+              <div>
+                <label className="text-[10px] uppercase font-semibold text-slate-400 block mb-1">ASSET TAG</label>
+                <input name="name" defaultValue={editingAsset?.name} type="text" required autoComplete="off" className="w-full bg-[#131A29] border border-[#22304A] rounded-lg p-3 text-sm text-white focus:outline-none focus:border-blue-500" />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-[10px] uppercase font-semibold text-slate-400 block mb-1">NODE TYPE</label>
+                  <select name="type" defaultValue={editingAsset?.type} className="w-full bg-[#131A29] border border-[#22304A] rounded-lg p-3 text-sm text-white focus:outline-none focus:border-blue-500 cursor-pointer">
+                    <option value="TURBINE_PUMP" className="bg-[#131A29] text-white">TURBINE_PUMP</option>
+                    <option value="STEAM_BOILER" className="bg-[#131A29] text-white">STEAM_BOILER</option>
+                    <option value="COMPRESSOR" className="bg-[#131A29] text-white">COMPRESSOR</option>
+                    <option value="SERVER" className="bg-[#131A29] text-white">SERVER</option>
+                    <option value="DATABASE" className="bg-[#131A29] text-white">DATABASE</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-[10px] uppercase font-semibold text-slate-400 block mb-1">STATUS</label>
+                  <select name="status" defaultValue={editingAsset?.status} className="w-full bg-[#131A29] border border-[#22304A] rounded-lg p-3 text-sm text-white focus:outline-none focus:border-blue-500 cursor-pointer">
+                    <option value="HEALTHY" className="bg-[#131A29] text-white">HEALTHY</option>
+                    <option value="WARNING" className="bg-[#131A29] text-white">WARNING</option>
+                    <option value="CRITICAL" className="bg-[#131A29] text-white">CRITICAL</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-[10px] uppercase font-semibold text-slate-400 block mb-1">CPU LOAD (%) [0-100]</label>
+                  <input name="cpuUsage" defaultValue={editingAsset?.cpuUsage} type="number" min="0" max="100" className="w-full bg-[#131A29] border border-[#22304A] rounded-lg p-3 text-sm text-white focus:outline-none focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                </div>
+                <div>
+                  <label className="text-[10px] uppercase font-semibold text-slate-400 block mb-1">MEMORY (%) [0-100]</label>
+                  <input name="memoryUsage" defaultValue={editingAsset?.memoryUsage} type="number" min="0" max="100" className="w-full bg-[#131A29] border border-[#22304A] rounded-lg p-3 text-sm text-white focus:outline-none focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-[10px] uppercase font-semibold text-slate-400 block mb-1">TEMP (°C) [-50 to 200]</label>
+                  <input name="temperature" defaultValue={editingAsset?.temperature} type="number" step="0.1" min="-50" max="200" className="w-full bg-[#131A29] border border-[#22304A] rounded-lg p-3 text-sm text-white focus:outline-none focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                </div>
+                <div>
+                  <label className="text-[10px] uppercase font-semibold text-slate-400 block mb-1">VIBRATION (G) [0 to 10]</label>
+                  <input name="vibration" defaultValue={editingAsset?.vibration} type="number" step="0.01" min="0" max="10" className="w-full bg-[#131A29] border border-[#22304A] rounded-lg p-3 text-sm text-white focus:outline-none focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 pt-2">
+                <button type="submit" className="flex-1 py-3 bg-[#1B2538] hover:bg-[#253450] border border-[#2E3F5E] text-white rounded-xl text-xs font-bold tracking-wider cursor-pointer transition">
+                  UPDATE ASSET NODE
+                </button>
+                <button type="button" onClick={() => setEditingAsset(null)} className="px-6 py-3 bg-[#131A29] hover:bg-[#1A2336] border border-[#22304A] text-slate-300 rounded-xl text-xs font-bold cursor-pointer transition">
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
