@@ -89,19 +89,19 @@ export default function AssetsTab({ assets, syncData }) {
         </button>
       </div>
 
-      {/* Assets Grid List */}
+      {/* Assets Clean Inventory Grid (Inner cards and metrics removed as requested) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
         {filteredAssets.map((asset) => (
-          <div key={asset.id} className="bg-[#0E131F] border border-[#1E293B] p-4 rounded-xl space-y-3 shadow-sm">
+          <div key={asset.id} className="bg-[#0E131F] border border-[#1E293B] p-4 rounded-xl flex flex-col justify-between shadow-sm space-y-4">
             <div className="flex justify-between items-start">
               <div>
                 <span className="font-semibold text-sm text-slate-200 block">{asset.name}</span>
-                <span className="text-xs text-slate-400">Type: {asset.type}</span>
+                <span className="text-xs text-slate-400 block mt-0.5">Type: {asset.type}</span>
               </div>
-              <div className="flex items-center space-x-1.5">
-                <span className={`text-[10px] px-2 py-0.5 rounded font-semibold uppercase ${
-                  asset.status === 'HEALTHY' ? 'bg-emerald-500/20 text-emerald-400' : 
-                  asset.status === 'WARNING' ? 'bg-amber-500/20 text-amber-400' : 'bg-rose-500/20 text-rose-400'
+              <div className="flex items-center space-x-2">
+                <span className={`text-[10px] font-bold uppercase tracking-wider ${
+                  asset.status === 'HEALTHY' ? 'text-emerald-400' : 
+                  asset.status === 'WARNING' ? 'text-amber-400' : 'text-rose-400'
                 }`}>
                   {asset.status}
                 </span>
@@ -110,11 +110,9 @@ export default function AssetsTab({ assets, syncData }) {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 text-xs bg-[#141B2B] p-2.5 rounded-lg border border-[#25324A]">
-              <div><span className="text-slate-400">Load:</span> <b className="text-slate-200 font-mono">{asset.cpuUsage ?? 0}%</b></div>
-              <div><span className="text-slate-400">Memory:</span> <b className="text-slate-200 font-mono">{asset.memoryUsage ?? 0}%</b></div>
-              <div><span className="text-slate-400">Temp:</span> <b className="text-slate-200 font-mono">{asset.temperature ?? 0}°C</b></div>
-              <div><span className="text-slate-400">Vibration:</span> <b className="text-slate-200 font-mono">{asset.vibration ?? 0} g</b></div>
+            <div className="flex items-center justify-between text-[11px] text-slate-500 pt-2 border-t border-[#1E293B]">
+              <span>Node ID: #{asset.id}</span>
+              <span className="text-slate-400 font-mono">Status: {asset.status}</span>
             </div>
           </div>
         ))}
