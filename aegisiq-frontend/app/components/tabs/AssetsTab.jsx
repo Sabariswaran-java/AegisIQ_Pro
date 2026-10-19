@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Plus, Edit3, Trash2 } from "lucide-react";
+import { Plus, Edit3, Trash2, Server } from "lucide-react";
 import { createAsset, updateAsset, deleteAsset } from "../../services/api";
 
 export default function AssetsTab({ assets, syncData }) {
@@ -89,45 +89,56 @@ export default function AssetsTab({ assets, syncData }) {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
-        {filteredAssets.map((asset) => (
-          <div key={asset.id} className="bg-[#0E131F] border border-[#1E293B] p-4 rounded-xl flex flex-col justify-between shadow-sm space-y-4">
-            <div className="flex justify-between items-start">
-              <div className="space-y-0.5">
-                <span className="font-semibold text-sm text-slate-100 block">{asset.name}</span>
-                <span className="text-xs text-slate-400 font-mono">TYPE: {asset.type}</span>
-              </div>
-              <div className="flex items-center space-x-1.5">
-                <button onClick={() => setEditingAsset(asset)} className="text-slate-400 hover:text-white p-1 transition cursor-pointer" title="Edit Node">
-                  <Edit3 className="h-3.5 w-3.5" />
-                </button>
-                <button onClick={() => handleDeleteAsset(asset.id)} className="text-slate-400 hover:text-rose-400 p-1 transition cursor-pointer" title="Delete Node">
-                  <Trash2 className="h-3.5 w-3.5" />
-                </button>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-end text-[11px] font-mono pt-3 border-t border-[#1E293B]">
-              <span className="text-slate-400">
-                Status:{" "}
-                <strong
-                  className={`uppercase ${
-                    asset.status === "HEALTHY"
-                      ? "text-emerald-400"
-                      : asset.status === "WARNING"
-                      ? "text-amber-400"
-                      : "text-rose-400"
-                  }`}
-                >
-                  {asset.status}
-                </strong>
-              </span>
-            </div>
-          </div>
-        ))}
+      {/* Industrial Data Table View */}
+      <div className="bg-[#0E131F] border border-[#1E293B] rounded-xl overflow-hidden shadow-sm w-full">
+        <div className="overflow-x-auto w-full">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="border-b border-[#1E293B] bg-[#131A29]/50 text-[11px] font-mono text-slate-400 uppercase tracking-wider">
+                <th className="py-3 px-4">Asset Name</th>
+                <th className="py-3 px-4">Node Type</th>
+                <th className="py-3 px-4">Operational Status</th>
+                <th className="py-3 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#1E293B] text-xs font-mono">
+              {filteredAssets.length === 0 ? (
+                <tr>
+                  <td colSpan="4" className="py-6 text-center text-slate-500">No asset nodes registered in inventory.</td>
+                </tr>
+              ) : (
+                filteredAssets.map((asset) => (
+                  <tr key={asset.id} className="hover:bg-[#131A29]/30 transition-colors">
+                    <td className="py-3 px-4 font-semibold text-slate-100 flex items-center gap-2">
+                      <Server className="h-3.5 w-3.5 text-slate-400" />
+                      {asset.name}
+                    </td>
+                    <td className="py-3 px-4 text-slate-300">{asset.type}</td>
+                    <td className="py-3 px-4">
+                      <span className={`uppercase font-bold ${
+                        asset.status === 'HEALTHY' ? 'text-emerald-400' : 
+                        asset.status === 'WARNING' ? 'text-amber-400' : 'text-rose-400'
+                      }`}>
+                        {asset.status}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4 text-right space-x-2">
+                      <button onClick={() => setEditingAsset(asset)} className="text-slate-400 hover:text-white p-1 transition cursor-pointer" title="Edit Node">
+                        <Edit3 className="h-3.5 w-3.5 inline" />
+                      </button>
+                      <button onClick={() => handleDeleteAsset(asset.id)} className="text-slate-400 hover:text-rose-400 p-1 transition cursor-pointer" title="Delete Node">
+                        <Trash2 className="h-3.5 w-3.5 inline" />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      {/* Modal dialogs maintain original business logic */}
+      {/* 🚀 REGISTER NEW ASSET MODAL */}
       {showAssetModal && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-[#0B0F19] border border-[#1E293B] rounded-2xl w-full max-w-xl p-6 space-y-6 shadow-2xl relative">
@@ -205,6 +216,7 @@ export default function AssetsTab({ assets, syncData }) {
         </div>
       )}
 
+      {/* ✏️ EDIT ASSET MODAL */}
       {editingAsset && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-[#0B0F19] border border-[#1E293B] rounded-2xl w-full max-w-xl p-6 space-y-6 shadow-2xl relative">
