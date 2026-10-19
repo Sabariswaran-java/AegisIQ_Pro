@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Plus, Edit3, Trash2, Cpu, Server } from "lucide-react";
+import { Plus, Edit3, Trash2 } from "lucide-react";
 import { createAsset, updateAsset, deleteAsset } from "../../services/api";
 
 export default function AssetsTab({ assets, syncData }) {
@@ -89,22 +89,22 @@ export default function AssetsTab({ assets, syncData }) {
         </button>
       </div>
 
-      {/* Clean Professional Asset Inventory Grid */}
+      {/* Clean Enterprise Asset Grid - Pill Badges Completely Removed */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
         {filteredAssets.map((asset) => (
           <div key={asset.id} className="bg-[#0E131F] border border-[#1E293B] p-4 rounded-xl flex flex-col justify-between shadow-sm space-y-4">
             <div className="flex justify-between items-start">
-              <div className="space-y-0.5">
-                <span className="font-semibold text-sm text-slate-100 block">{asset.name}</span>
-                <span className="text-xs text-slate-400 font-mono">TYPE: {asset.type}</span>
+              <div className="space-y-1">
+                <div className="flex items-center space-x-2">
+                  <span className={`h-2 w-2 rounded-full ${
+                    asset.status === 'HEALTHY' ? 'bg-emerald-400' : 
+                    asset.status === 'WARNING' ? 'bg-amber-400' : 'bg-rose-400'
+                  }`}></span>
+                  <span className="font-semibold text-sm text-slate-100">{asset.name}</span>
+                </div>
+                <span className="text-xs text-slate-400 font-mono block">TYPE: {asset.type}</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
-                  asset.status === 'HEALTHY' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 
-                  asset.status === 'WARNING' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
-                }`}>
-                  {asset.status}
-                </span>
+              <div className="flex items-center space-x-1.5">
                 <button onClick={() => setEditingAsset(asset)} className="text-slate-400 hover:text-white p-1 transition cursor-pointer" title="Edit Node"><Edit3 className="h-3.5 w-3.5" /></button>
                 <button onClick={() => handleDeleteAsset(asset.id)} className="text-slate-400 hover:text-rose-400 p-1 transition cursor-pointer" title="Delete Node"><Trash2 className="h-3.5 w-3.5" /></button>
               </div>
@@ -112,7 +112,15 @@ export default function AssetsTab({ assets, syncData }) {
 
             <div className="flex items-center justify-between text-[11px] text-slate-400 font-mono pt-3 border-t border-[#1E293B]">
               <span>Node ID: <strong className="text-slate-200">#{asset.id}</strong></span>
-              <span className="text-slate-400">Status: <strong className="text-slate-200 uppercase">{asset.status}</strong></span>
+              <div className="flex items-center space-x-1">
+                <span>Status:</span>
+                <strong className={`uppercase ${
+                  asset.status === 'HEALTHY' ? 'text-emerald-400' : 
+                  asset.status === 'WARNING' ? 'text-amber-400' : 'text-rose-400'
+                }`}>
+                  {asset.status}
+                </strong>
+              </div>
             </div>
           </div>
         ))}
