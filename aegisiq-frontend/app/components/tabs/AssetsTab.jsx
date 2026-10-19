@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Plus, Edit3, Trash2 } from "lucide-react";
+import { Plus, Edit3, Trash2, Cpu, Server } from "lucide-react";
 import { createAsset, updateAsset, deleteAsset } from "../../services/api";
 
 export default function AssetsTab({ assets, syncData }) {
@@ -78,41 +78,41 @@ export default function AssetsTab({ assets, syncData }) {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center">
+    <div className="space-y-5 w-full">
+      <div className="flex justify-between items-center w-full border-b border-[#1E293B] pb-3">
         <div>
-          <h2 className="text-base font-bold text-white">Enterprise Asset Inventory</h2>
-          <p className="text-xs text-slate-400">50+ parameter telemetry tracking across registered fleet.</p>
+          <h2 className="text-base font-bold text-white tracking-tight">Enterprise Asset Inventory</h2>
+          <p className="text-xs text-slate-400 mt-0.5">Core registry & metadata management across industrial asset fleet.</p>
         </div>
         <button onClick={() => setShowAssetModal(true)} className="px-3.5 py-2 bg-[#1B2538] hover:bg-[#253450] border border-[#2E3F5E] text-white text-xs font-semibold rounded-lg flex items-center gap-1.5 transition cursor-pointer">
           <Plus className="h-3.5 w-3.5" /> <span>Add Asset Node</span>
         </button>
       </div>
 
-      {/* Assets Clean Inventory Grid (Inner cards and metrics removed as requested) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+      {/* Clean Professional Asset Inventory Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
         {filteredAssets.map((asset) => (
           <div key={asset.id} className="bg-[#0E131F] border border-[#1E293B] p-4 rounded-xl flex flex-col justify-between shadow-sm space-y-4">
             <div className="flex justify-between items-start">
-              <div>
-                <span className="font-semibold text-sm text-slate-200 block">{asset.name}</span>
-                <span className="text-xs text-slate-400 block mt-0.5">Type: {asset.type}</span>
+              <div className="space-y-0.5">
+                <span className="font-semibold text-sm text-slate-100 block">{asset.name}</span>
+                <span className="text-xs text-slate-400 font-mono">TYPE: {asset.type}</span>
               </div>
               <div className="flex items-center space-x-2">
-                <span className={`text-[10px] font-bold uppercase tracking-wider ${
-                  asset.status === 'HEALTHY' ? 'text-emerald-400' : 
-                  asset.status === 'WARNING' ? 'text-amber-400' : 'text-rose-400'
+                <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${
+                  asset.status === 'HEALTHY' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 
+                  asset.status === 'WARNING' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
                 }`}>
                   {asset.status}
                 </span>
-                <button onClick={() => setEditingAsset(asset)} className="text-slate-400 hover:text-white p-1 cursor-pointer"><Edit3 className="h-3.5 w-3.5" /></button>
-                <button onClick={() => handleDeleteAsset(asset.id)} className="text-slate-400 hover:text-rose-400 p-1 cursor-pointer"><Trash2 className="h-3.5 w-3.5" /></button>
+                <button onClick={() => setEditingAsset(asset)} className="text-slate-400 hover:text-white p-1 transition cursor-pointer" title="Edit Node"><Edit3 className="h-3.5 w-3.5" /></button>
+                <button onClick={() => handleDeleteAsset(asset.id)} className="text-slate-400 hover:text-rose-400 p-1 transition cursor-pointer" title="Delete Node"><Trash2 className="h-3.5 w-3.5" /></button>
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-[11px] text-slate-500 pt-2 border-t border-[#1E293B]">
-              <span>Node ID: #{asset.id}</span>
-              <span className="text-slate-400 font-mono">Status: {asset.status}</span>
+            <div className="flex items-center justify-between text-[11px] text-slate-400 font-mono pt-3 border-t border-[#1E293B]">
+              <span>Node ID: <strong className="text-slate-200">#{asset.id}</strong></span>
+              <span className="text-slate-400">Status: <strong className="text-slate-200 uppercase">{asset.status}</strong></span>
             </div>
           </div>
         ))}
