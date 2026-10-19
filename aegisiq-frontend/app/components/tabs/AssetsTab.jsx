@@ -89,7 +89,6 @@ export default function AssetsTab({ assets, syncData }) {
         </button>
       </div>
 
-      {/* Clean Inventory Grid - No Background Pill Badges */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
         {filteredAssets.map((asset) => (
           <div key={asset.id} className="bg-[#0E131F] border border-[#1E293B] p-4 rounded-xl flex flex-col justify-between shadow-sm space-y-4">
@@ -108,9 +107,8 @@ export default function AssetsTab({ assets, syncData }) {
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-[11px] text-slate-400 font-mono pt-3 border-t border-[#1E293B]">
-              <span>Node ID: <strong className="text-slate-200">#{asset.id}</strong></span>
-              <span>
+            <div className="flex items-center justify-end text-[11px] font-mono pt-3 border-t border-[#1E293B]">
+              <span className="text-slate-400">
                 Status:{" "}
                 <strong
                   className={`uppercase ${
