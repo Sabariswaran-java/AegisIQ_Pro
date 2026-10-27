@@ -9,7 +9,7 @@ const BrandLogo = () => (
       alt="AegisIQ Logo" 
       width={600} 
       height={100} 
-      className="object-contain h-[80px] w-[350px]"
+      className="object-contain h-[75px] w-[340px]"
       priority
     />
   </div>
@@ -19,13 +19,13 @@ export default function Sidebar({ activeTab, setActiveTab }) {
   return (
     <aside className="w-60 bg-[#0d6963] border-r border-[#0a524d] flex flex-col justify-between h-screen sticky top-0 shrink-0 z-40 select-none overflow-hidden text-white">
       <div>
-        {/* Brand Header Block with Sidebar Background */}
-        <div className="h-16 px-2 border-b border-[#0a524d] bg-[#0d6963] flex items-center justify-center">
+        {/* Brand Header Block without any border line */}
+        <div className="h-16 px-2 bg-[#0d6963] flex items-center justify-center">
           <BrandLogo />
         </div>
 
-        <div className="p-3 space-y-1 text-xs">
-          <div className="px-3 pt-3 pb-1 text-[10px] font-semibold text-teal-200/80 uppercase tracking-wider font-mono">
+        <div className="px-3 py-2 space-y-1.5 text-xs">
+          <div className="px-3 pt-2 pb-1 text-[10px] font-semibold text-teal-200/90 uppercase tracking-wider font-mono">
             Platform
           </div>
           {[
@@ -41,21 +41,21 @@ export default function Sidebar({ activeTab, setActiveTab }) {
               <button
                 key={nav.id}
                 onClick={() => setActiveTab(nav.id)}
-                className={`w-full flex items-center justify-between px-3.5 py-2 rounded-xl text-xs transition-all duration-200 cursor-pointer outline-none focus:outline-none ${
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs transition-all duration-200 cursor-pointer outline-none focus:outline-none ${
                   isActive 
                     ? "bg-white text-[#0d6963] font-semibold shadow-md border border-white" 
-                    : "text-teal-50 hover:bg-[#0a524d] hover:text-white border border-transparent"
+                    : "text-white hover:bg-[#0a524d] border border-transparent"
                 }`}
               >
                 <div className="flex items-center space-x-2.5">
-                  <Icon className={`h-4 w-4 ${isActive ? 'text-[#0d6963]' : 'text-teal-200'}`} />
+                  <Icon className={`h-4 w-4 ${isActive ? 'text-[#0d6963]' : 'text-white'}`} />
                   <span>{nav.label}</span>
                 </div>
               </button>
             );
           })}
 
-          <div className="pt-3 pb-1 px-3 text-[10px] font-semibold text-teal-200/80 uppercase tracking-wider font-mono">
+          <div className="pt-2 pb-1 px-3 text-[10px] font-semibold text-teal-200/90 uppercase tracking-wider font-mono">
             AI Intelligence
           </div>
           {[
@@ -72,14 +72,14 @@ export default function Sidebar({ activeTab, setActiveTab }) {
               <button
                 key={nav.id}
                 onClick={() => setActiveTab(nav.id)}
-                className={`w-full flex items-center justify-between px-3.5 py-2 rounded-xl text-xs transition-all duration-200 cursor-pointer outline-none focus:outline-none ${
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs transition-all duration-200 cursor-pointer outline-none focus:outline-none ${
                   isActive 
                     ? "bg-white text-[#0d6963] font-semibold shadow-md border border-white" 
-                    : "text-teal-50 hover:bg-[#0a524d] hover:text-white border border-transparent"
+                    : "text-white hover:bg-[#0a524d] border border-transparent"
                 }`}
               >
                 <div className="flex items-center space-x-2.5">
-                  <Icon className={`h-4 w-4 ${isActive ? 'text-[#0d6963]' : 'text-teal-200'}`} />
+                  <Icon className={`h-4 w-4 ${isActive ? 'text-[#0d6963]' : 'text-white'}`} />
                   <span>{nav.label}</span>
                 </div>
               </button>
@@ -88,12 +88,15 @@ export default function Sidebar({ activeTab, setActiveTab }) {
         </div>
       </div>
 
-      <div className="p-3.5 border-t border-[#0a524d] bg-[#0a524d]/50 text-xs shrink-0">
-        <div className="flex items-center space-x-2">
-          <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span className="text-white font-medium">Cluster Active</span>
+      {/* Bottom Left User Profile Section replacing Cluster Active */}
+      <div className="p-3.5 border-t border-[#0a524d] bg-[#0a524d]/40 flex items-center space-x-3 shrink-0">
+        <div className="h-8 w-8 rounded-lg bg-white text-[#0d6963] font-bold flex items-center justify-center text-xs shadow-sm shrink-0">
+          S
         </div>
-        <span className="text-[10px] text-teal-200 font-mono mt-0.5 block">Telemetry: Dynamic Hz</span>
+        <div className="flex flex-col truncate">
+          <span className="text-xs font-semibold text-white truncate">Sabariswaran M</span>
+          <span className="text-[10px] text-teal-200 font-mono">Full Stack Engineer</span>
+        </div>
       </div>
     </aside>
   );
