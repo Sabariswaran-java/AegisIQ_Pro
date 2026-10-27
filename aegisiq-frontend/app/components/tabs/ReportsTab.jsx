@@ -40,30 +40,30 @@ export default function ReportsTab({ assets, syncData }) {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
-        <div className="bg-[#e2eeef] border border-white/80 p-4 rounded-xl space-y-1 shadow-[4px_4px_14px_rgba(163,177,198,0.3)]">
+        <div className="bg-white border border-slate-300 p-4 rounded-xl space-y-1 shadow-[4px_4px_12px_rgba(163,177,198,0.15)]">
           <span className="text-[11px] text-slate-600 block font-medium">Total Tracked Nodes</span>
           <div className="text-2xl font-bold text-[#1e293b] font-mono">{totalAssetsCount}</div>
           <span className="text-[10px] text-[#0d6963] font-semibold">100% Synchronized</span>
         </div>
-        <div className="bg-[#e2eeef] border border-white/80 p-4 rounded-xl space-y-1 shadow-[4px_4px_14px_rgba(163,177,198,0.3)]">
+        <div className="bg-white border border-slate-300 p-4 rounded-xl space-y-1 shadow-[4px_4px_12px_rgba(163,177,198,0.15)]">
           <span className="text-[11px] text-slate-600 block font-medium">Nominal Healthy Nodes</span>
           <div className="text-2xl font-bold text-[#0d6963] font-mono">{healthyCount}</div>
           <span className="text-[10px] text-slate-500">Operating within SLA</span>
         </div>
-        <div className="bg-[#e2eeef] border border-white/80 p-4 rounded-xl space-y-1 shadow-[4px_4px_14px_rgba(163,177,198,0.3)]">
+        <div className="bg-white border border-slate-300 p-4 rounded-xl space-y-1 shadow-[4px_4px_12px_rgba(163,177,198,0.15)]">
           <span className="text-[11px] text-slate-600 block font-medium">Active Anomalies</span>
           <div className="text-2xl font-bold text-amber-700 font-mono">{faultyAssets.length}</div>
           <span className="text-[10px] text-slate-500">Requires attention</span>
         </div>
-        <div className="bg-[#e2eeef] border border-white/80 p-4 rounded-xl space-y-1 shadow-[4px_4px_14px_rgba(163,177,198,0.3)]">
+        <div className="bg-white border border-slate-300 p-4 rounded-xl space-y-1 shadow-[4px_4px_12px_rgba(163,177,198,0.15)]">
           <span className="text-[11px] text-slate-600 block font-medium">Average Fleet Temp</span>
           <div className="text-2xl font-bold text-[#1e293b] font-mono">{avgTemp}°C</div>
           <span className="text-[10px] text-slate-500">Normal Range &lt; 65°C</span>
         </div>
       </div>
 
-      <div className="bg-[#e2eeef] border border-white/80 p-5 rounded-2xl space-y-4 shadow-[6px_6px_20px_rgba(163,177,198,0.3)] w-full">
-        <div className="flex justify-between items-center border-b border-slate-300/80 pb-3 w-full">
+      <div className="bg-white border border-slate-300 p-5 rounded-2xl space-y-4 shadow-[6px_6px_20px_rgba(163,177,198,0.2)] w-full">
+        <div className="flex justify-between items-center border-b border-slate-200 pb-3 w-full">
           <h3 className="text-xs font-bold text-[#1e293b] uppercase tracking-wider">Fleet Operational Audit Ledger</h3>
          <span className="text-[11px] text-slate-600 font-mono">Database Source: Active (Cloud / Supabase)</span>
         </div>
@@ -71,7 +71,7 @@ export default function ReportsTab({ assets, syncData }) {
         <div className="overflow-x-auto w-full">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="border-b border-slate-300/80 text-slate-600 font-mono text-[10px] uppercase">
+              <tr className="border-b border-slate-200 text-slate-600 font-mono text-[10px] uppercase">
                 <th className="pb-3 font-semibold">Node ID</th>
                 <th className="pb-3 font-semibold">Asset Tag</th>
                 <th className="pb-3 font-semibold">Type</th>
@@ -82,9 +82,9 @@ export default function ReportsTab({ assets, syncData }) {
                 <th className="pb-3 font-semibold">Vibration</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-300/60 font-mono">
+            <tbody className="divide-y divide-slate-200 font-mono">
               {assets.map((asset) => (
-                <tr key={asset.id} className="hover:bg-white/40 transition">
+                <tr key={asset.id} className="hover:bg-slate-50 transition">
                   <td className="py-3 text-slate-600">#NODE-{asset.id}</td>
                   <td className="py-3 font-bold text-[#1e293b]">{asset.name}</td>
                   <td className="py-3 text-slate-700">{asset.type}</td>
