@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  /* Exact CoachPro Neumorphic / Glassmorphism Palette */
-  --background: #d4e3e5;        /* Pale Mint-Teal Ambient Background */
-  --foreground: #1e293b;        /* Dark Slate Text */
+  /* Exact CoachPro Soft Teal / Glassmorphism Palette */
+  --background: #d4e3e5;        /* Soft Mint-Teal Ambient Background */
+  --foreground: #1e293b;        /* Deep Slate Dark Text */
   
   /* UI Surface & Glass Cards */
-  --card-bg: #e2eeef;           /* Soft Raised Card Surface */
-  --card-border: rgba(255, 255, 255, 0.7); /* Subtle Light Edge */
+  --card-bg: #e2eeef;           /* Light Raised Glass Card Surface */
+  --card-border: rgba(255, 255, 255, 0.7); /* Clean White Soft Borders */
   
   /* Rich Teal & Mint Accents */
-  --accent-sea-blue: #0d6963;   /* Deep Teal Primary */
+  --accent-sea-blue: #0d6963;   /* Deep Teal Primary Accent[cite: 7] */
   --accent-sea-hover: #0a524d;  /* Darker Teal for Hover */
-  --accent-cyan-glow: #14b8a6;  /* Vibrant Teal Highlight */
+  --accent-cyan-glow: #14b8a6;  /* Vibrant Mint/Cyan Highlight[cite: 7] */
 }
 
 @theme inline {
@@ -21,9 +21,8 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   
-  /* Custom color tokens for Tailwind classes */
-  --color-card-bg: var(--card-bg);
-  --color-card-border: var(--card-border);
+  /* Custom Theme Color Mappings for Tailwind */
+  --color-card: var(--card-bg);
   --color-accent-teal: var(--accent-sea-blue);
 }
 
@@ -34,17 +33,12 @@ body {
   overflow-x: hidden;
 }
 
-/* Neumorphic / Soft UI Card & Button Depth Effects */
-.neo-card {
+/* Glassmorphism & Soft Neumorphic Card Style */
+.glass-card {
   background-color: var(--card-bg);
   border: 1px solid var(--card-border);
-  box-shadow: 6px 6px 16px rgba(163, 177, 198, 0.4), 
-              -6px -6px 16px rgba(255, 255, 255, 0.8);
-}
-
-.neo-button-active {
-  background: linear-gradient(135deg, #0d6963 0%, #115e59 100%);
-  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 6px 6px 16px rgba(163, 177, 198, 0.35), 
+              -6px -6px 16px rgba(255, 255, 255, 0.75);
 }
 
 /* Sidebar & Navigation Button Focus Styling */
@@ -62,7 +56,7 @@ button:focus-visible {
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Scrollbar */
+/* Custom Teal-Tinted Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -78,5 +72,5 @@ button:focus-visible {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #0d6963;
+  background: #0d6963; /* Teal Hover Glow */
 }
