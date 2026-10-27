@@ -28,7 +28,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="font-sans antialiased bg-[#070a12] text-slate-100 selection:bg-emerald-500/20 selection:text-emerald-300">
+      <body className="font-sans antialiased bg-background text-foreground selection:bg-[#0d6963]/20 selection:text-[#0d6963]">
         {/* 2. Inga AegisProvider-a wrap pannunga */}
         <AegisProvider>
           {children}
