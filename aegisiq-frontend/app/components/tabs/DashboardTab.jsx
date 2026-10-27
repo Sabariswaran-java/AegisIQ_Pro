@@ -68,18 +68,18 @@ export default function DashboardTab({ assets, setActiveTab }) {
           { title: "Avg Temperature", val: `${avgTemp}°C`, desc: "Threshold < 65°C" },
           { title: "Downtime Cut", val: "25%", desc: "AI Decision Twin" },
         ].map((kpi, idx) => (
-          <div key={idx} className="bg-[#e2eeef] border border-white/80 p-4 rounded-xl space-y-1.5 shadow-[4px_4px_12px_rgba(163,177,198,0.3),-4px_-4px_12px_rgba(255,255,255,0.7)] hover:border-[#0d6963]/30 transition-all">
+          <div key={idx} className="bg-white border border-slate-300 p-4 rounded-xl space-y-1.5 shadow-[4px_4px_12px_rgba(163,177,198,0.15)] hover:border-[#0d6963]/40 transition-all">
             <span className="text-xs text-slate-600 block font-medium">{kpi.title}</span>
             <div className={`text-xl font-bold font-mono tracking-tight ${kpi.alert ? 'text-amber-700' : 'text-[#1e293b]'}`}>{kpi.val}</div>
-            <span className="text-[11px] text-slate-500 block pt-1 border-t border-slate-300/60">{kpi.desc}</span>
+            <span className="text-[11px] text-slate-500 block pt-1 border-t border-slate-200">{kpi.desc}</span>
           </div>
         ))}
       </div>
 
       {/* Middle Section: Waveform & Distribution Donut */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 w-full">
-        <div className="lg:col-span-8 bg-[#e2eeef] border border-white/80 rounded-xl p-5 space-y-3 shadow-[4px_4px_12px_rgba(163,177,198,0.3),-4px_-4px_12px_rgba(255,255,255,0.7)]">
-          <div className="flex justify-between items-center border-b border-slate-300/60 pb-3 w-full">
+        <div className="lg:col-span-8 bg-white border border-slate-300 rounded-xl p-5 space-y-3 shadow-[4px_4px_12px_rgba(163,177,198,0.15)]">
+          <div className="flex justify-between items-center border-b border-slate-200 pb-3 w-full">
             <div>
               <span className="text-xs font-bold text-[#1e293b]">Live Telemetry Ingestion (50+ Parameters)</span>
               <span className="text-[11px] text-slate-600 block mt-0.5">Aggregated Compute Load & Thermal Metrics</span>
@@ -91,20 +91,20 @@ export default function DashboardTab({ assets, setActiveTab }) {
               <AreaChart data={telemetryTrend}>
                 <defs>
                   <linearGradient id="seaBlueGlow" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#0d6963" stopOpacity={0.4}/>
+                    <stop offset="5%" stopColor="#0d6963" stopOpacity={0.3}/>
                     <stop offset="95%" stopColor="#0d6963" stopOpacity={0.0}/>
                   </linearGradient>
                 </defs>
                 <XAxis dataKey="time" stroke="#64748b" fontSize={11} tickLine={false} />
                 <YAxis stroke="#64748b" fontSize={11} tickLine={false} domain={[0, 100]} />
-                <Tooltip contentStyle={{ backgroundColor: "#e2eeef", borderColor: "#ffffff", borderRadius: "8px", fontSize: "11px", color: "#1e293b", boxShadow: "4px 4px 10px rgba(163,177,198,0.4)" }} />
+                <Tooltip contentStyle={{ backgroundColor: "#ffffff", borderColor: "#cbd5e1", borderRadius: "8px", fontSize: "11px", color: "#1e293b", boxShadow: "4px 4px 10px rgba(163,177,198,0.2)" }} />
                 <Area type="monotone" dataKey="val" stroke="#0d6963" strokeWidth={2} fillOpacity={1} fill="url(#seaBlueGlow)" isAnimationActive={true} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        <div className="lg:col-span-4 bg-[#e2eeef] border border-white/80 rounded-xl p-5 flex flex-col justify-between shadow-[4px_4px_12px_rgba(163,177,198,0.3),-4px_-4px_12px_rgba(255,255,255,0.7)]">
+        <div className="lg:col-span-4 bg-white border border-slate-300 rounded-xl p-5 flex flex-col justify-between shadow-[4px_4px_12px_rgba(163,177,198,0.15)]">
           <span className="text-xs font-bold text-[#1e293b]">Fleet Distribution</span>
           <div className="h-36 w-full relative flex items-center justify-center my-1">
             <ResponsiveContainer width="100%" height="100%">
@@ -121,9 +121,9 @@ export default function DashboardTab({ assets, setActiveTab }) {
               <span className="text-[9px] text-slate-600 uppercase block font-mono">Nodes</span>
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-2 pt-2 border-t border-slate-300/60 w-full text-xs">
+          <div className="grid grid-cols-3 gap-2 pt-2 border-t border-slate-200 w-full text-xs">
             {dynamicDistributionData.map((d, i) => (
-              <div key={i} className="bg-[#d4e3e5] border border-white/70 p-2 rounded-lg flex flex-col justify-between">
+              <div key={i} className="bg-slate-50 border border-slate-200 p-2 rounded-lg flex flex-col justify-between">
                 <div className="flex items-center space-x-1.5">
                   <span className="h-2 w-2 rounded-full" style={{ backgroundColor: d.color }}></span>
                   <span className="text-slate-700 text-[11px] font-medium">{d.name}</span>
@@ -144,7 +144,7 @@ export default function DashboardTab({ assets, setActiveTab }) {
           { label: "Acoustic Decibel", val: "44.1 dB", status: "Standard Noise" },
           { label: "Failover Headroom", val: "94.2%", status: "Safe Redundancy" },
         ].map((gauge, idx) => (
-          <div key={idx} className="bg-[#e2eeef] border border-white/80 p-3.5 rounded-xl space-y-1 shadow-[4px_4px_12px_rgba(163,177,198,0.3),-4px_-4px_12px_rgba(255,255,255,0.7)] hover:border-[#0d6963]/30 transition-all">
+          <div key={idx} className="bg-white border border-slate-300 p-3.5 rounded-xl space-y-1 shadow-[4px_4px_12px_rgba(163,177,198,0.15)] hover:border-[#0d6963]/40 transition-all">
             <span className="text-[11px] text-slate-600 font-medium block truncate">{gauge.label}</span>
             <div className="text-sm font-semibold text-[#1e293b] font-mono">{gauge.val}</div>
             <span className="text-[10px] text-slate-500 block">{gauge.status}</span>
@@ -153,8 +153,8 @@ export default function DashboardTab({ assets, setActiveTab }) {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 w-full">
-        <div className="bg-[#e2eeef] border border-white/80 rounded-xl p-5 space-y-3 shadow-[4px_4px_12px_rgba(163,177,198,0.3),-4px_-4px_12px_rgba(255,255,255,0.7)] w-full">
-          <div className="flex justify-between items-center border-b border-slate-300/60 pb-2.5 w-full">
+        <div className="bg-white border border-slate-300 rounded-xl p-5 space-y-3 shadow-[4px_4px_12px_rgba(163,177,198,0.15)] w-full">
+          <div className="flex justify-between items-center border-b border-slate-200 pb-2.5 w-full">
             <h3 className="text-xs font-bold text-[#1e293b] uppercase tracking-wider">Priority Alerts</h3>
             <button onClick={() => setActiveTab("alerts")} className="text-[11px] text-[#0d6963] font-semibold hover:underline cursor-pointer">View All →</button>
           </div>
@@ -162,7 +162,7 @@ export default function DashboardTab({ assets, setActiveTab }) {
           {faultyAssets.length === 0 ? (
             <div className="text-xs text-slate-600 py-6 text-center w-full">No active alerts registered.</div>
           ) : (
-            <div className="divide-y divide-slate-300/60 w-full">
+            <div className="divide-y divide-slate-200 w-full">
               {faultyAssets.slice(0, 3).map((item) => (
                 <div key={item.id} className="py-2.5 flex items-center justify-between text-xs w-full">
                   <div>
@@ -180,16 +180,16 @@ export default function DashboardTab({ assets, setActiveTab }) {
           )}
         </div>
 
-        <div className="bg-[#e2eeef] border border-white/80 rounded-xl p-5 space-y-3 shadow-[4px_4px_12px_rgba(163,177,198,0.3),-4px_-4px_12px_rgba(255,255,255,0.7)] w-full">
-          <div className="flex justify-between items-center border-b border-slate-300/60 pb-2.5 w-full">
+        <div className="bg-white border border-slate-300 rounded-xl p-5 space-y-3 shadow-[4px_4px_12px_rgba(163,177,198,0.15)] w-full">
+          <div className="flex justify-between items-center border-b border-slate-200 pb-2.5 w-full">
             <h3 className="text-xs font-bold text-[#1e293b] uppercase tracking-wider">Fleet Inventory</h3>
             <button onClick={() => setActiveTab("assets")} className="text-[11px] text-[#0d6963] font-semibold hover:underline cursor-pointer">Manage Fleet →</button>
           </div>
 
-          {assets.length === 0 ? (
+            {assets.length === 0 ? (
             <div className="text-xs text-slate-600 py-6 text-center w-full">No assets registered.</div>
           ) : (
-            <div className="divide-y divide-slate-300/60 w-full">
+            <div className="divide-y divide-slate-200 w-full">
               {assets.slice(0, 3).map((asset) => (
                 <div key={asset.id} className="py-2.5 flex items-center justify-between text-xs w-full">
                   <div>
