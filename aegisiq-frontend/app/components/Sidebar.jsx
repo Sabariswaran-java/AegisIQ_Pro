@@ -17,14 +17,14 @@ const BrandLogo = () => (
 
 export default function Sidebar({ activeTab, setActiveTab }) {
   return (
-    <aside className="w-60 bg-[#0d1424] border-r border-[#1a233a] flex flex-col justify-between h-screen sticky top-0 shrink-0 z-40 select-none overflow-hidden">
+    <aside className="w-60 bg-[#d4e3e5] border-r border-slate-300/80 flex flex-col justify-between h-screen sticky top-0 shrink-0 z-40 select-none overflow-hidden text-[#1e293b]">
       <div>
-        <div className="p-3.5 border-b border-[#1a233a] bg-[#0b0f19]">
+        <div className="p-3.5 border-b border-slate-300/80 bg-[#e2eeef]">
           <BrandLogo />
         </div>
 
         <div className="p-3 space-y-1 text-xs">
-          <div className="px-3 pt-3 pb-1 text-[10px] font-semibold text-slate-400 uppercase tracking-wider font-mono">
+          <div className="px-3 pt-3 pb-1 text-[10px] font-semibold text-slate-500 uppercase tracking-wider font-mono">
             Platform
           </div>
           {[
@@ -42,19 +42,19 @@ export default function Sidebar({ activeTab, setActiveTab }) {
                 onClick={() => setActiveTab(nav.id)}
                 className={`w-full flex items-center justify-between px-3.5 py-2 rounded-xl text-xs transition-all duration-200 cursor-pointer outline-none focus:outline-none ${
                   isActive 
-                    ? "bg-[#0ea5e9] text-white font-semibold shadow-lg shadow-[#0ea5e9]/25 border border-[#38bdf8]/30" 
-                    : "text-slate-400 hover:bg-[#131a2b] hover:text-slate-200 border border-transparent"
+                    ? "bg-[#0d6963] text-white font-semibold shadow-md shadow-[#0d6963]/30 border border-white/60" 
+                    : "text-slate-700 hover:bg-[#e2eeef] hover:text-[#1e293b] border border-transparent"
                 }`}
               >
                 <div className="flex items-center space-x-2.5">
-                  <Icon className={`h-4 w-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                  <Icon className={`h-4 w-4 ${isActive ? 'text-white' : 'text-slate-600'}`} />
                   <span>{nav.label}</span>
                 </div>
               </button>
             );
           })}
 
-          <div className="pt-3 pb-1 px-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider font-mono">
+          <div className="pt-3 pb-1 px-3 text-[10px] font-semibold text-slate-500 uppercase tracking-wider font-mono">
             AI Intelligence
           </div>
           {[
@@ -73,12 +73,12 @@ export default function Sidebar({ activeTab, setActiveTab }) {
                 onClick={() => setActiveTab(nav.id)}
                 className={`w-full flex items-center justify-between px-3.5 py-2 rounded-xl text-xs transition-all duration-200 cursor-pointer outline-none focus:outline-none ${
                   isActive 
-                    ? "bg-[#0ea5e9] text-white font-semibold shadow-lg shadow-[#0ea5e9]/25 border border-[#38bdf8]/30" 
-                    : "text-slate-400 hover:bg-[#131a2b] hover:text-slate-200 border border-transparent"
+                    ? "bg-[#0d6963] text-white font-semibold shadow-md shadow-[#0d6963]/30 border border-white/60" 
+                    : "text-slate-700 hover:bg-[#e2eeef] hover:text-[#1e293b] border border-transparent"
                 }`}
               >
                 <div className="flex items-center space-x-2.5">
-                  <Icon className={`h-4 w-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                  <Icon className={`h-4 w-4 ${isActive ? 'text-white' : 'text-slate-600'}`} />
                   <span>{nav.label}</span>
                 </div>
               </button>
@@ -87,12 +87,12 @@ export default function Sidebar({ activeTab, setActiveTab }) {
         </div>
       </div>
 
-      <div className="p-3.5 border-t border-[#1a233a] bg-[#0b0f19] text-xs shrink-0">
+      <div className="p-3.5 border-t border-slate-300/80 bg-[#e2eeef] text-xs shrink-0">
         <div className="flex items-center space-x-2">
-          <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span className="text-slate-300 font-medium">Cluster Active</span>
+          <span className="h-2 w-2 rounded-full bg-[#0d6963] animate-pulse"></span>
+          <span className="text-[#1e293b] font-medium">Cluster Active</span>
         </div>
-        <span className="text-[10px] text-slate-400 font-mono mt-0.5 block">Telemetry: Dynamic Hz</span>
+        <span className="text-[10px] text-slate-600 font-mono mt-0.5 block">Telemetry: Dynamic Hz</span>
       </div>
     </aside>
   );
