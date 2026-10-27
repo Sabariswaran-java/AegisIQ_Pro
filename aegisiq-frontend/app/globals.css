@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  /* CoachPro Soft Teal / Glassmorphism Theme Colors */
-  --background: #d8e6e7;        /* Soft Mint/Teal Light Background */
-  --foreground: #1e293b;        /* Deep Slate Dark Text */
+  /* Exact CoachPro Neumorphic / Glassmorphism Palette */
+  --background: #d4e3e5;        /* Pale Mint-Teal Ambient Background */
+  --foreground: #1e293b;        /* Dark Slate Text */
   
   /* UI Surface & Glass Cards */
-  --card-bg: #edf3f3;           /* Soft Translucent Glass Card Surface */
-  --card-border: #ffffff;       /* Clean White Soft Borders */
+  --card-bg: #e2eeef;           /* Soft Raised Card Surface */
+  --card-border: rgba(255, 255, 255, 0.7); /* Subtle Light Edge */
   
-  /* Teal / Mint Accents */
-  --accent-sea-blue: #0f766e;   /* Deep Teal Primary Accent */
-  --accent-sea-hover: #115e59;  /* Darker Teal for Hover */
-  --accent-cyan-glow: #14b8a6;  /* Vibrant Mint Highlight */
+  /* Rich Teal & Mint Accents */
+  --accent-sea-blue: #0d6963;   /* Deep Teal Primary */
+  --accent-sea-hover: #0a524d;  /* Darker Teal for Hover */
+  --accent-cyan-glow: #14b8a6;  /* Vibrant Teal Highlight */
 }
 
 @theme inline {
@@ -20,6 +20,11 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  /* Custom color tokens for Tailwind classes */
+  --color-card-bg: var(--card-bg);
+  --color-card-border: var(--card-border);
+  --color-accent-teal: var(--accent-sea-blue);
 }
 
 body {
@@ -27,6 +32,19 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
   overflow-x: hidden;
+}
+
+/* Neumorphic / Soft UI Card & Button Depth Effects */
+.neo-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: 6px 6px 16px rgba(163, 177, 198, 0.4), 
+              -6px -6px 16px rgba(255, 255, 255, 0.8);
+}
+
+.neo-button-active {
+  background: linear-gradient(135deg, #0d6963 0%, #115e59 100%);
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Sidebar & Navigation Button Focus Styling */
@@ -44,21 +62,21 @@ button:focus-visible {
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Teal-Tinted Scrollbar */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #d8e6e7;
+  background: #d4e3e5;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #bcd0d2;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #0f766e; /* Teal Hover Glow */
+  background: #0d6963;
 }
