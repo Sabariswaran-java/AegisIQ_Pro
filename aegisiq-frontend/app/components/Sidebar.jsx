@@ -3,13 +3,13 @@ import Image from "next/image";
 import { LayoutDashboard, Database, Activity, Bell, FileText, GitFork, Cpu, Sliders, HelpCircle, History, Rocket } from "lucide-react";
 
 const BrandLogo = () => (
-  <div className="flex items-center justify-start w-full px-1">
+  <div className="flex items-center justify-center w-full px-2 py-0.5">
     <Image 
       src="/AegisIQ logo.png" 
       alt="AegisIQ Logo" 
-      width={600} 
-      height={100} 
-      className="object-contain h-140 w-[180px] object-contain"
+      width={260} 
+      height={80} 
+      className="object-contain h-11 w-full"
       priority
     />
   </div>
@@ -17,10 +17,10 @@ const BrandLogo = () => (
 
 export default function Sidebar({ activeTab, setActiveTab }) {
   return (
-    <aside className="w-60 bg-[#d4e3e5] border-r border-slate-300/80 flex flex-col justify-between h-screen sticky top-0 shrink-0 z-40 select-none overflow-hidden text-[#1e293b]">
+    <aside className="w-60 bg-[#d4e3e5] border-r border-slate-200/80 flex flex-col justify-between h-screen sticky top-0 shrink-0 z-40 select-none overflow-hidden text-[#1e293b] shadow-xs">
       <div>
-        {/* DevTools measurement-ku match agura Brand Header Block */}
-        <div className="h-14 px-3 border-b border-slate-300/80 bg-[#d4e3e5] flex items-center justify-start">
+        {/* Uniform Soft Mint Sidebar Header Block */}
+        <div className="h-14 px-2 border-b border-slate-200/80 bg-[#d4e3e5] flex items-center justify-center">
           <BrandLogo />
         </div>
 
@@ -88,7 +88,7 @@ export default function Sidebar({ activeTab, setActiveTab }) {
         </div>
       </div>
 
-      <div className="p-3.5 border-t border-slate-300/80 bg-[#e2eeef] text-xs shrink-0">
+      <div className="p-3.5 border-t border-slate-200/80 bg-[#d4e3e5] text-xs shrink-0">
         <div className="flex items-center space-x-2">
           <span className="h-2 w-2 rounded-full bg-[#0d6963] animate-pulse"></span>
           <span className="text-[#1e293b] font-medium">Cluster Active</span>
