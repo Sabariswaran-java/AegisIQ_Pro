@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  /* IndustryOS Deep Slate Theme Colors */
-  --background: #0b0f19;         /* Deep Industry Dark Background */
-  --foreground: #f8fafc;         /* Crisp White Text */
+  /* CoachPro Soft Teal / Glassmorphism Theme Colors */
+  --background: #d8e6e7;        /* Soft Mint/Teal Light Background */
+  --foreground: #1e293b;        /* Deep Slate Dark Text */
   
-  /* UI Surface & Borders */
-  --card-bg: #131a2b;          /* Sleek Card Surface */
-  --card-border: #1e293b;      /* Subtle Clean Borders */
+  /* UI Surface & Glass Cards */
+  --card-bg: #edf3f3;           /* Soft Translucent Glass Card Surface */
+  --card-border: #ffffff;       /* Clean White Soft Borders */
   
-  /* Sea Blue / Cyan Accents */
-  --accent-sea-blue: #0ea5e9;  /* Primary Sea Blue Accent */
-  --accent-sea-hover: #0284c7; /* Darker Sea Blue for Hover */
-  --accent-cyan-glow: #38bdf8;  /* Vibrant Cyan Highlight */
+  /* Teal / Mint Accents */
+  --accent-sea-blue: #0f766e;   /* Deep Teal Primary Accent */
+  --accent-sea-hover: #115e59;  /* Darker Teal for Hover */
+  --accent-cyan-glow: #14b8a6;  /* Vibrant Mint Highlight */
 }
 
 @theme inline {
@@ -44,21 +44,21 @@ button:focus-visible {
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Industrial Sea-Blue Scrollbar */
+/* Custom Teal-Tinted Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0b0f19;
+  background: #d8e6e7;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #cbd5e1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #0ea5e9; /* Sea Blue Hover Glow */
+  background: #0f766e; /* Teal Hover Glow */
 }
