@@ -7,9 +7,9 @@ const BrandLogo = () => (
     <Image 
       src="/AegisIQ logo.png" 
       alt="AegisIQ Logo" 
-      width={360} 
-      height={180} 
-      className="object-contain h-10 w-full"
+      width={600} 
+      height={100} 
+      className="object-contain h-140 w-full"
       priority
     />
   </div>
