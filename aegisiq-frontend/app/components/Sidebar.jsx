@@ -9,7 +9,7 @@ const BrandLogo = () => (
       alt="AegisIQ Logo" 
       width={600} 
       height={100} 
-      className="object-contain h-140 w-full"
+      className="object-contain h-140 w-[200px] object-contain"
       priority
     />
   </div>
