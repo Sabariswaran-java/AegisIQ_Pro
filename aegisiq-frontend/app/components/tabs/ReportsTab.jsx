@@ -1,7 +1,7 @@
 import React from "react";
 import { Download } from "lucide-react";
 
-export default function ReportsTab({ assets ,syncData}) {
+export default function ReportsTab({ assets, syncData }) {
   const totalAssetsCount = assets.length;
   const healthyAssets = assets.filter((a) => a.status === "HEALTHY");
   const warningAssets = assets.filter((a) => a.status === "WARNING");
@@ -25,53 +25,53 @@ export default function ReportsTab({ assets ,syncData}) {
   };
 
   return (
-    <div className="space-y-6 w-full">
+    <div className="space-y-6 w-full text-[#1e293b]">
       <div className="flex justify-between items-center w-full">
         <div>
-          <h2 className="text-base font-bold text-white tracking-tight">System Audit & Fleet Reports</h2>
-          <p className="text-xs text-slate-400">Comprehensive operational overview, compliance audits, and telemetry summaries.</p>
+          <h2 className="text-base font-bold text-[#1e293b] tracking-tight">System Audit & Fleet Reports</h2>
+          <p className="text-xs text-slate-600">Comprehensive operational overview, compliance audits, and telemetry summaries.</p>
         </div>
         <button 
           onClick={exportReportCSV}
-          className="px-4 py-2.5 bg-[#1B2538] hover:bg-[#253450] border border-[#2E3F5E] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition flex items-center gap-2 cursor-pointer shadow-md"
+          className="px-4 py-2.5 bg-[#0d6963] hover:bg-[#0b5752] border border-white/70 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition flex items-center gap-2 cursor-pointer shadow-md"
         >
           <Download className="h-3.5 w-3.5" /> Export Audit CSV
         </button>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
-        <div className="bg-[#0E131F] border border-[#1E293B] p-4 rounded-xl space-y-1">
-          <span className="text-[11px] text-slate-400 block font-medium">Total Tracked Nodes</span>
-          <div className="text-2xl font-bold text-white font-mono">{totalAssetsCount}</div>
-          <span className="text-[10px] text-emerald-400">100% Synchronized</span>
+        <div className="bg-[#e2eeef] border border-white/80 p-4 rounded-xl space-y-1 shadow-[4px_4px_14px_rgba(163,177,198,0.3)]">
+          <span className="text-[11px] text-slate-600 block font-medium">Total Tracked Nodes</span>
+          <div className="text-2xl font-bold text-[#1e293b] font-mono">{totalAssetsCount}</div>
+          <span className="text-[10px] text-[#0d6963] font-semibold">100% Synchronized</span>
         </div>
-        <div className="bg-[#0E131F] border border-[#1E293B] p-4 rounded-xl space-y-1">
-          <span className="text-[11px] text-slate-400 block font-medium">Nominal Healthy Nodes</span>
-          <div className="text-2xl font-bold text-emerald-400 font-mono">{healthyCount}</div>
+        <div className="bg-[#e2eeef] border border-white/80 p-4 rounded-xl space-y-1 shadow-[4px_4px_14px_rgba(163,177,198,0.3)]">
+          <span className="text-[11px] text-slate-600 block font-medium">Nominal Healthy Nodes</span>
+          <div className="text-2xl font-bold text-[#0d6963] font-mono">{healthyCount}</div>
           <span className="text-[10px] text-slate-500">Operating within SLA</span>
         </div>
-        <div className="bg-[#0E131F] border border-[#1E293B] p-4 rounded-xl space-y-1">
-          <span className="text-[11px] text-slate-400 block font-medium">Active Anomalies</span>
-          <div className="text-2xl font-bold text-amber-400 font-mono">{faultyAssets.length}</div>
+        <div className="bg-[#e2eeef] border border-white/80 p-4 rounded-xl space-y-1 shadow-[4px_4px_14px_rgba(163,177,198,0.3)]">
+          <span className="text-[11px] text-slate-600 block font-medium">Active Anomalies</span>
+          <div className="text-2xl font-bold text-amber-700 font-mono">{faultyAssets.length}</div>
           <span className="text-[10px] text-slate-500">Requires attention</span>
         </div>
-        <div className="bg-[#0E131F] border border-[#1E293B] p-4 rounded-xl space-y-1">
-          <span className="text-[11px] text-slate-400 block font-medium">Average Fleet Temp</span>
-          <div className="text-2xl font-bold text-white font-mono">{avgTemp}°C</div>
+        <div className="bg-[#e2eeef] border border-white/80 p-4 rounded-xl space-y-1 shadow-[4px_4px_14px_rgba(163,177,198,0.3)]">
+          <span className="text-[11px] text-slate-600 block font-medium">Average Fleet Temp</span>
+          <div className="text-2xl font-bold text-[#1e293b] font-mono">{avgTemp}°C</div>
           <span className="text-[10px] text-slate-500">Normal Range &lt; 65°C</span>
         </div>
       </div>
 
-      <div className="bg-[#0E131F] border border-[#1E293B] p-5 rounded-2xl space-y-4 shadow-md w-full">
-        <div className="flex justify-between items-center border-b border-[#1E293B] pb-3 w-full">
-          <h3 className="text-xs font-bold text-white uppercase tracking-wider">Fleet Operational Audit Ledger</h3>
-         <span className="text-[11px] text-slate-400 font-mono">Database Source: Active (Cloud / Supabase)</span>
+      <div className="bg-[#e2eeef] border border-white/80 p-5 rounded-2xl space-y-4 shadow-[6px_6px_20px_rgba(163,177,198,0.3)] w-full">
+        <div className="flex justify-between items-center border-b border-slate-300/80 pb-3 w-full">
+          <h3 className="text-xs font-bold text-[#1e293b] uppercase tracking-wider">Fleet Operational Audit Ledger</h3>
+         <span className="text-[11px] text-slate-600 font-mono">Database Source: Active (Cloud / Supabase)</span>
         </div>
 
         <div className="overflow-x-auto w-full">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="border-b border-[#1E293B] text-slate-400 font-mono text-[10px] uppercase">
+              <tr className="border-b border-slate-300/80 text-slate-600 font-mono text-[10px] uppercase">
                 <th className="pb-3 font-semibold">Node ID</th>
                 <th className="pb-3 font-semibold">Asset Tag</th>
                 <th className="pb-3 font-semibold">Type</th>
@@ -82,24 +82,24 @@ export default function ReportsTab({ assets ,syncData}) {
                 <th className="pb-3 font-semibold">Vibration</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#161F30] font-mono">
+            <tbody className="divide-y divide-slate-300/60 font-mono">
               {assets.map((asset) => (
-                <tr key={asset.id} className="hover:bg-[#141B2B]/50 transition">
-                  <td className="py-3 text-slate-400">#NODE-{asset.id}</td>
-                  <td className="py-3 font-bold text-white">{asset.name}</td>
-                  <td className="py-3 text-slate-300">{asset.type}</td>
+                <tr key={asset.id} className="hover:bg-white/40 transition">
+                  <td className="py-3 text-slate-600">#NODE-{asset.id}</td>
+                  <td className="py-3 font-bold text-[#1e293b]">{asset.name}</td>
+                  <td className="py-3 text-slate-700">{asset.type}</td>
                   <td className="py-3">
                     <span className={`text-[9px] px-2 py-0.5 rounded font-semibold uppercase ${
-                      asset.status === 'HEALTHY' ? 'bg-emerald-500/20 text-emerald-400' : 
-                      asset.status === 'WARNING' ? 'bg-amber-500/20 text-amber-400' : 'bg-rose-500/20 text-rose-400'
+                      asset.status === 'HEALTHY' ? 'bg-[#0d6963]/20 text-[#0d6963]' : 
+                      asset.status === 'WARNING' ? 'bg-amber-500/20 text-amber-700' : 'bg-rose-500/20 text-rose-600'
                     }`}>
                       {asset.status}
                     </span>
                   </td>
-                  <td className="py-3 text-slate-200">{asset.cpuUsage ?? 0}%</td>
-                  <td className="py-3 text-slate-200">{asset.memoryUsage ?? 0}%</td>
-                  <td className="py-3 text-slate-200">{asset.temperature ?? 0}°C</td>
-                  <td className="py-3 text-slate-200">{asset.vibration ?? 0} g</td>
+                  <td className="py-3 text-[#1e293b]">{asset.cpuUsage ?? 0}%</td>
+                  <td className="py-3 text-[#1e293b]">{asset.memoryUsage ?? 0}%</td>
+                  <td className="py-3 text-[#1e293b]">{asset.temperature ?? 0}°C</td>
+                  <td className="py-3 text-[#1e293b]">{asset.vibration ?? 0} g</td>
                 </tr>
               ))}
             </tbody>
