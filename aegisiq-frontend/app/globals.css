@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  /* Exact CoachPro Soft Teal / Glassmorphism Palette */
-  --background: #d4e3e5;        /* Soft Mint-Teal Ambient Background */
-  --foreground: #1e293b;        /* Deep Slate Dark Text */
+  /* Pure White Background with Mint-Teal Blend */
+  --background: #ffffff;         /* Pure Clean White Main Background */
+  --foreground: #1e293b;         /* Deep Slate Dark Text */
   
-  /* UI Surface & Glass Cards */
-  --card-bg: #e2eeef;           /* Light Raised Glass Card Surface */
-  --card-border: rgba(255, 255, 255, 0.7); /* Clean White Soft Borders */
+  /* UI Surface & Glass Cards - Soft Mint Tint over White */
+  --card-bg: #f0f5f6;            /* Light Soft Mint-White Card Surface */
+  --card-border: rgba(255, 255, 255, 0.9); /* Crisp White Soft Borders */
   
   /* Rich Teal & Mint Accents */
-  --accent-sea-blue: #0d6963;   /* Deep Teal Primary Accent[cite: 7] */
-  --accent-sea-hover: #0a524d;  /* Darker Teal for Hover */
-  --accent-cyan-glow: #14b8a6;  /* Vibrant Mint/Cyan Highlight[cite: 7] */
+  --accent-sea-blue: #0d6963;    /* Deep Teal Primary Accent[cite: 7] */
+  --accent-sea-hover: #0a524d;   /* Darker Teal for Hover */
+  --accent-cyan-glow: #14b8a6;   /* Vibrant Mint/Cyan Highlight[cite: 7] */
 }
 
 @theme inline {
@@ -37,8 +37,8 @@ body {
 .glass-card {
   background-color: var(--card-bg);
   border: 1px solid var(--card-border);
-  box-shadow: 6px 6px 16px rgba(163, 177, 198, 0.35), 
-              -6px -6px 16px rgba(255, 255, 255, 0.75);
+  box-shadow: 4px 4px 14px rgba(163, 177, 198, 0.25), 
+              -4px -4px 14px rgba(255, 255, 255, 0.9);
 }
 
 /* Sidebar & Navigation Button Focus Styling */
@@ -63,11 +63,11 @@ button:focus-visible {
 }
 
 ::-webkit-scrollbar-track {
-  background: #d4e3e5;
+  background: #ffffff;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #bcd0d2;
+  background: #d4e3e5;
   border-radius: 4px;
 }
 
