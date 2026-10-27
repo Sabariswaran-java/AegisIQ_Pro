@@ -55,12 +55,12 @@ export default function EnterpriseDashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0b0f19] text-[#F8FAFC] flex font-sans antialiased selection:bg-[#0ea5e9]/20 selection:text-white">
+    <div className="min-h-screen bg-background text-[#1e293b] flex font-sans antialiased selection:bg-[#0d6963]/20 selection:text-[#0d6963]">
       {/* Fixed Sidebar */}
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {/* Main Workspace Area */}
-      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto bg-[#0b0f19]">
+      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto bg-background">
         <TopNavbar 
           searchQuery={searchQuery} 
           setSearchQuery={setSearchQuery} 
@@ -69,7 +69,7 @@ export default function EnterpriseDashboard() {
           assets={assets} 
         />
 
-        <main className="px-6 pt-6 pb-8 space-y-6 flex-1 w-full bg-[#0b0f19]">
+        <main className="px-6 pt-6 pb-8 space-y-6 flex-1 w-full bg-background">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
