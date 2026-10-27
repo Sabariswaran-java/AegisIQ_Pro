@@ -22,9 +22,9 @@ export default function DashboardTab({ assets, setActiveTab }) {
     : "100.0";
 
   const dynamicDistributionData = [
-    { name: "Nominal", value: healthyCount, color: "#14B8A6" },
-    { name: "Warning", value: warningCount, color: "#F59E0B" },
-    { name: "Critical", value: criticalCount, color: "#F43F5E" },
+    { name: "Nominal", value: healthyCount, color: "#0d6963" },
+    { name: "Warning", value: warningCount, color: "#d97706" },
+    { name: "Critical", value: criticalCount, color: "#e11d48" },
   ];
 
   const [telemetryTrend, setTelemetryTrend] = useState([
@@ -50,12 +50,12 @@ export default function DashboardTab({ assets, setActiveTab }) {
   }, []);
 
   return (
-    <div className="space-y-6 w-full">
+    <div className="space-y-6 w-full text-[#1e293b]">
       <div className="w-full">
-        <h1 className="text-base font-bold text-white tracking-tight">
+        <h1 className="text-base font-bold text-[#1e293b] tracking-tight">
           Industrial Telemetry & Operational Health
         </h1>
-        <p className="text-xs text-slate-400 mt-0.5">
+        <p className="text-xs text-slate-600 mt-0.5">
           Real-time sensor monitoring across 50+ asset parameters and AI decision engines.
         </p>
       </div>
@@ -68,21 +68,21 @@ export default function DashboardTab({ assets, setActiveTab }) {
           { title: "Avg Temperature", val: `${avgTemp}°C`, desc: "Threshold < 65°C" },
           { title: "Downtime Cut", val: "25%", desc: "AI Decision Twin" },
         ].map((kpi, idx) => (
-          <div key={idx} className="bg-[#131a2b] border border-[#1e293b] p-4 rounded-xl space-y-1.5 shadow-sm hover:border-[#38bdf8]/30 transition-all">
-            <span className="text-xs text-slate-400 block font-medium">{kpi.title}</span>
-            <div className={`text-xl font-bold font-mono tracking-tight ${kpi.alert ? 'text-amber-400' : 'text-white'}`}>{kpi.val}</div>
-            <span className="text-[11px] text-slate-500 block pt-1 border-t border-[#1e293b]">{kpi.desc}</span>
+          <div key={idx} className="bg-[#e2eeef] border border-white/80 p-4 rounded-xl space-y-1.5 shadow-[4px_4px_12px_rgba(163,177,198,0.3),-4px_-4px_12px_rgba(255,255,255,0.7)] hover:border-[#0d6963]/30 transition-all">
+            <span className="text-xs text-slate-600 block font-medium">{kpi.title}</span>
+            <div className={`text-xl font-bold font-mono tracking-tight ${kpi.alert ? 'text-amber-700' : 'text-[#1e293b]'}`}>{kpi.val}</div>
+            <span className="text-[11px] text-slate-500 block pt-1 border-t border-slate-300/60">{kpi.desc}</span>
           </div>
         ))}
       </div>
 
       {/* Middle Section: Waveform & Distribution Donut */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 w-full">
-        <div className="lg:col-span-8 bg-[#131a2b] border border-[#1e293b] rounded-xl p-5 space-y-3 shadow-sm">
-          <div className="flex justify-between items-center border-b border-[#1e293b] pb-3 w-full">
+        <div className="lg:col-span-8 bg-[#e2eeef] border border-white/80 rounded-xl p-5 space-y-3 shadow-[4px_4px_12px_rgba(163,177,198,0.3),-4px_-4px_12px_rgba(255,255,255,0.7)]">
+          <div className="flex justify-between items-center border-b border-slate-300/60 pb-3 w-full">
             <div>
-              <span className="text-xs font-bold text-white">Live Telemetry Ingestion (50+ Parameters)</span>
-              <span className="text-[11px] text-slate-400 block mt-0.5">Aggregated Compute Load & Thermal Metrics</span>
+              <span className="text-xs font-bold text-[#1e293b]">Live Telemetry Ingestion (50+ Parameters)</span>
+              <span className="text-[11px] text-slate-600 block mt-0.5">Aggregated Compute Load & Thermal Metrics</span>
             </div>
           </div>
 
@@ -91,21 +91,21 @@ export default function DashboardTab({ assets, setActiveTab }) {
               <AreaChart data={telemetryTrend}>
                 <defs>
                   <linearGradient id="seaBlueGlow" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#0ea5e9" stopOpacity={0.35}/>
-                    <stop offset="95%" stopColor="#0ea5e9" stopOpacity={0.0}/>
+                    <stop offset="5%" stopColor="#0d6963" stopOpacity={0.4}/>
+                    <stop offset="95%" stopColor="#0d6963" stopOpacity={0.0}/>
                   </linearGradient>
                 </defs>
-                <XAxis dataKey="time" stroke="#475569" fontSize={11} tickLine={false} />
-                <YAxis stroke="#475569" fontSize={11} tickLine={false} domain={[0, 100]} />
-                <Tooltip contentStyle={{ backgroundColor: "#0d1424", borderColor: "#1e293b", borderRadius: "8px", fontSize: "11px", color: "#F8FAFC" }} />
-                <Area type="monotone" dataKey="val" stroke="#38bdf8" strokeWidth={2} fillOpacity={1} fill="url(#seaBlueGlow)" isAnimationActive={true} />
+                <XAxis dataKey="time" stroke="#64748b" fontSize={11} tickLine={false} />
+                <YAxis stroke="#64748b" fontSize={11} tickLine={false} domain={[0, 100]} />
+                <Tooltip contentStyle={{ backgroundColor: "#e2eeef", borderColor: "#ffffff", borderRadius: "8px", fontSize: "11px", color: "#1e293b", boxShadow: "4px 4px 10px rgba(163,177,198,0.4)" }} />
+                <Area type="monotone" dataKey="val" stroke="#0d6963" strokeWidth={2} fillOpacity={1} fill="url(#seaBlueGlow)" isAnimationActive={true} />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        <div className="lg:col-span-4 bg-[#131a2b] border border-[#1e293b] rounded-xl p-5 flex flex-col justify-between shadow-sm">
-          <span className="text-xs font-bold text-white">Fleet Distribution</span>
+        <div className="lg:col-span-4 bg-[#e2eeef] border border-white/80 rounded-xl p-5 flex flex-col justify-between shadow-[4px_4px_12px_rgba(163,177,198,0.3),-4px_-4px_12px_rgba(255,255,255,0.7)]">
+          <span className="text-xs font-bold text-[#1e293b]">Fleet Distribution</span>
           <div className="h-36 w-full relative flex items-center justify-center my-1">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -117,18 +117,18 @@ export default function DashboardTab({ assets, setActiveTab }) {
               </PieChart>
             </ResponsiveContainer>
             <div className="absolute text-center pointer-events-none">
-              <span className="text-lg font-bold text-white font-mono">{totalAssetsCount}</span>
-              <span className="text-[9px] text-slate-400 uppercase block font-mono">Nodes</span>
+              <span className="text-lg font-bold text-[#1e293b] font-mono">{totalAssetsCount}</span>
+              <span className="text-[9px] text-slate-600 uppercase block font-mono">Nodes</span>
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-2 pt-2 border-t border-[#1e293b] w-full text-xs">
+          <div className="grid grid-cols-3 gap-2 pt-2 border-t border-slate-300/60 w-full text-xs">
             {dynamicDistributionData.map((d, i) => (
-              <div key={i} className="bg-[#0e1320] border border-[#1e293b] p-2 rounded-lg flex flex-col justify-between">
+              <div key={i} className="bg-[#d4e3e5] border border-white/70 p-2 rounded-lg flex flex-col justify-between">
                 <div className="flex items-center space-x-1.5">
                   <span className="h-2 w-2 rounded-full" style={{ backgroundColor: d.color }}></span>
-                  <span className="text-slate-400 text-[11px] font-medium">{d.name}</span>
+                  <span className="text-slate-700 text-[11px] font-medium">{d.name}</span>
                 </div>
-                <span className="text-slate-100 font-bold text-sm mt-1 font-mono">{d.value}</span>
+                <span className="text-[#1e293b] font-bold text-sm mt-1 font-mono">{d.value}</span>
               </div>
             ))}
           </div>
@@ -144,33 +144,33 @@ export default function DashboardTab({ assets, setActiveTab }) {
           { label: "Acoustic Decibel", val: "44.1 dB", status: "Standard Noise" },
           { label: "Failover Headroom", val: "94.2%", status: "Safe Redundancy" },
         ].map((gauge, idx) => (
-          <div key={idx} className="bg-[#131a2b] border border-[#1e293b] p-3.5 rounded-xl space-y-1 shadow-sm hover:border-[#38bdf8]/30 transition-all">
-            <span className="text-[11px] text-slate-400 font-medium block truncate">{gauge.label}</span>
-            <div className="text-sm font-semibold text-white font-mono">{gauge.val}</div>
+          <div key={idx} className="bg-[#e2eeef] border border-white/80 p-3.5 rounded-xl space-y-1 shadow-[4px_4px_12px_rgba(163,177,198,0.3),-4px_-4px_12px_rgba(255,255,255,0.7)] hover:border-[#0d6963]/30 transition-all">
+            <span className="text-[11px] text-slate-600 font-medium block truncate">{gauge.label}</span>
+            <div className="text-sm font-semibold text-[#1e293b] font-mono">{gauge.val}</div>
             <span className="text-[10px] text-slate-500 block">{gauge.status}</span>
           </div>
         ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 w-full">
-        <div className="bg-[#131a2b] border border-[#1e293b] rounded-xl p-5 space-y-3 shadow-sm w-full">
-          <div className="flex justify-between items-center border-b border-[#1e293b] pb-2.5 w-full">
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider">Priority Alerts</h3>
-            <button onClick={() => setActiveTab("alerts")} className="text-[11px] text-[#38bdf8] hover:underline cursor-pointer">View All →</button>
+        <div className="bg-[#e2eeef] border border-white/80 rounded-xl p-5 space-y-3 shadow-[4px_4px_12px_rgba(163,177,198,0.3),-4px_-4px_12px_rgba(255,255,255,0.7)] w-full">
+          <div className="flex justify-between items-center border-b border-slate-300/60 pb-2.5 w-full">
+            <h3 className="text-xs font-bold text-[#1e293b] uppercase tracking-wider">Priority Alerts</h3>
+            <button onClick={() => setActiveTab("alerts")} className="text-[11px] text-[#0d6963] font-semibold hover:underline cursor-pointer">View All →</button>
           </div>
 
           {faultyAssets.length === 0 ? (
-            <div className="text-xs text-slate-500 py-6 text-center w-full">No active alerts registered.</div>
+            <div className="text-xs text-slate-600 py-6 text-center w-full">No active alerts registered.</div>
           ) : (
-            <div className="divide-y divide-[#1e293b] w-full">
+            <div className="divide-y divide-slate-300/60 w-full">
               {faultyAssets.slice(0, 3).map((item) => (
                 <div key={item.id} className="py-2.5 flex items-center justify-between text-xs w-full">
                   <div>
-                    <span className="font-medium text-slate-200 block">{item.name}</span>
-                    <span className="text-[11px] text-slate-400">Node: {item.type} • Temperature: {item.temperature || 44}°C</span>
+                    <span className="font-medium text-[#1e293b] block">{item.name}</span>
+                    <span className="text-[11px] text-slate-600">Node: {item.type} • Temperature: {item.temperature || 44}°C</span>
                   </div>
                   <span className={`text-[10px] font-semibold uppercase ${
-                    item.status === 'CRITICAL' ? 'text-rose-400' : 'text-amber-400'
+                    item.status === 'CRITICAL' ? 'text-rose-600' : 'text-amber-700'
                   }`}>
                     {item.status}
                   </span>
@@ -180,26 +180,26 @@ export default function DashboardTab({ assets, setActiveTab }) {
           )}
         </div>
 
-        <div className="bg-[#131a2b] border border-[#1e293b] rounded-xl p-5 space-y-3 shadow-sm w-full">
-          <div className="flex justify-between items-center border-b border-[#1e293b] pb-2.5 w-full">
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider">Fleet Inventory</h3>
-            <button onClick={() => setActiveTab("assets")} className="text-[11px] text-[#38bdf8] hover:underline cursor-pointer">Manage Fleet →</button>
+        <div className="bg-[#e2eeef] border border-white/80 rounded-xl p-5 space-y-3 shadow-[4px_4px_12px_rgba(163,177,198,0.3),-4px_-4px_12px_rgba(255,255,255,0.7)] w-full">
+          <div className="flex justify-between items-center border-b border-slate-300/60 pb-2.5 w-full">
+            <h3 className="text-xs font-bold text-[#1e293b] uppercase tracking-wider">Fleet Inventory</h3>
+            <button onClick={() => setActiveTab("assets")} className="text-[11px] text-[#0d6963] font-semibold hover:underline cursor-pointer">Manage Fleet →</button>
           </div>
 
           {assets.length === 0 ? (
-            <div className="text-xs text-slate-500 py-6 text-center w-full">No assets registered.</div>
+            <div className="text-xs text-slate-600 py-6 text-center w-full">No assets registered.</div>
           ) : (
-            <div className="divide-y divide-[#1e293b] w-full">
+            <div className="divide-y divide-slate-300/60 w-full">
               {assets.slice(0, 3).map((asset) => (
                 <div key={asset.id} className="py-2.5 flex items-center justify-between text-xs w-full">
                   <div>
-                    <span className="font-medium text-slate-200 block">{asset.name}</span>
-                    <span className="text-[11px] text-slate-400">Type: {asset.type}</span>
+                    <span className="font-medium text-[#1e293b] block">{asset.name}</span>
+                    <span className="text-[11px] text-slate-600">Type: {asset.type}</span>
                   </div>
                   <div className="flex items-center space-x-3 text-xs">
-                    <span className="text-slate-400">Load: <b className="text-slate-200 font-mono">{asset.cpuUsage || 0}%</b></span>
+                    <span className="text-slate-600">Load: <b className="text-[#1e293b] font-mono">{asset.cpuUsage || 0}%</b></span>
                     <span className={`text-[10px] font-semibold uppercase ${
-                      asset.status === 'HEALTHY' ? 'text-teal-400' : 'text-amber-400'
+                      asset.status === 'HEALTHY' ? 'text-[#0d6963]' : 'text-amber-700'
                     }`}>
                       {asset.status}
                     </span>
