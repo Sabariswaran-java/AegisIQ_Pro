@@ -44,21 +44,21 @@ export default function AlertsTab({ assets, setActiveTab }) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
-        <div className="bg-[#e2eeef] border border-white/80 p-5 rounded-xl space-y-1 shadow-[4px_4px_14px_rgba(163,177,198,0.3)]">
+        <div className="bg-white border border-slate-300 p-5 rounded-xl space-y-1 shadow-[4px_4px_12px_rgba(163,177,198,0.15)]">
           <span className="text-xs text-slate-600 font-medium block">Critical Alerts</span>
           <div className="flex items-end gap-3">
             <div className="text-3xl font-bold text-[#1e293b] font-mono">{criticalCount}</div>
             <span className="text-[10px] text-slate-500 mb-1">Immediate action req.</span>
           </div>
         </div>
-        <div className="bg-[#e2eeef] border border-white/80 p-5 rounded-xl space-y-1 shadow-[4px_4px_14px_rgba(163,177,198,0.3)]">
+        <div className="bg-white border border-slate-300 p-5 rounded-xl space-y-1 shadow-[4px_4px_12px_rgba(163,177,198,0.15)]">
           <span className="text-xs text-slate-600 font-medium block">System Warnings</span>
           <div className="flex items-end gap-3">
             <div className="text-3xl font-bold text-[#1e293b] font-mono">{warningCount}</div>
             <span className="text-[10px] text-slate-500 mb-1">Observation needed</span>
           </div>
         </div>
-        <div className="bg-[#e2eeef] border border-white/80 p-5 rounded-xl space-y-1 shadow-[4px_4px_14px_rgba(163,177,198,0.3)]">
+        <div className="bg-white border border-slate-300 p-5 rounded-xl space-y-1 shadow-[4px_4px_12px_rgba(163,177,198,0.15)]">
           <span className="text-xs text-slate-600 font-medium block">Overall Fleet SLA</span>
           <div className="flex items-end gap-3">
             <div className="text-3xl font-bold text-[#1e293b] font-mono">{systemHealthPercentage}%</div>
@@ -68,9 +68,9 @@ export default function AlertsTab({ assets, setActiveTab }) {
       </div>
 
       <div className="space-y-3 w-full">
-        <h3 className="text-xs font-bold text-[#1e293b] uppercase tracking-wider border-b border-slate-300/80 pb-2">Faulty Assets Action Required</h3>
+        <h3 className="text-xs font-bold text-[#1e293b] uppercase tracking-wider border-b border-slate-300 pb-2">Faulty Assets Action Required</h3>
         {faultyAssets.length === 0 ? (
-          <div className="bg-[#e2eeef] border border-white/80 p-10 rounded-xl flex flex-col items-center justify-center text-center space-y-3 w-full shadow-[4px_4px_14px_rgba(163,177,198,0.3)]">
+          <div className="bg-white border border-slate-300 p-10 rounded-xl flex flex-col items-center justify-center text-center space-y-3 w-full shadow-[4px_4px_12px_rgba(163,177,198,0.15)]">
             <ShieldCheck className="h-10 w-10 text-[#0d6963]" />
             <div>
               <span className="text-sm font-bold text-[#1e293b] block">All Systems Nominal</span>
@@ -90,15 +90,15 @@ export default function AlertsTab({ assets, setActiveTab }) {
             const isCurrentPriority = index === firstUnresolvedIndex;
 
             const cardBorderClass = isResolved 
-              ? 'border-l-emerald-600 bg-[#e2eeef]/70 opacity-70' 
+              ? 'border-l-emerald-600 bg-white/70 opacity-70' 
               : isCurrentPriority 
-              ? 'border-l-rose-600 bg-[#e2eeef] shadow-[6px_6px_20px_rgba(163,177,198,0.4)] ring-1 ring-rose-500/40' 
-              : 'border-l-slate-400 bg-[#e2eeef] opacity-60';
+              ? 'border-l-rose-600 bg-white shadow-[6px_6px_20px_rgba(163,177,198,0.25)] ring-1 ring-rose-500/40' 
+              : 'border-l-slate-400 bg-white opacity-60';
 
             return (
               <div 
                 key={asset.id} 
-                className={`border-l-4 border-slate-300 p-5 rounded-xl flex flex-col md:flex-row md:items-center justify-between shadow-[4px_4px_14px_rgba(163,177,198,0.3)] gap-4 transition-all duration-300 w-full ${cardBorderClass}`}
+                className={`border-l-4 border-slate-300 p-5 rounded-xl flex flex-col md:flex-row md:items-center justify-between shadow-[4px_4px_12px_rgba(163,177,198,0.15)] gap-4 transition-all duration-300 w-full ${cardBorderClass}`}
               >
                 <div className="flex items-start gap-4">
                   <div className={`p-3 rounded-lg mt-0.5 shrink-0 ${isResolved ? 'bg-emerald-500/10 text-emerald-700' : asset.status === 'CRITICAL' ? 'bg-rose-500/10 text-rose-600' : 'bg-amber-500/10 text-amber-700'}`}>
@@ -110,7 +110,7 @@ export default function AlertsTab({ assets, setActiveTab }) {
                       <span className={`text-[9px] px-2 py-0.5 rounded font-bold uppercase tracking-wide ${asset.status === 'CRITICAL' ? 'bg-rose-500/20 text-rose-600' : 'bg-amber-500/20 text-amber-700'}`}>
                         {asset.status}
                       </span>
-                      <span className="text-[9px] bg-[#d4e3e5] text-slate-700 border border-white/80 px-2 py-0.5 rounded font-mono font-bold shadow-xs">
+                      <span className="text-[9px] bg-slate-100 text-slate-700 border border-slate-300 px-2 py-0.5 rounded font-mono font-bold shadow-xs">
                         PRIORITY #{index + 1}
                       </span>
                     </div>
@@ -133,10 +133,10 @@ export default function AlertsTab({ assets, setActiveTab }) {
                     disabled={!isCurrentPriority && !isResolved}
                     className={`px-4 py-2 border text-xs font-semibold rounded-lg transition text-center w-full flex items-center justify-center gap-1.5 ${
                       isResolved 
-                        ? 'bg-[#d4e3e5] border-slate-300 text-slate-400 cursor-default'
+                        ? 'bg-slate-100 border-slate-300 text-slate-400 cursor-default'
                         : isCurrentPriority
-                        ? 'bg-[#d4e3e5] hover:bg-slate-200 border-rose-500/50 text-[#1e293b] cursor-pointer shadow-xs'
-                        : 'bg-[#d4e3e5] border-slate-300 text-slate-500 cursor-not-allowed'
+                        ? 'bg-slate-50 hover:bg-slate-100 border-rose-500/50 text-[#1e293b] cursor-pointer shadow-xs'
+                        : 'bg-slate-100 border-slate-300 text-slate-500 cursor-not-allowed'
                     }`}
                   >
                     <ShieldAlert className="h-3 w-3" />
@@ -151,7 +151,7 @@ export default function AlertsTab({ assets, setActiveTab }) {
                         ? 'bg-emerald-100 border-emerald-300 text-emerald-700 cursor-default'
                         : isCurrentPriority
                         ? 'bg-[#0d6963] hover:bg-[#0b5752] border-white/70 text-white cursor-pointer shadow-md'
-                        : 'bg-[#d4e3e5] border-slate-300 text-slate-500 cursor-not-allowed'
+                        : 'bg-slate-100 border-slate-300 text-slate-500 cursor-not-allowed'
                     }`}
                   >
                     {isResolved ? (
