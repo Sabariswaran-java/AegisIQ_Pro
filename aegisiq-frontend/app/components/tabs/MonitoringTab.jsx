@@ -23,7 +23,7 @@ export default function MonitoringTab({ assets }) {
 
   return (
     <div className="space-y-5 w-full text-[#1e293b]">
-      <div className="flex justify-between items-center w-full border-b border-slate-300/85 pb-3">
+      <div className="flex justify-between items-center w-full border-b border-slate-300 pb-3">
         <div>
           <h2 className="text-base font-bold text-[#1e293b] tracking-tight flex items-center gap-2">
             <Radio className="h-4 w-4 text-[#0d6963] animate-pulse" />
@@ -42,21 +42,21 @@ export default function MonitoringTab({ assets }) {
           };
 
           return (
-            <div key={asset.id} className="bg-[#e2eeef] border border-white/80 p-4 rounded-xl space-y-3.5 shadow-[4px_4px_14px_rgba(163,177,198,0.3),-4px_-4px_14px_rgba(255,255,255,0.7)] w-full">
+            <div key={asset.id} className="bg-white border border-slate-300 p-4 rounded-xl space-y-3.5 shadow-[4px_4px_12px_rgba(163,177,198,0.15)] w-full">
               {/* Header - No duplicate top status */}
               <div className="flex justify-between items-center w-full">
                 <div>
                   <span className="font-semibold text-sm text-[#1e293b] block">{asset.name}</span>
                   <span className="text-[11px] text-slate-600 font-mono mt-0.5 block">TYPE: {asset.type}</span>
                 </div>
-                <div className="flex items-center gap-1.5 bg-[#d4e3e5] border border-white/80 px-2 py-1 rounded text-[10px] font-mono text-[#0d6963] shadow-sm">
+                <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-300 px-2 py-1 rounded text-[10px] font-mono text-[#0d6963] shadow-xs">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#0d6963] animate-pulse"></span>
                   <span>STREAM ACTIVE</span>
                 </div>
               </div>
 
               {/* Real Industrial Live Metrics Row */}
-              <div className="grid grid-cols-3 gap-2 bg-[#d4e3e5] border border-white/80 p-2.5 rounded-lg text-xs font-mono shadow-[inset_2px_2px_5px_rgba(163,177,198,0.2)]">
+              <div className="grid grid-cols-3 gap-2 bg-slate-50 border border-slate-300 p-2.5 rounded-lg text-xs font-mono shadow-[inset_2px_2px_4px_rgba(163,177,198,0.1)]">
                 <div>
                   <span className="text-[10px] text-slate-600 block">TEMP</span>
                   <span className="text-[#1e293b] font-bold">{telemetry.temp}°C</span>
@@ -72,7 +72,7 @@ export default function MonitoringTab({ assets }) {
               </div>
 
               {/* Single Bottom Status Row */}
-              <div className="pt-2.5 border-t border-slate-300/70 flex justify-between items-center text-xs font-mono text-slate-600">
+              <div className="pt-2.5 border-t border-slate-200 flex justify-between items-center text-xs font-mono text-slate-600">
                 <span className="flex items-center gap-1.5 text-[11px]">
                   <Activity className="h-3.5 w-3.5 text-slate-600" /> Sensor Stream
                 </span>
