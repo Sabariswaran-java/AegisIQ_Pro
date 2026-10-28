@@ -3,7 +3,8 @@ import { ChevronRight, AlertTriangle, Lock, RefreshCw, ZoomIn, ZoomOut } from "l
 import { useAegis } from "../../context/AegisContext";
 import apiClient from "../../services/api";
 
-export default function GraphTab({ assets = [], setActiveTab }) {
+export default function GraphTab({ assets, setActiveTab }) {
+  const safeAssets = assets || [];
   const { selectedAsset } = useAegis();
 
   const [executionOrder, setExecutionOrder] = useState([]);
@@ -15,14 +16,14 @@ export default function GraphTab({ assets = [], setActiveTab }) {
   const [nodePositions, setNodePositions] = useState({});
 
   useEffect(() => {
-    if (assets && assets.length > 0) {
+    if (safeAssets.length > 0) {
       const positions = {};
-      const total = assets.length;
+      const total = safeAssets.length;
       const centerX = 450;
       const centerY = 260;
       const radius = 190;
 
-      assets.forEach((asset, index) => {
+      safeAssets.forEach((asset, index) => {
         if (selectedAsset && asset.id === selectedAsset.id) {
           positions[asset.name] = { x: centerX, y: centerY };
         } else {
@@ -35,7 +36,7 @@ export default function GraphTab({ assets = [], setActiveTab }) {
       });
       setNodePositions(positions);
     }
-  }, [assets, selectedAsset]);
+  }, [safeAssets, selectedAsset]);
 
   const fetchDependencyOrder = async (nodesList, edgesList) => {
     try {
@@ -67,8 +68,8 @@ export default function GraphTab({ assets = [], setActiveTab }) {
   };
 
   useEffect(() => {
-    if (assets && assets.length > 0) {
-      const nodesList = assets.map((a) => a.name);
+    if (safeAssets.length > 0) {
+      const nodesList = safeAssets.map((a) => a.name);
       const edgesList = [];
       for (let i = 0; i < nodesList.length - 1; i++) {
         edgesList.push({ from: nodesList[i], to: nodesList[i + 1] });
@@ -77,11 +78,11 @@ export default function GraphTab({ assets = [], setActiveTab }) {
     }
     setHasSimulated(false);
     setImpactedNodes([]);
-  }, [assets, selectedAsset]);
+  }, [safeAssets, selectedAsset]);
 
   const handleRunSimulation = () => {
     if (!selectedAsset) return;
-    const nodesList = assets.map((a) => a.name);
+    const nodesList = safeAssets.map((a) => a.name);
     const edgesList = [];
     for (let i = 0; i < nodesList.length - 1; i++) {
       edgesList.push({ from: nodesList[i], to: nodesList[i + 1] });
@@ -151,9 +152,9 @@ export default function GraphTab({ assets = [], setActiveTab }) {
 
         <div className="relative w-full h-[540px] bg-slate-50/70 rounded-xl border border-slate-200 flex items-center justify-center overflow-hidden">
           <svg className="absolute inset-0 w-full h-full pointer-events-none">
-            {assets.map((asset, idx) => {
+            {safeAssets.map((asset, idx) => {
               if (idx === 0) return null;
-              const prevAsset = assets[idx - 1];
+              const prevAsset = safeAssets[idx - 1];
               const p1 = nodePositions[prevAsset.name];
               const p2 = nodePositions[asset.name];
 
@@ -185,7 +186,7 @@ export default function GraphTab({ assets = [], setActiveTab }) {
             })}
           </svg>
 
-          {assets.map((asset) => {
+          {safeAssets.map((asset) => {
             const pos = nodePositions[asset.name] || { x: 450, y: 260 };
             const isTarget = selectedAsset && asset.id === selectedAsset.id;
             const isImpacted = impactedNodes.includes(asset.name);
