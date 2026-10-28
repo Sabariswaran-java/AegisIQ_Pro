@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import { LayoutDashboard, Database, Activity, Bell, FileText, GitFork, Cpu, Sliders, HelpCircle, History, Rocket, Settings, User, Shield, LogOut, X } from "lucide-react";
+import { LayoutDashboard, Database, Activity, Bell, FileText, GitFork, Cpu, Sliders, HelpCircle, History, Rocket, Settings, User, Shield, X } from "lucide-react";
 
 const BrandLogo = () => (
   <div className="flex items-center justify-center w-full px-2 py-0.5">
@@ -91,15 +91,14 @@ export default function Sidebar({ activeTab, setActiveTab }) {
         </div>
       </div>
 
-      {/* Bottom Left User Profile & Interactive Settings Section */}
+      {/* Bottom Left Clean SVG User Profile & Interactive Settings Section */}
       <div className="p-3.5 border-t border-[#0a524d] bg-[#0a524d]/40 flex items-center justify-between shrink-0">
         <div className="flex items-center space-x-3 truncate">
-          <div className="h-8 w-8 rounded-lg bg-white text-[#0d6963] flex items-center justify-center shadow-sm shrink-0">
-            <User className="h-4 w-4" />
+          <div className="text-white flex items-center justify-center shrink-0">
+            <User className="h-5 w-5 text-teal-100" />
           </div>
           <div className="flex flex-col truncate">
             <span className="text-xs font-semibold text-white truncate">Sabariswaran M</span>
-            <span className="text-[10px] text-teal-200 font-mono">Full Stack Engineer</span>
           </div>
         </div>
         <button 
