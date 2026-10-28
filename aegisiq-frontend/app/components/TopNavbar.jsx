@@ -95,13 +95,6 @@ export default function TopNavbar({ searchQuery, setSearchQuery, syncData, isSyn
             </div>
           )}
         </div>
-
-        <div className="flex items-center space-x-2 pl-2 border-l border-slate-200">
-          <div className="h-7 w-7 rounded-lg bg-[#0d6963] text-white font-bold flex items-center justify-center text-xs shadow-sm">
-            S
-          </div>
-          <span className="text-xs font-medium text-[#1e293b]">Sabari</span>
-        </div>
       </div>
     </header>
   );
