@@ -72,34 +72,34 @@ export default function ReportsTab({ assets, syncData }) {
           <table className="w-full text-left text-xs">
             <thead>
               <tr className="border-b border-slate-200 text-slate-600 font-mono text-[10px] uppercase">
-                <th className="pb-3 font-semibold">Node ID</th>
-                <th className="pb-3 font-semibold">Asset Tag</th>
-                <th className="pb-3 font-semibold">Type</th>
-                <th className="pb-3 font-semibold">Status</th>
-                <th className="pb-3 font-semibold">CPU Load</th>
-                <th className="pb-3 font-semibold">Memory</th>
-                <th className="pb-3 font-semibold">Temp</th>
-                <th className="pb-3 font-semibold">Vibration</th>
+                <th className="py-3 px-4 font-semibold">Node ID</th>
+                <th className="py-3 px-4 font-semibold">Asset Tag</th>
+                <th className="py-3 px-4 font-semibold">Type</th>
+                <th className="py-3 px-4 font-semibold">Status</th>
+                <th className="py-3 px-4 font-semibold">CPU Load</th>
+                <th className="py-3 px-4 font-semibold">Memory</th>
+                <th className="py-3 px-4 font-semibold">Temp</th>
+                <th className="py-3 px-4 font-semibold">Vibration</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200 font-mono">
               {assets.map((asset) => (
                 <tr key={asset.id} className="hover:bg-slate-50 transition">
-                  <td className="py-3 text-slate-600">#NODE-{asset.id}</td>
-                  <td className="py-3 font-bold text-[#1e293b]">{asset.name}</td>
-                  <td className="py-3 text-slate-700">{asset.type}</td>
-                  <td className="py-3">
-                    <span className={`text-[9px] px-2 py-0.5 rounded font-semibold uppercase ${
-                      asset.status === 'HEALTHY' ? 'bg-[#0d6963]/20 text-[#0d6963]' : 
-                      asset.status === 'WARNING' ? 'bg-amber-500/20 text-amber-700' : 'bg-rose-500/20 text-rose-600'
+                  <td className="py-3 px-4 text-slate-600">NODE-{asset.id}</td>
+                  <td className="py-3 px-4 font-bold text-[#1e293b]">{asset.name}</td>
+                  <td className="py-3 px-4 text-slate-700">{asset.type}</td>
+                  <td className="py-3 px-4">
+                    <span className={`font-bold uppercase ${
+                      asset.status === 'HEALTHY' ? 'text-[#0d6963]' : 
+                      asset.status === 'WARNING' ? 'text-amber-700' : 'text-rose-600'
                     }`}>
                       {asset.status}
                     </span>
                   </td>
-                  <td className="py-3 text-[#1e293b]">{asset.cpuUsage ?? 0}%</td>
-                  <td className="py-3 text-[#1e293b]">{asset.memoryUsage ?? 0}%</td>
-                  <td className="py-3 text-[#1e293b]">{asset.temperature ?? 0}°C</td>
-                  <td className="py-3 text-[#1e293b]">{asset.vibration ?? 0} g</td>
+                  <td className="py-3 px-4 text-[#1e293b]">{asset.cpuUsage ?? 0}%</td>
+                  <td className="py-3 px-4 text-[#1e293b]">{asset.memoryUsage ?? 0}%</td>
+                  <td className="py-3 px-4 text-[#1e293b]">{asset.temperature ?? 0}°C</td>
+                  <td className="py-3 px-4 text-[#1e293b]">{asset.vibration ?? 0} g</td>
                 </tr>
               ))}
             </tbody>
