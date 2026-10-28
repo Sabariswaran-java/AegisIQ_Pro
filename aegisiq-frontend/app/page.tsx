@@ -23,10 +23,10 @@ import DeployTab from "./components/tabs/DeployTab";
 
 export default function EnterpriseDashboard() {
   const { selectedAsset, setSelectedAsset, setWorkflowState, setAiWorkflowData } = useAegis();
-  const [activeTab, setActiveTab] = useState<string>("dashboard");
+  const [activeTab, setActiveTag] = useState<string>("dashboard");
   
   const [assets, setAssets] = useState<any[]>([]);
-  const [graphData, setGraphData] = useState<{ nodes: any[]; edges: any[] }>({ nodes: [], edges: [] });
+  const [graphData, setGraphData] = useState<any>({ nodes: [], edges: [] });
   const [loading, setLoading] = useState<boolean>(true);
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -60,7 +60,7 @@ export default function EnterpriseDashboard() {
   return (
     <div className="min-h-screen bg-background text-[#1e293b] flex font-sans antialiased selection:bg-[#0d6963]/20 selection:text-[#0d6963]">
       {/* Fixed Sidebar */}
-      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Sidebar activeTab={activeTab} setActiveTab={setActiveTag} />
 
       {/* Main Workspace Area */}
       <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto bg-background">
@@ -82,17 +82,17 @@ export default function EnterpriseDashboard() {
               transition={{ duration: 0.1 }}
               className="w-full"
             >
-              {activeTab === "dashboard" && <DashboardTab assets={assets} setActiveTab={setActiveTab} />}
+              {activeTab === "dashboard" && <DashboardTab assets={assets} setActiveTab={setActiveTag} />}
               {activeTab === "assets" && <AssetsTab assets={assets} syncData={syncData} />}
               {activeTab === "monitoring" && <MonitoringTab assets={assets} />}
-              {activeTab === "alerts" && <AlertsTab assets={assets} setActiveTab={setActiveTab} />}
+              {activeTab === "alerts" && <AlertsTab assets={assets} setActiveTag={setActiveTag} />}
               {activeTab === "reports" && <ReportsTab assets={assets} syncData={syncData} />}
-              {activeTab === "graph" && <GraphTab assets={assets} setActiveTab={setActiveTab} />}
-              {activeTab === "twin" && <TwinTab assets={assets} setActiveTab={setActiveTab} />}
-              {activeTab === "scenario" && <ScenarioTab assets={assets} setActiveTab={setActiveTab} />}
-              {activeTab === "explainable" && <ExplainableTab setActiveTab={setActiveTab} />}
-              {activeTab === "memory" && <MemoryTab setActiveTab={setActiveTab} />}
-              {activeTab === "deploy" && <DeployTab assets={assets} syncData={syncData} setActiveTab={setActiveTab} />}
+              {activeTab === "graph" && <GraphTab assets={assets} setActiveTab={setActiveTag} />}
+              {activeTab === "twin" && <TwinTab assets={assets} setActiveTab={setActiveTag} />}
+              {activeTab === "scenario" && <ScenarioTab assets={assets} setActiveTag={setActiveTag} />}
+              {activeTab === "explainable" && <ExplainableTab setActiveTab={setActiveTag} />}
+              {activeTab === "memory" && <MemoryTab setActiveTab={setActiveTag} />}
+              {activeTab === "deploy" && <DeployTab assets={assets} syncData={syncData} setActiveTab={setActiveTag} />}
             </motion.div>
           </AnimatePresence>
         </main>
