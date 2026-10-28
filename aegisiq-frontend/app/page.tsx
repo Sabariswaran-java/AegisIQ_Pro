@@ -1,20 +1,20 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Sidebar from "./components/Sidebar";
-import TopNavbar from "./components/TopNavbar";
-import OverviewTab from "./components/OverviewTab";
-import AssetsTab from "./components/AssetsTab";
-import MonitoringTab from "./components/MonitoringTab";
-import AlertsTab from "./components/AlertsTab";
-import ReportsTab from "./components/ReportsTab";
-import GraphTab from "./components/GraphTab";
-import TwinTab from "./components/TwinTab";
-import ScenarioTab from "./components/ScenarioTab";
-import ExplainableTab from "./components/ExplainableTab";
-import MemoryTab from "./components/MemoryTab";
-import DeployTab from "./components/DeployTab";
-import { AegisProvider } from "./context/AegisContext";
-import apiClient from "./services/api";
+import Sidebar from "../components/Sidebar";
+import TopNavbar from "../components/TopNavbar";
+import OverviewTab from "../components/OverviewTab";
+import AssetsTab from "../components/AssetsTab";
+import MonitoringTab from "../components/MonitoringTab";
+import AlertsTab from "../components/AlertsTab";
+import ReportsTab from "../components/ReportsTab";
+import GraphTab from "../components/GraphTab";
+import TwinTab from "../components/TwinTab";
+import ScenarioTab from "../components/ScenarioTab";
+import ExplainableTab from "../components/ExplainableTab";
+import MemoryTab from "../components/MemoryTab";
+import DeployTab from "../components/DeployTab";
+import { AegisProvider } from "../context/AegisContext";
+import apiClient from "../services/api";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("dashboard");
