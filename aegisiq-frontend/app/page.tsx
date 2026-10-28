@@ -24,8 +24,11 @@ import DeployTab from "./components/tabs/DeployTab";
 export default function EnterpriseDashboard() {
   const { selectedAsset, setSelectedAsset, setWorkflowState, setAiWorkflowData } = useAegis();
   const [activeTab, setActiveTab] = useState("dashboard");
+  
+  // Fixed TypeScript state type definition to prevent never[] mismatch error
   const [assets, setAssets] = useState<any[]>([]);
   const [graphData, setGraphData] = useState<{ nodes: any[]; edges: any[] }>({ nodes: [], edges: [] });
+  
   const [loading, setLoading] = useState(true);
   const [isSyncing, setIsSyncing] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
