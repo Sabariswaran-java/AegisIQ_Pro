@@ -23,33 +23,33 @@ import DeployTab from "./components/tabs/DeployTab";
 
 export default function EnterpriseDashboard() {
   const { selectedAsset, setSelectedAsset, setWorkflowState, setAiWorkflowData } = useAegis();
-  const [activeTab, setActiveTab] = useState("dashboard");
+  const [activeTab, setActiveTab] = useState<string>("dashboard");
   
   const [assets, setAssets] = useState<any[]>([]);
   const [graphData, setGraphData] = useState<{ nodes: any[]; edges: any[] }>({ nodes: [], edges: [] });
-  const [loading, setLoading] = useState(true);
-  const [isSyncing, setIsSyncing] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [isSyncing, setIsSyncing] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const syncData = async () => {
+  const syncData = async (): Promise<void> => {
     setIsSyncing(true);
     try {
       const data = await getAssets();
       if (Array.isArray(data)) setAssets(data);
     } catch (err) {
-      console.error("Pipeline sync error");
+      console.error("Pipeline sync error:", err);
     } finally {
       setIsSyncing(false);
       setLoading(false);
     }
 
     try {
-      const graph = await getDependencyGraph();
+      const graph: any = await getDependencyGraph();
       if (graph?.nodes) {
-        setGraphData({ nodes: graph.nodes, edges: (graph as any).edges || [] });
+        setGraphData({ nodes: graph.nodes, edges: graph.edges || [] });
       }
     } catch (err) {
-      console.error("Graph sync error");
+      console.error("Graph sync error:", err);
     }
   };
 
