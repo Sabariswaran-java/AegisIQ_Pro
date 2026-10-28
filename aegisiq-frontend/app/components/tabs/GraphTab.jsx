@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { ChevronRight, AlertTriangle, Lock, RefreshCw, ZoomIn, ZoomOut } from "lucide-react";
 import { useAegis } from "../../context/AegisContext";
 import apiClient from "../../services/api";
@@ -12,25 +12,22 @@ export default function GraphTab({ assets = [], setActiveTab }) {
   const [hasSimulated, setHasSimulated] = useState(false);
   const [hoveredNode, setHoveredNode] = useState(null);
 
-  // Dynamic Node Positions for Canvas Viewport (Reference Style Graph)
+  // Dynamic Node Positions for Canvas Viewport
   const [nodePositions, setNodePositions] = useState({});
 
-  // 1. Calculate relative positions for assets dynamically in a central node network structure
   useEffect(() => {
     if (assets && assets.length > 0) {
       const positions = {};
       const total = assets.length;
-      const centerX = 400;
-      const centerY = 250;
-      const radius = 180;
+      const centerX = 450;
+      const centerY = 260;
+      const radius = 190;
 
       assets.forEach((asset, index) => {
         if (selectedAsset && asset.id === selectedAsset.id) {
-          // Selected target asset stays in the center
           positions[asset.name] = { x: centerX, y: centerY };
         } else {
-          // Orbit connected assets around center node dynamically
-          const angle = (index / (total - 1)) * 2 * Math.PI;
+          const angle = (index / Math.max(total - 1, 1)) * 2 * Math.PI;
           positions[asset.name] = {
             x: Math.round(centerX + radius * Math.cos(angle)),
             y: Math.round(centerY + radius * Math.sin(angle)),
@@ -48,7 +45,7 @@ export default function GraphTab({ assets = [], setActiveTab }) {
         nodes: nodesList,
         edges: edgesList,
       });
-      setExecutionOrder(response.data);
+      setExecutionOrder(response.data || []);
     } catch (error) {
       console.error("Failed to fetch dependency order:", error);
     }
@@ -63,7 +60,7 @@ export default function GraphTab({ assets = [], setActiveTab }) {
         edges: edgesList,
         failedNode: targetFailedNode,
       });
-      setImpactedNodes(response.data);
+      setImpactedNodes(response.data || []);
       setHasSimulated(true);
     } catch (error) {
       console.error("Failed to simulate failure impact:", error);
@@ -97,24 +94,30 @@ export default function GraphTab({ assets = [], setActiveTab }) {
 
   return (
     <div className="space-y-6 w-full pb-12 bg-[#F8FAFC] min-h-screen p-6">
-      {/* Header */}
-      <div>
-        <h2 className="text-lg font-bold text-slate-900 tracking-tight">Enterprise Decision Graph</h2>
-        <p className="text-xs text-slate-500">
-          {selectedAsset
-            ? `Topology mapping and asset relationship centered on: ${selectedAsset.name}`
-            : "Interactive network graph of enterprise assets and connected nodes."}
-        </p>
-      </div>
+      {/* Header & Controls */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+        <div>
+          <h2 className="text-lg font-bold text-slate-900 tracking-tight">Enterprise Decision Graph</h2>
+          <p className="text-xs text-slate-500 mt-0.5">
+            {selectedAsset
+              ? `Topology mapping centered on active asset: ${selectedAsset.name}`
+              : "Interactive network graph of enterprise assets and connected nodes."}
+          </p>
+        </div>
 
-      {/* Main Asset Relation Viewport (Canvas View instead of Grid Boxes) */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm relative overflow-hidden">
-        <div className="flex justify-between items-center border-b border-slate-100 pb-4 mb-4">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-              ASSET RELATION VIEWPORT
-            </span>
-          </div>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleRunSimulation}
+            disabled={!selectedAsset || isSimulating}
+            className={`px-4 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2 shadow-xs ${
+              selectedAsset && !isSimulating
+                ? "bg-rose-600 hover:bg-rose-700 text-white cursor-pointer"
+                : "bg-slate-100 border border-slate-200 text-slate-400 cursor-not-allowed"
+            }`}
+          >
+            <AlertTriangle className="h-3.5 w-3.5" />
+            <span>{isSimulating ? "Simulating BFS..." : "Simulate Failure Impact (BFS)"}</span>
+          </button>
 
           <button
             onClick={() => hasSimulated && setActiveTab("twin")}
@@ -133,16 +136,27 @@ export default function GraphTab({ assets = [], setActiveTab }) {
             ) : (
               <>
                 <Lock className="h-3.5 w-3.5 text-slate-400" />
-                <span>Run Failure Impact Simulation First</span>
+                <span>Run Simulation First</span>
               </>
             )}
           </button>
         </div>
+      </div>
 
-        {/* Dynamic Topology Graph Canvas */}
-        <div className="relative w-full h-[520px] bg-slate-50/50 rounded-xl border border-slate-100 flex items-center justify-center overflow-hidden">
+      {/* Main Asset Relation Viewport Canvas */}
+      <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm relative overflow-hidden">
+        <div className="flex justify-between items-center border-b border-slate-100 pb-4 mb-4">
+          <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+            ASSET RELATION VIEWPORT (DYNAMIC TOPOLOGY)
+          </span>
+          <span className="text-[11px] font-mono text-slate-400">
+            {selectedAsset ? `Target: ${selectedAsset.name}` : "Select a node to inspect"}
+          </span>
+        </div>
+
+        {/* Dynamic Topology Graph Canvas Area */}
+        <div className="relative w-full h-[540px] bg-slate-50/70 rounded-xl border border-slate-200 flex items-center justify-center overflow-hidden">
           <svg className="absolute inset-0 w-full h-full pointer-events-none">
-            {/* Dynamic Connection Lines between Assets */}
             {assets.map((asset, idx) => {
               if (idx === 0) return null;
               const prevAsset = assets[idx - 1];
@@ -163,14 +177,13 @@ export default function GraphTab({ assets = [], setActiveTab }) {
                     y2={p2.y}
                     stroke={isAffectedPath ? "#E11D48" : "#CBD5E1"}
                     strokeWidth={isAffectedPath ? "3" : "1.5"}
-                    strokeDasharray={isAffectedPath ? "5,5" : "none"}
+                    strokeDasharray={isAffectedPath ? "4,4" : "none"}
                     className="transition-all duration-300"
                   />
-                  {/* Connection Node Dot */}
                   <circle
                     cx={(p1.x + p2.x) / 2}
                     cy={(p1.y + p2.y) / 2}
-                    r="3"
+                    r="3.5"
                     fill={isAffectedPath ? "#F43F5E" : "#94A3B8"}
                   />
                 </g>
@@ -178,9 +191,9 @@ export default function GraphTab({ assets = [], setActiveTab }) {
             })}
           </svg>
 
-          {/* Render Dynamic Asset Nodes (Isometric Base UI) */}
+          {/* Render Dynamic Asset Nodes */}
           {assets.map((asset) => {
-            const pos = nodePositions[asset.name] || { x: 400, y: 250 };
+            const pos = nodePositions[asset.name] || { x: 450, y: 260 };
             const isTarget = selectedAsset && asset.id === selectedAsset.id;
             const isImpacted = impactedNodes.includes(asset.name);
 
@@ -194,9 +207,9 @@ export default function GraphTab({ assets = [], setActiveTab }) {
                 }}
                 onMouseEnter={() => setHoveredNode(asset)}
                 onMouseLeave={() => setHoveredNode(null)}
-                className="absolute cursor-pointer group transition-transform hover:scale-110"
+                className="absolute cursor-pointer group transition-transform hover:scale-110 z-10"
               >
-                {/* Platform Isometric Base Effect */}
+                {/* Node Box UI */}
                 <div
                   className={`w-16 h-16 rounded-2xl flex items-center justify-center border transition-all shadow-md ${
                     isTarget
@@ -215,16 +228,16 @@ export default function GraphTab({ assets = [], setActiveTab }) {
                         : "bg-slate-100 text-slate-700"
                     }`}
                   >
-                    {asset.name.substring(0, 2).toUpperCase()}
+                    {asset.name ? asset.name.substring(0, 2).toUpperCase() : "ND"}
                   </div>
                 </div>
 
-                {/* Node Title Tag */}
-                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white/90 backdrop-blur-xs px-2 py-0.5 rounded border border-slate-200 text-[10px] font-mono font-bold text-slate-700 shadow-xs">
+                {/* Node Title Label */}
+                <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white/95 backdrop-blur-xs px-2 py-0.5 rounded border border-slate-200 text-[10px] font-mono font-bold text-slate-700 shadow-xs">
                   {asset.name}
                 </div>
 
-                {/* Hover Tooltip Info Box */}
+                {/* Hover Tooltip Info */}
                 {hoveredNode?.id === asset.id && (
                   <div className="absolute bottom-20 left-1/2 -translate-x-1/2 bg-slate-900 text-white p-3 rounded-xl shadow-xl text-xs w-48 z-50 pointer-events-none font-mono space-y-1">
                     <div className="font-bold border-b border-slate-700 pb-1 flex justify-between">
@@ -245,8 +258,8 @@ export default function GraphTab({ assets = [], setActiveTab }) {
             );
           })}
 
-          {/* Floating Controls Bar (Bottom Left) */}
-          <div className="absolute bottom-4 left-4 bg-white/80 backdrop-blur-xs border border-slate-200 rounded-lg p-1.5 flex items-center gap-1 shadow-xs">
+          {/* Floating Controls Bar */}
+          <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-xs border border-slate-200 rounded-lg p-1.5 flex items-center gap-1 shadow-xs z-20">
             <button className="p-1.5 hover:bg-slate-100 rounded text-slate-600"><ZoomIn className="h-4 w-4" /></button>
             <button className="p-1.5 hover:bg-slate-100 rounded text-slate-600"><ZoomOut className="h-4 w-4" /></button>
             <button className="p-1.5 hover:bg-slate-100 rounded text-slate-600"><RefreshCw className="h-4 w-4" /></button>
