@@ -71,22 +71,22 @@ export default function GraphTab({ assets, setActiveTab }) {
   };
 
   return (
-    <div className="space-y-6 w-full pb-12 bg-[#F8FAFC] min-h-screen p-6">
+    <div className="space-y-6 w-full pb-12 text-[#1e293b]">
       <div>
-        <h2 className="text-lg font-bold text-slate-900 tracking-tight">Enterprise Decision Graph & Dependencies</h2>
-        <p className="text-xs text-slate-500">
+        <h2 className="text-base font-bold text-[#1e293b] tracking-tight">Enterprise Decision Graph & Dependencies</h2>
+        <p className="text-xs text-slate-600 mt-0.5">
           {selectedAsset ? `Interactive dependency pipeline centered around acknowledged asset: ${selectedAsset.name}` : "Interactive topology mapping of microservices and system assets."}
         </p>
       </div>
 
       {/* Clean Visual Flow Pipeline (Topological Order with Live BFS Impact Highlighting) */}
-      <div className="bg-white border border-slate-200 p-5 rounded-2xl space-y-4 shadow-sm w-full">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-slate-100 pb-3">
+      <div className="bg-white border border-slate-300 p-5 rounded-xl space-y-4 shadow-[4px_4px_12px_rgba(163,177,198,0.15)] w-full">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-slate-200 pb-3">
           <div>
             <span className="text-[10px] uppercase font-bold text-slate-600 tracking-wider block font-mono">
               Topological Dependency Flow & BFS Cascade Path
             </span>
-            <p className="text-[11px] text-slate-400 font-mono mt-0.5">
+            <p className="text-[11px] text-slate-500 font-mono mt-0.5">
               {selectedAsset ? `Highlighting dependency & failure impact relative to: ${selectedAsset.name}` : "Select an asset and run simulation to inspect cascading risk."}
             </p>
           </div>
@@ -96,7 +96,7 @@ export default function GraphTab({ assets, setActiveTab }) {
             className={`px-4 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2 shadow-sm ${
               selectedAsset && !isSimulating
                 ? 'bg-rose-600 hover:bg-rose-700 text-white cursor-pointer'
-                : 'bg-slate-100 border border-slate-200 text-slate-400 cursor-not-allowed'
+                : 'bg-slate-100 border border-slate-300 text-slate-400 cursor-not-allowed'
             }`}
           >
             <AlertTriangle className="h-3.5 w-3.5" />
@@ -136,17 +136,17 @@ export default function GraphTab({ assets, setActiveTab }) {
               );
             })
           ) : (
-            <span className="text-xs text-slate-400 font-mono">Loading pipeline execution order...</span>
+            <span className="text-xs text-slate-500 font-mono">Loading pipeline execution order...</span>
           )}
         </div>
       </div>
 
       {/* Interconnection Matrix Workspace */}
-      <div className="bg-white border border-slate-200 p-6 rounded-2xl space-y-5 shadow-sm w-full">
-        <div className="flex justify-between items-center border-b border-slate-100 pb-3 w-full">
+      <div className="bg-white border border-slate-300 p-6 rounded-xl space-y-5 shadow-[4px_4px_12px_rgba(163,177,198,0.15)] w-full">
+        <div className="flex justify-between items-center border-b border-slate-200 pb-3 w-full">
           <div className="flex items-center gap-2">
             <Network className="h-4 w-4 text-slate-600" />
-            <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+            <h3 className="text-xs font-bold text-[#1e293b] uppercase tracking-wider">
               {selectedAsset ? `Dependency Topology for ${selectedAsset.name}` : "Cluster Interconnection Matrix"}
             </h3>
           </div>
@@ -156,14 +156,14 @@ export default function GraphTab({ assets, setActiveTab }) {
             disabled={!hasSimulated}
             className={`px-4 py-2 rounded-lg text-xs font-semibold transition flex items-center gap-2 shadow-xs ${
               hasSimulated 
-                ? 'bg-slate-900 hover:bg-slate-800 text-white cursor-pointer' 
-                : 'bg-slate-100 border border-slate-200 text-slate-400 cursor-not-allowed'
+                ? 'bg-[#0d6963] hover:bg-[#0b5752] text-white cursor-pointer' 
+                : 'bg-slate-100 border border-slate-300 text-slate-400 cursor-not-allowed'
             }`}
           >
             {hasSimulated ? (
               <>
                 <span>Proceed to Decision Twin AI</span>
-                <ChevronRight className="h-3.5 w-3.5 text-slate-300" />
+                <ChevronRight className="h-3.5 w-3.5 text-white/80" />
               </>
             ) : (
               <>
@@ -188,13 +188,13 @@ export default function GraphTab({ assets, setActiveTab }) {
                     ? 'bg-blue-50/50 border-blue-300 shadow-sm ring-1 ring-blue-500/20' 
                     : isImpacted
                     ? 'bg-rose-50/50 border-rose-200'
-                    : 'bg-slate-50/50 border-slate-200 hover:border-slate-300'
+                    : 'bg-slate-50 border-slate-200 hover:border-slate-300'
                 }`}
               >
                 <div className="flex justify-between items-start">
                   <div>
                     <div className="flex items-center gap-1.5">
-                      <span className="font-bold text-xs text-slate-900 block">{asset.name}</span>
+                      <span className="font-bold text-xs text-[#1e293b] block">{asset.name}</span>
                       {isTarget && (
                         <span className="text-[9px] bg-blue-100 text-blue-700 border border-blue-200 px-1.5 py-0.5 rounded font-mono font-bold">TARGET</span>
                       )}
@@ -205,19 +205,19 @@ export default function GraphTab({ assets, setActiveTab }) {
                     <span className="text-[10px] text-slate-500 uppercase font-mono">TYPE: {asset.type}</span>
                   </div>
                   <span className={`text-[9px] px-2 py-0.5 rounded font-bold uppercase ${
-                    asset.status === 'HEALTHY' ? 'bg-emerald-50 text-emerald-600 border border-emerald-200' :
-                    asset.status === 'WARNING' ? 'bg-amber-50 text-amber-600 border border-amber-200' : 'bg-rose-50 text-rose-600 border border-rose-200'
+                    asset.status === 'HEALTHY' ? 'text-[#0d6963]' :
+                    asset.status === 'WARNING' ? 'text-amber-700' : 'text-rose-600'
                   }`}>
                     {asset.status}
                   </span>
                 </div>
 
-                <div className="text-[11px] text-slate-600 space-y-1 font-mono pt-2 border-t border-slate-200/60">
-                  <div className="flex justify-between"><span>CPU Load:</span> <b className="text-slate-900">{asset.cpuUsage ?? 0}%</b></div>
-                  <div className="flex justify-between"><span>Temperature:</span> <b className="text-slate-900">{asset.temperature ?? 0}°C</b></div>
+                <div className="text-[11px] text-slate-600 space-y-1 font-mono pt-2 border-t border-slate-200">
+                  <div className="flex justify-between"><span>CPU Load:</span> <b className="text-[#1e293b]">{asset.cpuUsage ?? 0}%</b></div>
+                  <div className="flex justify-between"><span>Temperature:</span> <b className="text-[#1e293b]">{asset.temperature ?? 0}°C</b></div>
                 </div>
 
-                <div className="text-[10px] text-slate-500 font-mono pt-1 flex items-center justify-between border-t border-slate-200/40 mt-1">
+                <div className="text-[10px] text-slate-500 font-mono pt-1 flex items-center justify-between border-t border-slate-200 mt-1">
                   <span className="flex items-center gap-1.5">
                     <span className={`h-1.5 w-1.5 rounded-full ${isTarget || isImpacted ? 'bg-rose-500' : 'bg-slate-400'}`}></span>
                     <span>{isTarget ? "Primary Focus Node" : isImpacted ? "Cascading Failure Path" : "Connected Gateway"}</span>
