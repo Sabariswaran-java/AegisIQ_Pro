@@ -1,6 +1,7 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Image from "next/image";
-import { LayoutDashboard, Database, Activity, Bell, FileText, GitFork, Cpu, Sliders, HelpCircle, History, Rocket } from "lucide-react";
+import { LayoutDashboard, Database, Activity, Bell, FileText, GitFork, Cpu, Sliders, HelpCircle, History, Rocket, Settings, User, Shield, LogOut, X } from "lucide-react";
 
 const BrandLogo = () => (
   <div className="flex items-center justify-center w-full px-2 py-0.5">
@@ -16,6 +17,8 @@ const BrandLogo = () => (
 );
 
 export default function Sidebar({ activeTab, setActiveTab }) {
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+
   return (
     <aside className="w-60 bg-[#0d6963] border-r border-[#0a524d] flex flex-col justify-between h-screen sticky top-0 shrink-0 z-40 select-none overflow-hidden text-white">
       <div>
@@ -88,16 +91,93 @@ export default function Sidebar({ activeTab, setActiveTab }) {
         </div>
       </div>
 
-      {/* Bottom Left User Profile Section replacing Cluster Active */}
-      <div className="p-3.5 border-t border-[#0a524d] bg-[#0a524d]/40 flex items-center space-x-3 shrink-0">
-        <div className="h-8 w-8 rounded-lg bg-white text-[#0d6963] font-bold flex items-center justify-center text-xs shadow-sm shrink-0">
-          S
+      {/* Bottom Left User Profile & Interactive Settings Section */}
+      <div className="p-3.5 border-t border-[#0a524d] bg-[#0a524d]/40 flex items-center justify-between shrink-0">
+        <div className="flex items-center space-x-3 truncate">
+          <div className="h-8 w-8 rounded-lg bg-white text-[#0d6963] flex items-center justify-center shadow-sm shrink-0">
+            <User className="h-4 w-4" />
+          </div>
+          <div className="flex flex-col truncate">
+            <span className="text-xs font-semibold text-white truncate">Sabariswaran M</span>
+            <span className="text-[10px] text-teal-200 font-mono">Full Stack Engineer</span>
+          </div>
         </div>
-        <div className="flex flex-col truncate">
-          <span className="text-xs font-semibold text-white truncate">Sabariswaran M</span>
-          <span className="text-[10px] text-teal-200 font-mono">Full Stack Engineer</span>
-        </div>
+        <button 
+          onClick={() => setShowSettingsModal(true)} 
+          className="p-1.5 hover:bg-white/10 rounded-lg text-teal-100 hover:text-white transition cursor-pointer"
+          title="Open Settings & Account"
+        >
+          <Settings className="h-4 w-4" />
+        </button>
       </div>
+
+      {/* Professional Settings & User Details Modal */}
+      {showSettingsModal && (
+        <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 text-[#1e293b]">
+          <div className="bg-white border border-slate-200 rounded-2xl w-full max-w-md p-6 space-y-5 shadow-2xl relative">
+            <div className="flex justify-between items-center border-b border-slate-200 pb-3">
+              <h3 className="text-sm font-bold tracking-wider text-[#0d6963] flex items-center gap-2">
+                <Settings className="h-4 w-4" /> USER SETTINGS & PREFERENCES
+              </h3>
+              <button onClick={() => setShowSettingsModal(false)} className="text-slate-400 hover:text-slate-700 cursor-pointer">
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="space-y-4 text-xs">
+              <div className="bg-slate-50 border border-slate-200 p-3.5 rounded-xl space-y-2">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-xl bg-[#0d6963] text-white flex items-center justify-center font-bold text-sm shadow-md">
+                    SM
+                  </div>
+                  <div>
+                    <span className="font-bold text-sm text-[#1e293b] block">Sabariswaran M</span>
+                    <span className="text-slate-500 font-mono text-[11px]">sabariswaran@aegisiq.enterprise</span>
+                  </div>
+                </div>
+                <div className="pt-2 border-t border-slate-200 grid grid-cols-2 gap-2 text-[11px] font-mono text-slate-600">
+                  <div>Role: <b className="text-[#1e293b]">Full Stack Lead</b></div>
+                  <div>Node Cluster: <b className="text-[#0d6963]">Active (US-East)</b></div>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <span className="font-semibold text-slate-700 uppercase text-[10px] tracking-wider block">System Configurations</span>
+                <div className="space-y-1.5">
+                  <label className="flex items-center justify-between p-2.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition">
+                    <span className="font-medium text-slate-700">Real-Time Telemetry Streaming</span>
+                    <input type="checkbox" defaultChecked className="accent-[#0d6963] h-4 w-4 cursor-pointer" />
+                  </label>
+                  <label className="flex items-center justify-between p-2.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition">
+                    <span className="font-medium text-slate-700">AI Predictive Maintenance Alerts</span>
+                    <input type="checkbox" defaultChecked className="accent-[#0d6963] h-4 w-4 cursor-pointer" />
+                  </label>
+                  <label className="flex items-center justify-between p-2.5 bg-slate-50 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-100 transition">
+                    <span className="font-medium text-slate-700">High Contrast Glassmorphism UI</span>
+                    <input type="checkbox" className="accent-[#0d6963] h-4 w-4 cursor-pointer" />
+                  </label>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <span className="font-semibold text-slate-700 uppercase text-[10px] tracking-wider block">Security & Access</span>
+                <div className="flex gap-2">
+                  <button onClick={() => alert("Enterprise Token Rotated Successfully!")} className="flex-1 py-2 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-lg font-semibold text-slate-700 transition flex items-center justify-center gap-1.5 cursor-pointer">
+                    <Shield className="h-3.5 w-3.5 text-[#0d6963]" /> Rotate Auth Token
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-3 border-t border-slate-200 flex justify-between items-center">
+              <span className="text-[10px] font-mono text-slate-400">AegisIQ Core v2.4.0</span>
+              <button onClick={() => setShowSettingsModal(false)} className="px-4 py-2 bg-[#0d6963] hover:bg-[#0b5752] text-white font-bold rounded-xl transition cursor-pointer shadow-md">
+                Save & Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </aside>
   );
 }
