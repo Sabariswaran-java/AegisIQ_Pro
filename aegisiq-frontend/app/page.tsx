@@ -23,15 +23,15 @@ import DeployTab from "./components/tabs/DeployTab";
 
 export default function EnterpriseDashboard() {
   const { selectedAsset, setSelectedAsset, setWorkflowState, setAiWorkflowData } = useAegis();
-  const [activeTab, setActiveTab] = useState<string>("dashboard");
+  const [activeTab, setActiveTab] = useState("dashboard");
   
   const [assets, setAssets] = useState<any[]>([]);
   const [graphData, setGraphData] = useState<any>({ nodes: [], edges: [] });
-  const [loading, setLoading] = useState<boolean>(true);
-  const [isSyncing, setIsSyncing] = useState<boolean>(false);
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [loading, setLoading] = useState(true);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const syncData = async (): Promise<void> => {
+  const syncData = async () => {
     setIsSyncing(true);
     try {
       const data = await getAssets();
