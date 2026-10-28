@@ -92,7 +92,7 @@ export default function AlertsTab({ assets, setActiveTab }) {
             const cardBorderClass = isResolved 
               ? 'border-l-emerald-600 bg-white/70 opacity-70' 
               : isCurrentPriority 
-              ? 'border-l-rose-600 bg-white shadow-[6px_6px_20px_rgba(163,177,198,0.25)] ring-1 ring-rose-500/40' 
+              ? 'border-l-rose-600 bg-white shadow-[6px_6px_20px_rgba(163,177,198,0.25)] ring-1 ring-rose-500/40 animate-pulse' 
               : 'border-l-slate-400 bg-white opacity-60';
 
             return (
@@ -109,9 +109,6 @@ export default function AlertsTab({ assets, setActiveTab }) {
                       <h3 className="text-sm font-bold text-[#1e293b]">{asset.name}</h3>
                       <span className={`text-[9px] px-2 py-0.5 rounded font-bold uppercase tracking-wide ${asset.status === 'CRITICAL' ? 'bg-rose-500/20 text-rose-600' : 'bg-amber-500/20 text-amber-700'}`}>
                         {asset.status}
-                      </span>
-                      <span className="text-[9px] bg-slate-100 text-slate-700 border border-slate-300 px-2 py-0.5 rounded font-mono font-bold shadow-xs">
-                        PRIORITY #{index + 1}
                       </span>
                     </div>
                     <p className="text-xs text-slate-600">
@@ -167,7 +164,7 @@ export default function AlertsTab({ assets, setActiveTab }) {
                     ) : (
                       <>
                         <Lock className="h-3.5 w-3.5 text-slate-500" />
-                        <span>Locked (Complete P#{firstUnresolvedIndex + 1})</span>
+                        <span>Locked</span>
                       </>
                     )}
                   </button>
