@@ -160,7 +160,7 @@ export default function GraphTab({ assets, setActiveTab }) {
       <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm relative overflow-hidden min-h-[580px] flex flex-col justify-between">
         <div className="flex justify-between items-center border-b border-slate-100 pb-4 mb-2">
           <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-            ASSET RELATION VIEWPORT (DYNAMIC TOPOLOGY)
+            ASSET RELATION VIEWPORT 
           </span>
           <span className="text-[11px] font-mono text-slate-400">
             {selectedAsset ? `Target: ${selectedAsset.name}` : "Select a node to inspect"}
