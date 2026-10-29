@@ -16,7 +16,7 @@ export default function GraphTab({ assets, setActiveTab }) {
   // Interactive Controls State
   const [zoomLevel, setZoomLevel] = useState(1);
 
-  // Dynamic graph topology generation based on assets and selected asset
+  // Dynamic realistic graph topology generation (Sparse connectivity)
   const { nodePositions, dynamicEdges } = useMemo(() => {
     if (safeAssets.length === 0) return { nodePositions: {}, dynamicEdges: [] };
 
@@ -27,30 +27,30 @@ export default function GraphTab({ assets, setActiveTab }) {
     const centerY = 260;
     const radius = 200;
 
-    // Deterministic position calculation with selectedAsset as center/primary anchor
+    // Position calculation centered around selectedAsset
     safeAssets.forEach((asset, index) => {
       const isTarget = selectedAsset && asset.id === selectedAsset.id;
       if (isTarget) {
         positions[asset.name] = { x: centerX, y: centerY };
       } else {
-        // Offset angle dynamically per asset ID to make graphs unique
-        const baseAngle = (index / Math.max(total, 1)) * 2 * Math.PI;
-        const seed = (asset.id || index) * 0.5;
-        const angle = baseAngle + seed;
+        const baseAngle = (index / Math.max(total - 1, 1)) * 2 * Math.PI;
         positions[asset.name] = {
-          x: Math.round(centerX + radius * Math.cos(angle)),
-          y: Math.round(centerY + radius * Math.sin(angle)),
+          x: Math.round(centerX + radius * Math.cos(baseAngle)),
+          y: Math.round(centerY + radius * Math.sin(baseAngle)),
         };
       }
     });
 
-    // Generate dynamic directional edges connecting target turbine with connected nodes
+    // Realistic non-full-mesh connections (Star / Pipeline topology)
     safeAssets.forEach((asset, i) => {
-      safeAssets.forEach((targetAsset, j) => {
-        if (i < j && ((asset.id + targetAsset.id) % 2 === 0 || (selectedAsset && (asset.id === selectedAsset.id || targetAsset.id === selectedAsset.id)))) {
-          edges.push({ from: asset.name, to: targetAsset.name });
-        }
-      });
+      if (i < safeAssets.length - 1) {
+        // Linear pipeline chain
+        edges.push({ from: asset.name, to: safeAssets[i + 1].name });
+      }
+      // Connect selected target to immediate adjacent nodes only
+      if (selectedAsset && asset.id === selectedAsset.id && i > 0) {
+        edges.push({ from: safeAssets[0].name, to: selectedAsset.name });
+      }
     });
 
     return { nodePositions: positions, dynamicEdges: edges };
@@ -100,16 +100,16 @@ export default function GraphTab({ assets, setActiveTab }) {
     simulateFailureImpact(nodesList, dynamicEdges, selectedAsset.name);
   };
 
-  // Status Badge Color Formatter
-  const getStatusBadge = (status) => {
+  // Plain status text color without background cards
+  const getStatusTextColor = (status) => {
     const uppercaseStatus = (status || "").toUpperCase();
     if (uppercaseStatus === "CRITICAL" || uppercaseStatus === "ERROR" || uppercaseStatus === "FAILED") {
-      return "bg-rose-50 text-rose-600 border-rose-200";
+      return "text-rose-600 font-bold";
     }
     if (uppercaseStatus === "WARNING" || uppercaseStatus === "WARN") {
-      return "bg-amber-50 text-amber-600 border-amber-200";
+      return "text-amber-600 font-bold";
     }
-    return "bg-emerald-50 text-emerald-600 border-emerald-200";
+    return "text-emerald-600 font-bold";
   };
 
   return (
@@ -125,7 +125,7 @@ export default function GraphTab({ assets, setActiveTab }) {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           {/* Simulate Red Button */}
           <button
             onClick={handleRunSimulation}
@@ -140,23 +140,23 @@ export default function GraphTab({ assets, setActiveTab }) {
             <span>{isSimulating ? "Simulating..." : "Simulate"}</span>
           </button>
 
-          {/* Next SVG Icon Only Button */}
+          {/* Next Button - Icon Only Without Green Background */}
           <button
             onClick={() => hasSimulated && setActiveTab("twin")}
             disabled={!hasSimulated}
             title="Proceed to Decision Twin AI"
-            className={`p-2.5 rounded-xl text-xs font-semibold transition flex items-center justify-center shadow-sm ${
+            className={`p-2 rounded-xl text-xs transition flex items-center justify-center ${
               hasSimulated
-                ? "bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer active:scale-95"
-                : "bg-slate-100 border border-slate-200 text-slate-300 cursor-not-allowed"
+                ? "text-slate-700 hover:text-slate-900 hover:bg-slate-100 cursor-pointer active:scale-95"
+                : "text-slate-300 cursor-not-allowed"
             }`}
           >
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="h-5 w-5" />
           </button>
         </div>
       </div>
 
-      {/* ASSET RELATION VIEWPORT - Single Container Structure */}
+      {/* ASSET RELATION VIEWPORT */}
       <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm relative overflow-hidden min-h-[580px] flex flex-col justify-between">
         <div className="flex justify-between items-center border-b border-slate-100 pb-4 mb-2">
           <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
@@ -166,6 +166,18 @@ export default function GraphTab({ assets, setActiveTab }) {
             {selectedAsset ? `Target: ${selectedAsset.name}` : "Select a node to inspect"}
           </span>
         </div>
+
+        {/* Inline CSS Animation for Flow Lines */}
+        <style>{`
+          @keyframes lineFlow {
+            0% { stroke-dashoffset: 24; }
+            100% { stroke-dashoffset: 0; }
+          }
+          .animated-flow-line {
+            stroke-dasharray: 8, 8;
+            animation: lineFlow 1s linear infinite;
+          }
+        `}</style>
 
         {/* Graph Viewport Area */}
         <div className="relative w-full h-[480px] rounded-xl flex items-center justify-center overflow-hidden">
@@ -183,7 +195,7 @@ export default function GraphTab({ assets, setActiveTab }) {
                 const isAffectedPath =
                   impactedNodes.includes(edge.from) && impactedNodes.includes(edge.to);
                 const isTargetInputFlow =
-                  selectedAsset && (edge.to === selectedAsset.name || edge.from === selectedAsset.name);
+                  selectedAsset && (edge.from === selectedAsset.name || edge.to === selectedAsset.name);
 
                 return (
                   <g key={idx}>
@@ -193,9 +205,8 @@ export default function GraphTab({ assets, setActiveTab }) {
                       x2={p2.x}
                       y2={p2.y}
                       stroke={isAffectedPath ? "#E11D48" : isTargetInputFlow ? "#0D9488" : "#CBD5E1"}
-                      strokeWidth={isAffectedPath ? "3" : isTargetInputFlow ? "2" : "1.5"}
-                      strokeDasharray={isTargetInputFlow || isAffectedPath ? "6,6" : "none"}
-                      className="transition-all duration-300"
+                      strokeWidth={isAffectedPath || isTargetInputFlow ? "2.5" : "1.5"}
+                      className={hasSimulated || isSimulating || isTargetInputFlow ? "animated-flow-line" : ""}
                     />
                     <circle
                       cx={(p1.x + p2.x) / 2}
@@ -208,7 +219,7 @@ export default function GraphTab({ assets, setActiveTab }) {
               })}
             </svg>
 
-            {/* Render Nodes */}
+            {/* Render Asset Nodes */}
             {safeAssets.map((asset) => {
               const pos = nodePositions[asset.name] || { x: 450, y: 260 };
               const isTarget = selectedAsset && asset.id === selectedAsset.id;
@@ -227,7 +238,7 @@ export default function GraphTab({ assets, setActiveTab }) {
                   className="absolute cursor-pointer group transition-transform hover:scale-110 z-10"
                 >
                   <div
-                    className={`w-16 h-16 rounded-2xl flex items-center justify-center border transition-all shadow-md ${
+                    className={`w-16 h-16 rounded-2xl flex items-center justify-center border transition-all shadow-md relative ${
                       isTarget
                         ? "bg-teal-50 border-teal-500 ring-4 ring-teal-500/20"
                         : isImpacted
@@ -246,18 +257,25 @@ export default function GraphTab({ assets, setActiveTab }) {
                     >
                       {asset.name ? asset.name.substring(0, 2).toUpperCase() : "ND"}
                     </div>
+
+                    {/* Cause / Impacted Alert Badge */}
+                    {isImpacted && !isTarget && (
+                      <span className="absolute -top-2 -right-2 bg-rose-600 text-white text-[9px] font-bold font-mono px-1.5 py-0.5 rounded-full shadow-xs animate-bounce">
+                        CAUSE
+                      </span>
+                    )}
                   </div>
 
                   <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white/95 backdrop-blur-xs px-2 py-0.5 rounded border border-slate-200 text-[10px] font-mono font-bold text-slate-700 shadow-xs">
                     {asset.name}
                   </div>
 
-                  {/* Clean Light-Themed Pop-up Tooltip */}
+                  {/* Clean Tooltip (Plain Text Status without Background Cards) */}
                   {hoveredNode?.id === asset.id && (
-                    <div className="absolute top-[-100px] left-1/2 -translate-x-1/2 bg-white border border-slate-200 text-slate-800 p-3 rounded-xl shadow-xl text-xs w-52 z-50 pointer-events-none font-sans space-y-1.5 animate-in fade-in zoom-in-95">
-                      <div className="font-bold border-b border-slate-100 pb-1.5 flex justify-between items-center">
+                    <div className="absolute top-[-90px] left-1/2 -translate-x-1/2 bg-white border border-slate-200 text-slate-800 p-3 rounded-xl shadow-xl text-xs w-48 z-50 pointer-events-none font-sans space-y-1">
+                      <div className="font-bold border-b border-slate-100 pb-1 flex justify-between items-center">
                         <span className="text-slate-900 font-mono text-xs">{asset.name}</span>
-                        <span className={`text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border ${getStatusBadge(asset.status)}`}>
+                        <span className={`text-[10px] font-mono ${getStatusTextColor(asset.status)}`}>
                           {asset.status || "HEALTHY"}
                         </span>
                       </div>
@@ -276,7 +294,7 @@ export default function GraphTab({ assets, setActiveTab }) {
             })}
           </div>
 
-          {/* Interactive Zoom and Reload Controls */}
+          {/* Interactive Zoom Controls */}
           <div className="absolute bottom-2 left-2 bg-white/90 backdrop-blur-xs border border-slate-200 rounded-xl p-1 flex items-center gap-1 shadow-xs z-20">
             <button
               onClick={() => setZoomLevel((prev) => Math.min(prev + 0.15, 1.8))}
