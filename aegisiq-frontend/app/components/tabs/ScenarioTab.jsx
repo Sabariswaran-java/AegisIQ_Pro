@@ -198,7 +198,6 @@ export default function ScenarioTab({ assets, setActiveTab }) {
         {scenarioResult && (
           <div className="space-y-5 w-full">
 
-            {/* Metric Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs w-full">
               <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-1 shadow-sm">
                 <span className="text-[10px] text-slate-400 uppercase block font-sans">Failover Risk Index (FRI)</span>
@@ -206,8 +205,8 @@ export default function ScenarioTab({ assets, setActiveTab }) {
               </div>
               <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-1 shadow-sm">
                 <span className="text-[10px] text-slate-400 uppercase block font-sans">Predicted Core Temperature</span>
-                <div className="text-xl font-bold text-amber-500 pt-1">{scenarioResult.predictedTemperature}°C</div>
-                <div className="text-[10px] text-amber-600 font-sans">Threshold Limit: 75.0°C (Critical)</div>
+                <div className="text-xl font-bold text-amber-600 pt-1">{scenarioResult.predictedTemperature}°C</div>
+                <div className="text-[10px] text-amber-500 font-sans">Threshold Limit: 75.0°C (Critical)</div>
               </div>
               <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-1 shadow-sm">
                 <span className="text-[10px] text-slate-400 uppercase block font-sans">Active Stress Vectors</span>
@@ -230,7 +229,7 @@ export default function ScenarioTab({ assets, setActiveTab }) {
                     <p className="text-[11px] text-slate-500 font-sans">Target Asset: <span className="font-semibold text-slate-700">{selectedAsset?.name || "Main-Server-Alpha"}</span></p>
                   </div>
                 </div>
-                <span className="text-xs font-mono font-bold text-rose-600">
+                <span className="text-[11px] font-mono font-bold text-rose-600">
                   State: {scenarioResult.riskAssessment || "CRITICAL THRESHOLD BREACH"}
                 </span>
               </div>
