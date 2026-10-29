@@ -10,22 +10,17 @@ export default function ScenarioTab({ assets, setActiveTab }) {
   const [isSimulatingTwin, setIsSimulatingTwin] = useState(false);
   const [scenarioResult, setScenarioResult] = useState(null);
 
-  // Clean professional parser without heading bullets or multi-containers
   const formatUnifiedReport = (text) => {
     if (!text) return null;
-
     const lines = text.split('\n');
-
     return lines.map((line, idx) => {
       let trimmed = line.trim();
       if (!trimmed) return <div key={idx} className="h-0.5"></div>;
 
-      // Skip raw table borders
       if (trimmed.startsWith('|---') || trimmed.startsWith('---') || trimmed === '---' || trimmed.match(/^[\|\-\:\s]+$/)) {
         return null;
       }
 
-      // Handle Headings (Clean text without any bullet points or dots)
       if (trimmed.startsWith('#') || trimmed.match(/^[0-9]+\.\s+/) || trimmed.startsWith('**Asset') || trimmed.startsWith('**Current')) {
         let cleanHeader = trimmed.replace(/#+/g, '').replace(/\*\*/g, '').replace(/\|/g, '').replace(/`/g, '').trim();
         if (!cleanHeader) return null;
@@ -36,7 +31,6 @@ export default function ScenarioTab({ assets, setActiveTab }) {
         );
       }
 
-      // Handle table structured lines
       if (trimmed.includes('|')) {
         let parts = trimmed.split('|').map(p => p.trim()).filter(Boolean);
         if (parts.length === 0) return null;
@@ -51,18 +45,16 @@ export default function ScenarioTab({ assets, setActiveTab }) {
         );
       }
 
-      // Handle bullet points properly inside the unified container
       if (trimmed.startsWith('-') || trimmed.startsWith('*') || trimmed.startsWith('•')) {
         let cleanBullet = trimmed.replace(/^[-*•]\s*/, '').replace(/\*\*/g, '').replace(/`/g, '').replace(/<br>/g, ' ');
         return (
           <div key={idx} className="flex items-start gap-2 my-0.5 pl-1 font-sans text-xs text-slate-700">
-            <span className="text-blue-600 font-bold mt-0.5">•</span>
+            <span className="text-teal-600 font-bold mt-0.5">•</span>
             <span>{cleanBullet}</span>
           </div>
         );
       }
 
-      // Standard paragraphs
       let cleanParagraph = trimmed.replace(/\*\*/g, '').replace(/`/g, '').replace(/<br\s*[\/]?>/gi, ' ').replace(/\|/g, '');
       if (!cleanParagraph.trim()) return null;
 
@@ -75,41 +67,41 @@ export default function ScenarioTab({ assets, setActiveTab }) {
   };
 
   return (
-    <div className="space-y-6 w-full pb-20 pr-4">
-      {/* Top Header with Proceed Button */}
-      <div className="flex justify-between items-center bg-[#0E131F] border border-[#1E293B] px-6 py-4 rounded-2xl shadow-md w-full">
+    <div className="space-y-6 w-full pb-20 p-6 bg-[#F8FAFC] min-h-screen">
+      {/* Top Header with Icon-Only Next Button */}
+      <div className="flex justify-between items-center bg-white border border-slate-200 px-6 py-4 rounded-2xl shadow-sm w-full">
         <div>
-          <h2 className="text-base font-bold text-white tracking-tight">Advanced What-If Stress Testing Engine</h2>
-          <p className="text-xs text-slate-400">Simulate multi-vector operational surges, memory exhaustion, and thermal degradation based on active asset telemetry.</p>
+          <h2 className="text-base font-bold text-slate-900 tracking-tight">Advanced What-If Stress Testing Engine</h2>
+          <p className="text-xs text-slate-500">Simulate multi-vector operational surges, memory exhaustion, and thermal degradation based on active asset telemetry.</p>
         </div>
         <button 
+          onClick={() => scenarioResult && setActiveTab && setActiveTab("explainable")}
           disabled={!scenarioResult}
-          onClick={() => setActiveTab("explainable")}
-          className={`px-4 py-2 border text-xs font-semibold rounded-lg transition-all shadow-sm flex items-center gap-2 shrink-0 ${
-            scenarioResult 
-              ? 'bg-[#1B2538] hover:bg-[#253450] border-[#2E3F5E] text-slate-100 cursor-pointer' 
-              : 'bg-[#0E131F] border-[#1E293B] text-slate-600 cursor-not-allowed opacity-50'
+          title="Proceed to Explainable AI"
+          className={`p-2.5 rounded-xl text-xs transition flex items-center justify-center ${
+            scenarioResult
+              ? "text-slate-700 hover:text-slate-900 hover:bg-slate-100 cursor-pointer active:scale-95"
+              : "text-slate-300 cursor-not-allowed"
           }`}
         >
-          <span>Proceed to Explainable AI</span>
-          <ChevronRight className="h-3.5 w-3.5 text-slate-400" />
+          <ChevronRight className="h-5 w-5" />
         </button>
       </div>
 
-      {/* CONTROLS GRID FLOWS DIRECTLY WITHOUT OUTER DARK CONTAINER */}
+      {/* CONTROLS GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 w-full">
-        <div className="lg:col-span-2 space-y-4 bg-[#141B2B] p-5 rounded-xl border border-[#25324A]">
+        <div className="lg:col-span-2 space-y-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
           <div className="space-y-1 py-1">
-            <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider block font-mono">Target Simulation Node (Linked)</span>
-            <div className="text-sm font-bold text-slate-100 font-mono mt-1">
+            <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block font-mono">Target Simulation Node (Linked)</span>
+            <div className="text-sm font-bold text-slate-900 font-mono mt-1">
               {selectedAsset ? `${selectedAsset.name} [Type: ${selectedAsset.type}] • Baseline Load: ${selectedAsset.cpuUsage || 0}%` : "No Asset Selected (Select from Alerts or Graph)"}
             </div>
           </div>
 
           <div className="space-y-2 pt-2">
-            <div className="flex justify-between text-xs text-slate-300 font-mono">
+            <div className="flex justify-between text-xs text-slate-600 font-mono">
               <span>Compute Load Surge Vector</span>
-              <span className="text-slate-200 font-bold">{scenarioLoad}%</span>
+              <span className="text-slate-900 font-bold">{scenarioLoad}%</span>
             </div>
             <input 
               type="range" 
@@ -117,14 +109,14 @@ export default function ScenarioTab({ assets, setActiveTab }) {
               max="100" 
               value={scenarioLoad} 
               onChange={(e) => setScenarioLoad(Number(e.target.value))} 
-              className="w-full accent-slate-400 cursor-pointer bg-slate-800 rounded-lg h-2" 
+              className="w-full accent-teal-600 cursor-pointer bg-slate-200 rounded-lg h-2" 
             />
           </div>
 
           <div className="space-y-2">
-            <div className="flex justify-between text-xs text-slate-300 font-mono">
+            <div className="flex justify-between text-xs text-slate-600 font-mono">
               <span>Memory Saturation Threshold</span>
-              <span className="text-slate-400 font-bold">{memorySaturation}%</span>
+              <span className="text-slate-900 font-bold">{memorySaturation}%</span>
             </div>
             <input 
               type="range" 
@@ -132,11 +124,10 @@ export default function ScenarioTab({ assets, setActiveTab }) {
               max="100" 
               value={memorySaturation} 
               onChange={(e) => setMemorySaturation(Number(e.target.value))}
-              className="w-full accent-slate-400 cursor-pointer bg-slate-800 rounded-lg h-2" 
+              className="w-full accent-teal-600 cursor-pointer bg-slate-200 rounded-lg h-2" 
             />
           </div>
 
-          {/* STABLE BUTTON */}
           <button 
             disabled={isSimulatingTwin || !selectedAsset}
             onClick={async () => {
@@ -167,26 +158,26 @@ export default function ScenarioTab({ assets, setActiveTab }) {
                 setIsSimulatingTwin(false);
               }
             }} 
-            className={`w-auto px-6 py-3 border text-xs font-bold uppercase tracking-widest rounded-lg transition-all shadow-md flex items-center justify-center gap-2 ${
-              selectedAsset ? 'bg-[#1B2538] hover:bg-[#253450] border-[#2E3F5E] text-white cursor-pointer' : 'bg-slate-900 border-slate-800 text-slate-600 cursor-not-allowed'
+            className={`w-auto px-6 py-3 border text-xs font-bold uppercase tracking-widest rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 ${
+              selectedAsset ? 'bg-teal-600 hover:bg-teal-700 border-teal-600 text-white cursor-pointer active:scale-95' : 'bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed'
             }`}
           >
-            <Play className="h-4 w-4 text-slate-300" />
+            <Play className="h-4 w-4 text-white" />
             <span>Execute Stress Simulation Matrix</span>
           </button>
         </div>
 
-        <div className="bg-[#141B2B] p-5 rounded-xl border border-[#25324A] flex flex-col justify-between font-mono text-xs space-y-3">
+        <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between font-mono text-xs space-y-3">
           <div>
-            <span className="text-[10px] text-slate-500 uppercase tracking-wider block font-sans">Node Telemetry Vector</span>
-            <div className="text-sm font-bold text-slate-100 mt-1">
+            <span className="text-[10px] text-slate-400 uppercase tracking-wider block font-sans">Node Telemetry Vector</span>
+            <div className="text-sm font-bold text-slate-900 mt-1">
               {isSimulatingTwin ? "Injecting Stress Vector..." : (selectedAsset ? selectedAsset.name : "Select Node")}
             </div>
           </div>
-          <div className="space-y-2 border-t border-[#25324A] pt-3 text-slate-300">
-            <div className="flex justify-between"><span>Polling Rate:</span> <b className="text-slate-200">100 Hz</b></div>
-            <div className="flex justify-between"><span>Cluster Status:</span> <b className="text-slate-200">{isSimulatingTwin ? "Stressing" : "Synchronized"}</b></div>
-            <div className="flex justify-between"><span>Prediction Model:</span> <b className="text-slate-200">SRE-V2-Matrix</b></div>
+          <div className="space-y-2 border-t border-slate-100 pt-3 text-slate-600">
+            <div className="flex justify-between"><span>Polling Rate:</span> <b className="text-slate-900">100 Hz</b></div>
+            <div className="flex justify-between"><span>Cluster Status:</span> <b className="text-slate-900">{isSimulatingTwin ? "Stressing" : "Synchronized"}</b></div>
+            <div className="flex justify-between"><span>Prediction Model:</span> <b className="text-slate-900">SRE-V2-Matrix</b></div>
           </div>
           <div className="text-[10px] text-slate-400 pt-1">
             {isSimulatingTwin ? "Evaluating multi-vector stress decay algorithm..." : "Ready for vector stress injection across microservices."}
@@ -196,40 +187,40 @@ export default function ScenarioTab({ assets, setActiveTab }) {
 
       {/* LOADING SKELETON */}
       {isSimulatingTwin && (
-        <div className="bg-[#141B2B] border border-[#25324A] p-6 rounded-2xl text-center space-y-3 animate-pulse w-full">
-          <Loader2 className="h-6 w-6 animate-spin mx-auto text-slate-400" />
-          <p className="text-xs font-mono text-slate-300">Running Deep Neural Stress Simulation & Thermal Decay Model across cluster nodes...</p>
+        <div className="bg-white border border-slate-200 p-8 rounded-2xl text-center space-y-3 shadow-sm w-full">
+          <Loader2 className="h-6 w-6 animate-spin mx-auto text-teal-600" />
+          <p className="text-xs font-mono text-slate-600">Running Deep Neural Stress Simulation & Thermal Decay Model across cluster nodes...</p>
         </div>
       )}
 
       {/* UNIFIED PROFESSIONAL ENTERPRISE REPORT CONTAINER */}
-      <div className={`transition-all duration-700 ease-in-out w-full ${scenarioResult && !isSimulatingTwin ? 'opacity-100 pt-4 border-t border-[#1E293B]' : 'opacity-0 h-0 overflow-hidden'}`}>
+      <div className={`transition-all duration-700 ease-in-out w-full ${scenarioResult && !isSimulatingTwin ? 'opacity-100 pt-4' : 'opacity-0 h-0 overflow-hidden'}`}>
         {scenarioResult && (
           <div className="space-y-5 w-full">
 
-            {/* Metric Cards Grid (Formula Removed) */}
+            {/* Metric Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs w-full">
-              <div className="bg-[#141B2B] p-4 rounded-xl border border-[#25324A] space-y-1 shadow">
+              <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-1 shadow-sm">
                 <span className="text-[10px] text-slate-400 uppercase block font-sans">Failover Risk Index (FRI)</span>
-                <div className="text-xl font-bold text-rose-400 pt-1">{scenarioResult.failoverRiskIndex} <span className="text-xs text-slate-500">/ 100</span></div>
+                <div className="text-xl font-bold text-rose-600 pt-1">{scenarioResult.failoverRiskIndex} <span className="text-xs text-slate-400">/ 100</span></div>
               </div>
-              <div className="bg-[#141B2B] p-4 rounded-xl border border-[#25324A] space-y-1 shadow">
+              <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-1 shadow-sm">
                 <span className="text-[10px] text-slate-400 uppercase block font-sans">Predicted Core Temperature</span>
-                <div className="text-xl font-bold text-amber-400 pt-1">{scenarioResult.predictedTemperature}°C</div>
-                <div className="text-[10px] text-amber-300 font-sans">Threshold Limit: 75.0°C (Critical)</div>
+                <div className="text-xl font-bold text-amber-500 pt-1">{scenarioResult.predictedTemperature}°C</div>
+                <div className="text-[10px] text-amber-600 font-sans">Threshold Limit: 75.0°C (Critical)</div>
               </div>
-              <div className="bg-[#141B2B] p-4 rounded-xl border border-[#25324A] space-y-1 shadow">
+              <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-1 shadow-sm">
                 <span className="text-[10px] text-slate-400 uppercase block font-sans">Active Stress Vectors</span>
-                <div className="text-sm font-bold text-slate-200 pt-1">Load: {scenarioLoad}% | Mem: {memorySaturation}%</div>
+                <div className="text-sm font-bold text-slate-900 pt-1">Load: {scenarioLoad}% | Mem: {memorySaturation}%</div>
                 <div className="text-[10px] text-slate-400 font-sans">Status: Envelope Exceeded</div>
               </div>
             </div>
 
-            {/* SINGLE UNIFIED REPORT CONTAINER (TOP GAP REDUCED) */}
-            <div className="bg-slate-50 border border-slate-300 p-5 rounded-2xl space-y-3 w-full shadow-2xl h-auto">
-              <div className="flex items-center justify-between border-b border-slate-300 pb-3">
+            {/* SINGLE UNIFIED REPORT CONTAINER */}
+            <div className="bg-white border border-slate-200 p-6 rounded-2xl space-y-4 w-full shadow-sm">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div className="flex items-center gap-2.5">
-                  <div className="p-1.5 bg-blue-600 text-white rounded-lg shadow-sm">
+                  <div className="text-teal-600">
                     <ShieldAlert className="h-4 w-4" />
                   </div>
                   <div>
@@ -239,22 +230,20 @@ export default function ScenarioTab({ assets, setActiveTab }) {
                     <p className="text-[11px] text-slate-500 font-sans">Target Asset: <span className="font-semibold text-slate-700">{selectedAsset?.name || "Main-Server-Alpha"}</span></p>
                   </div>
                 </div>
-                <span className="text-[11px] font-mono font-bold text-rose-600">
+                <span className="text-xs font-mono font-bold text-rose-600">
                   State: {scenarioResult.riskAssessment || "CRITICAL THRESHOLD BREACH"}
                 </span>
               </div>
 
-              {/* Unified Clean Report Flow with tight spacing */}
               <div className="space-y-1 pt-1">
                 {formatUnifiedReport(scenarioResult.predictedImpact)}
               </div>
 
-              {/* Summary Footer Banner with Dynamic Priority */}
               <div className={`border p-3 rounded-xl flex items-center justify-between text-xs font-sans ${
-                scenarioResult.riskAssessment?.includes('CRITICAL') ? 'bg-rose-50 border-rose-200 text-rose-900' : 'bg-blue-50 border-blue-200 text-blue-900'
+                scenarioResult.riskAssessment?.includes('CRITICAL') ? 'bg-rose-50 border-rose-200 text-rose-900' : 'bg-teal-50 border-teal-200 text-teal-900'
               }`}>
                 <div className="flex items-center gap-2">
-                  <Thermometer className={`h-4 w-4 shrink-0 ${scenarioResult.riskAssessment?.includes('CRITICAL') ? 'text-rose-600' : 'text-blue-600'}`} />
+                  <Thermometer className={`h-4 w-4 shrink-0 ${scenarioResult.riskAssessment?.includes('CRITICAL') ? 'text-rose-600' : 'text-teal-600'}`} />
                   <span><b>Remediation Protocol Active:</b> System health guardrails are active for {selectedAsset?.name}.</span>
                 </div>
                 <span className="font-mono font-bold">Priority: {scenarioResult.priorityLevel || "P3-OPTIMAL"}</span>
