@@ -16,9 +16,9 @@ export default function GraphTab({ assets, setActiveTab }) {
     const positions = {};
     const edges = [];
     const centerX = 450;
-    const centerY = 260;
+    const centerY = 270;
     const horizontalSpacing = 190;
-    const verticalSpacing = 140;
+    const verticalSpacing = 150;
 
     // Set precise locations around target asset
     safeAssets.forEach((asset, index) => {
@@ -139,7 +139,6 @@ export default function GraphTab({ assets, setActiveTab }) {
 
                 return (
                   <g key={idx}>
-                    {/* Clean Smooth Red Flow Line without middle dots */}
                     <line
                       x1={p1.x}
                       y1={p1.y}
@@ -156,7 +155,7 @@ export default function GraphTab({ assets, setActiveTab }) {
 
             {/* Render Asset Nodes */}
             {safeAssets.map((asset) => {
-              const pos = nodePositions[asset.name] || { x: 450, y: 260 };
+              const pos = nodePositions[asset.name] || { x: 450, y: 270 };
               const isTarget = selectedAsset && asset.id === selectedAsset.id;
               const isConnectedToTarget = selectedAsset && asset.id !== selectedAsset.id;
 
@@ -198,9 +197,9 @@ export default function GraphTab({ assets, setActiveTab }) {
                     {asset.name}
                   </div>
 
-                  {/* Clean Tooltip with z-50 to prevent clipping */}
+                  {/* Tooltip positioned safely at bottom to prevent hiding top assets */}
                   {hoveredNode?.id === asset.id && (
-                    <div className="absolute bottom-[75px] left-1/2 -translate-x-1/2 bg-white border border-slate-200 text-slate-800 p-3 rounded-xl shadow-2xl text-xs w-48 z-50 pointer-events-none font-sans space-y-1">
+                    <div className="absolute top-[75px] left-1/2 -translate-x-1/2 bg-white border border-slate-200 text-slate-800 p-3 rounded-xl shadow-2xl text-xs w-48 z-50 pointer-events-none font-sans space-y-1">
                       <div className="font-bold border-b border-slate-100 pb-1 flex justify-between items-center">
                         <span className="text-slate-900 font-mono text-xs">{asset.name}</span>
                         <span className={`text-[10px] font-mono ${getStatusTextColor(asset.status)}`}>
