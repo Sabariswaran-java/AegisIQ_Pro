@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Play, Loader2, ChevronRight, ShieldAlert, Thermometer } from "lucide-react";
+import { Play, Loader2, ChevronRight, ShieldAlert } from "lucide-react";
 import { useAegis } from "../../context/AegisContext";
 import { evaluateScenario } from "../../services/api";
 
@@ -94,7 +94,7 @@ export default function ScenarioTab({ assets, setActiveTab }) {
           <div className="space-y-1 py-1">
             <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block font-mono">Target Simulation Node (Linked)</span>
             <div className="text-sm font-bold text-slate-900 font-mono mt-1">
-              {selectedAsset ? `${selectedAsset.name} [Type: ${selectedAsset.type}] • Baseline Load: ${selectedAsset.cpuUsage || 0}%` : "No Asset Selected (Select from Alerts or Graph)"}
+              {selectedAsset ? `${selectedAsset.name} • Baseline Load: ${selectedAsset.cpuUsage || 0}% | Baseline Memory: ${selectedAsset.memoryUsage || 45}%` : "No Asset Selected (Select from Alerts or Graph)"}
             </div>
           </div>
 
@@ -136,6 +136,9 @@ export default function ScenarioTab({ assets, setActiveTab }) {
                 setIsSimulatingTwin(true);
                 setScenarioResult(null); 
 
+                // 6 seconds delay added
+                await new Promise((resolve) => setTimeout(resolve, 6000));
+
                 const data = await evaluateScenario({
                   loadPercentage: scenarioLoad,
                   memoryPercentage: memorySaturation,
@@ -145,7 +148,7 @@ export default function ScenarioTab({ assets, setActiveTab }) {
                 const resultData = {
                   failoverRiskIndex: data.failoverRiskIndex,
                   predictedTemperature: data.predictedTemperature,
-                  riskAssessment: data.severityState,
+                  riskAssessment: data.severityState || "critical threshold breach",
                   priorityLevel: data.priorityLevel,
                   predictedImpact: data.predictedImpact
                 };
@@ -189,7 +192,7 @@ export default function ScenarioTab({ assets, setActiveTab }) {
       {isSimulatingTwin && (
         <div className="bg-white border border-slate-200 p-8 rounded-2xl text-center space-y-3 shadow-sm w-full">
           <Loader2 className="h-6 w-6 animate-spin mx-auto text-teal-600" />
-          <p className="text-xs font-mono text-slate-600">Running Deep Neural Stress Simulation & Thermal Decay Model across cluster nodes...</p>
+          <p className="text-xs font-mono text-slate-600">Running Deep Neural Stress Simulation & Thermal Decay Model across cluster nodes (6s delay)...</p>
         </div>
       )}
 
@@ -229,23 +232,13 @@ export default function ScenarioTab({ assets, setActiveTab }) {
                     <p className="text-[11px] text-slate-500 font-sans">Target Asset: <span className="font-semibold text-slate-700">{selectedAsset?.name || "Main-Server-Alpha"}</span></p>
                   </div>
                 </div>
-                <span className="text-[11px] font-mono font-bold text-rose-600">
-                  State: {scenarioResult.riskAssessment || "CRITICAL THRESHOLD BREACH"}
+                <span className="text-[11px] font-mono font-bold text-rose-600 lowercase">
+                  State: {scenarioResult.riskAssessment || "critical threshold breach"}
                 </span>
               </div>
 
               <div className="space-y-1 pt-1">
                 {formatUnifiedReport(scenarioResult.predictedImpact)}
-              </div>
-
-              <div className={`border p-3 rounded-xl flex items-center justify-between text-xs font-sans ${
-                scenarioResult.riskAssessment?.includes('CRITICAL') ? 'bg-rose-50 border-rose-200 text-rose-900' : 'bg-teal-50 border-teal-200 text-teal-900'
-              }`}>
-                <div className="flex items-center gap-2">
-                  <Thermometer className={`h-4 w-4 shrink-0 ${scenarioResult.riskAssessment?.includes('CRITICAL') ? 'text-rose-600' : 'text-teal-600'}`} />
-                  <span><b>Remediation Protocol Active:</b> System health guardrails are active for {selectedAsset?.name}.</span>
-                </div>
-                <span className="font-mono font-bold">Priority: {scenarioResult.priorityLevel || "P3-OPTIMAL"}</span>
               </div>
             </div>
           </div>
