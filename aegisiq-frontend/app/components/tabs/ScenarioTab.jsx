@@ -39,8 +39,8 @@ export default function ScenarioTab({ assets, setActiveTab }) {
         }
         return (
           <div key={idx} className="py-1 border-b border-slate-100 flex justify-between items-center text-xs font-sans">
-            <span className="font-bold text-slate-800">{parts[0].replace(/\*\*/g, '')}</span>
-            <span className="text-slate-600 text-right">{parts[parts.length - 1].replace(/\*\*/g, '').replace(/<br>/g, ' ')}</span>
+            <span className="font-bold text-slate-900">{parts[0].replace(/\*\*/g, '')}</span>
+            <span className="text-slate-800 font-semibold text-right">{parts[parts.length - 1].replace(/\*\*/g, '').replace(/<br>/g, ' ')}</span>
           </div>
         );
       }
@@ -48,7 +48,7 @@ export default function ScenarioTab({ assets, setActiveTab }) {
       if (trimmed.startsWith('-') || trimmed.startsWith('*') || trimmed.startsWith('•')) {
         let cleanBullet = trimmed.replace(/^[-*•]\s*/, '').replace(/\*\*/g, '').replace(/`/g, '').replace(/<br>/g, ' ');
         return (
-          <div key={idx} className="flex items-start gap-2 my-0.5 pl-1 font-sans text-xs text-slate-700">
+          <div key={idx} className="flex items-start gap-2 my-1 pl-1 font-sans text-xs text-slate-900 font-semibold">
             <span className="text-teal-600 font-bold mt-0.5">•</span>
             <span>{cleanBullet}</span>
           </div>
@@ -58,8 +58,9 @@ export default function ScenarioTab({ assets, setActiveTab }) {
       let cleanParagraph = trimmed.replace(/\*\*/g, '').replace(/`/g, '').replace(/<br\s*[\/]?>/gi, ' ').replace(/\|/g, '');
       if (!cleanParagraph.trim()) return null;
 
+      // Enhanced font weight for high visibility matching 'Synchronized' font style
       return (
-        <p key={idx} className="text-xs text-slate-800 leading-relaxed font-sans my-0.5">
+        <p key={idx} className="text-xs text-slate-900 font-semibold leading-relaxed font-sans my-1.5">
           {cleanParagraph}
         </p>
       );
@@ -178,9 +179,9 @@ export default function ScenarioTab({ assets, setActiveTab }) {
             </div>
           </div>
           <div className="space-y-2 border-t border-slate-100 pt-3 text-slate-600">
-            <div className="flex justify-between"><span>Polling Rate:</span> <b className="text-slate-900">100 Hz</b></div>
-            <div className="flex justify-between"><span>Cluster Status:</span> <b className="text-slate-900">{isSimulatingTwin ? "Stressing" : "Synchronized"}</b></div>
-            <div className="flex justify-between"><span>Prediction Model:</span> <b className="text-slate-900">SRE-V2-Matrix</b></div>
+            <div className="flex justify-between"><span>Polling Rate:</span> <b className="text-slate-900 font-bold">100 Hz</b></div>
+            <div className="flex justify-between"><span>Cluster Status:</span> <b className="text-slate-900 font-bold">{isSimulatingTwin ? "Stressing" : "Synchronized"}</b></div>
+            <div className="flex justify-between"><span>Prediction Model:</span> <b className="text-slate-900 font-bold">SRE-V2-Matrix</b></div>
           </div>
           <div className="text-[10px] text-slate-400 pt-1">
             {isSimulatingTwin ? "Evaluating multi-vector stress decay algorithm..." : "Ready for vector stress injection across microservices."}
@@ -192,7 +193,7 @@ export default function ScenarioTab({ assets, setActiveTab }) {
       {isSimulatingTwin && (
         <div className="bg-white border border-slate-200 p-8 rounded-2xl text-center space-y-3 shadow-sm w-full">
           <Loader2 className="h-6 w-6 animate-spin mx-auto text-teal-600" />
-          <p className="text-xs font-mono text-slate-600">Running Deep Neural Stress Simulation & Thermal Decay Model across cluster nodes (6s delay)...</p>
+          <p className="text-xs font-mono text-slate-600 font-semibold">Running Deep Neural Stress Simulation & Thermal Decay Model across cluster nodes (6s delay)...</p>
         </div>
       )}
 
@@ -204,8 +205,10 @@ export default function ScenarioTab({ assets, setActiveTab }) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs w-full">
               <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-1 shadow-sm">
                 <span className="text-[10px] text-slate-400 uppercase block font-sans">Failover Risk Index (FRI)</span>
-                <div className="text-xl font-bold text-rose-600 pt-1">
-                  {scenarioResult.failoverRiskIndex} <span className="text-xs text-slate-400">/ 100</span>
+                {/* Fixed font matching for FRI score and denominator */}
+                <div className="text-xl font-bold text-rose-600 pt-1 flex items-baseline gap-1">
+                  <span>{scenarioResult.failoverRiskIndex}</span>
+                  <span className="text-xs font-bold text-slate-500">/ 100</span>
                 </div>
               </div>
               <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-1 shadow-sm">
@@ -213,12 +216,12 @@ export default function ScenarioTab({ assets, setActiveTab }) {
                 <div className="text-xl font-bold text-amber-600 pt-1">
                   {scenarioResult.predictedTemperature}°C
                 </div>
-                <div className="text-[10px] text-amber-500 font-sans">Threshold Limit: 75.0°C (Critical)</div>
+                <div className="text-[10px] text-amber-500 font-sans font-semibold">Threshold Limit: 75.0°C (Critical)</div>
               </div>
               <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-1 shadow-sm">
                 <span className="text-[10px] text-slate-400 uppercase block font-sans">Active Stress Vectors</span>
                 <div className="text-sm font-bold text-slate-900 pt-1">Load: {scenarioLoad}% | Mem: {memorySaturation}%</div>
-                <div className="text-[10px] text-slate-400 font-sans">Status: Envelope Exceeded</div>
+                <div className="text-[10px] text-slate-500 font-sans font-semibold">Status: Envelope Exceeded</div>
               </div>
             </div>
 
@@ -233,7 +236,7 @@ export default function ScenarioTab({ assets, setActiveTab }) {
                     <h3 className="text-xs uppercase font-bold text-slate-900 tracking-wider font-mono">
                       Autonomous Mitigation Protocol & Live AI Analysis
                     </h3>
-                    <p className="text-[11px] text-slate-500 font-sans">Target Asset: <span className="font-semibold text-slate-700">{selectedAsset?.name || "Main-Server-Alpha"}</span></p>
+                    <p className="text-[11px] text-slate-600 font-semibold font-sans">Target Asset: <span className="font-bold text-slate-900">{selectedAsset?.name || "Main-Server-Alpha"}</span></p>
                   </div>
                 </div>
                 <span className="text-[11px] font-mono font-bold text-rose-600 lowercase">
