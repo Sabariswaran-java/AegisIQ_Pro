@@ -58,7 +58,6 @@ export default function ScenarioTab({ assets, setActiveTab }) {
       let cleanParagraph = trimmed.replace(/\*\*/g, '').replace(/`/g, '').replace(/<br\s*[\/]?>/gi, ' ').replace(/\|/g, '');
       if (!cleanParagraph.trim()) return null;
 
-      // Enhanced font weight for high visibility matching 'Synchronized' font style
       return (
         <p key={idx} className="text-xs text-slate-900 font-semibold leading-relaxed font-sans my-1.5">
           {cleanParagraph}
@@ -137,7 +136,6 @@ export default function ScenarioTab({ assets, setActiveTab }) {
                 setIsSimulatingTwin(true);
                 setScenarioResult(null); 
 
-                // 6 seconds delay simulation
                 await new Promise((resolve) => setTimeout(resolve, 6000));
 
                 const data = await evaluateScenario({
@@ -205,10 +203,10 @@ export default function ScenarioTab({ assets, setActiveTab }) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs w-full">
               <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-1 shadow-sm">
                 <span className="text-[10px] text-slate-400 uppercase block font-sans">Failover Risk Index (FRI)</span>
-                {/* Fixed font matching for FRI score and denominator */}
+                {/* Balanced font size for number and denominator */}
                 <div className="text-xl font-bold text-rose-600 pt-1 flex items-baseline gap-1">
                   <span>{scenarioResult.failoverRiskIndex}</span>
-                  <span className="text-xs font-bold text-slate-500">/ 100</span>
+                  <span className="text-sm font-bold text-slate-500">/ 100</span>
                 </div>
               </div>
               <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-1 shadow-sm">
@@ -240,7 +238,7 @@ export default function ScenarioTab({ assets, setActiveTab }) {
                   </div>
                 </div>
                 <span className="text-[11px] font-mono font-bold text-rose-600 lowercase">
-                  State: {scenarioResult.riskAssessment || "critical threshold breach"}
+                  state: {scenarioResult.riskAssessment || "critical threshold breach"}
                 </span>
               </div>
 
