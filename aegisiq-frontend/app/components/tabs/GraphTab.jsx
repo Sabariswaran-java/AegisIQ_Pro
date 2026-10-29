@@ -16,52 +16,40 @@ export default function GraphTab({ assets, setActiveTab }) {
   // Interactive Controls State
   const [zoomLevel, setZoomLevel] = useState(1);
 
-  // Precise positioning for left/right directional flow mapping
+  // Dynamic realistic graph topology generation (Sparse connectivity)
   const { nodePositions, dynamicEdges } = useMemo(() => {
     if (safeAssets.length === 0) return { nodePositions: {}, dynamicEdges: [] };
 
     const positions = {};
     const edges = [];
+    const total = safeAssets.length;
     const centerX = 450;
     const centerY = 260;
-    const horizontalSpacing = 180;
-    const verticalSpacing = 130;
+    const radius = 200;
 
-    // Intelligent positioning based on asset names/types to place left/right cleanly
+    // Position calculation centered around selectedAsset
     safeAssets.forEach((asset, index) => {
       const isTarget = selectedAsset && asset.id === selectedAsset.id;
-      
       if (isTarget) {
         positions[asset.name] = { x: centerX, y: centerY };
       } else {
-        // Place specific adjacent nodes on left and right, others distributed
-        const nameLower = (asset.name || "").toLowerCase();
-        if (nameLower.includes("7") || index === 0) {
-          // Left side node (e.g., Turbine 7)
-          positions[asset.name] = { x: centerX - horizontalSpacing, y: centerY + 80 };
-        } else if (nameLower.includes("akash") || nameLower.includes("5") || index === 1) {
-          // Right side node (e.g., Akash)
-          positions[asset.name] = { x: centerX + horizontalSpacing, y: centerY };
-        } else if (nameLower.includes("4") || index === 2) {
-          // Top node (e.g., Turbine 4)
-          positions[asset.name] = { x: centerX, y: centerY - verticalSpacing };
-        } else {
-          // Other nodes
-          positions[asset.name] = { x: centerX + (index % 2 === 0 ? -120 : 120), y: centerY + 120 };
-        }
+        const baseAngle = (index / Math.max(total - 1, 1)) * 2 * Math.PI;
+        positions[asset.name] = {
+          x: Math.round(centerX + radius * Math.cos(baseAngle)),
+          y: Math.round(centerY + radius * Math.sin(baseAngle)),
+        };
       }
     });
 
-    // Create edges specifically connecting target asset to its neighbors
-    safeAssets.forEach((asset) => {
-      if (selectedAsset && asset.name !== selectedAsset.name) {
-        // Connect left and right neighbor nodes directly to the target asset
-        const nameLower = (asset.name || "").toLowerCase();
-        if (nameLower.includes("7") || nameLower.includes("akash") || nameLower.includes("4") || nameLower.includes("2")) {
-          edges.push({ from: selectedAsset.name, to: asset.name });
-        }
-      } else if (!selectedAsset && safeAssets.length > 1) {
-        edges.push({ from: safeAssets[0].name, to: asset.name });
+    // Realistic non-full-mesh connections (Star / Pipeline topology)
+    safeAssets.forEach((asset, i) => {
+      if (i < safeAssets.length - 1) {
+        // Linear pipeline chain
+        edges.push({ from: asset.name, to: safeAssets[i + 1].name });
+      }
+      // Connect selected target to immediate adjacent nodes only
+      if (selectedAsset && asset.id === selectedAsset.id && i > 0) {
+        edges.push({ from: safeAssets[0].name, to: selectedAsset.name });
       }
     });
 
@@ -112,6 +100,7 @@ export default function GraphTab({ assets, setActiveTab }) {
     simulateFailureImpact(nodesList, dynamicEdges, selectedAsset.name);
   };
 
+  // Plain status text color without background cards
   const getStatusTextColor = (status) => {
     const uppercaseStatus = (status || "").toUpperCase();
     if (uppercaseStatus === "CRITICAL" || uppercaseStatus === "ERROR" || uppercaseStatus === "FAILED") {
@@ -137,6 +126,7 @@ export default function GraphTab({ assets, setActiveTab }) {
         </div>
 
         <div className="flex items-center gap-2">
+          {/* Simulate Red Button */}
           <button
             onClick={handleRunSimulation}
             disabled={!selectedAsset || isSimulating}
@@ -150,6 +140,7 @@ export default function GraphTab({ assets, setActiveTab }) {
             <span>{isSimulating ? "Simulating..." : "Simulate"}</span>
           </button>
 
+          {/* Next Button - Icon Only Without Green Background */}
           <button
             onClick={() => hasSimulated && setActiveTab("twin")}
             disabled={!hasSimulated}
@@ -165,26 +156,26 @@ export default function GraphTab({ assets, setActiveTab }) {
         </div>
       </div>
 
-      {/* ASSET RELATION VIEWPORT without DYNAMIC TOPOLOGY text */}
+      {/* ASSET RELATION VIEWPORT */}
       <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm relative overflow-hidden min-h-[580px] flex flex-col justify-between">
         <div className="flex justify-between items-center border-b border-slate-100 pb-4 mb-2">
           <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
-            ASSET RELATION VIEWPORT
+            ASSET RELATION VIEWPORT (DYNAMIC TOPOLOGY)
           </span>
           <span className="text-[11px] font-mono text-slate-400">
             {selectedAsset ? `Target: ${selectedAsset.name}` : "Select a node to inspect"}
           </span>
         </div>
 
-        {/* Inline CSS Animation for Red Flow Lines */}
+        {/* Inline CSS Animation for Flow Lines */}
         <style>{`
-          @keyframes redLineFlow {
+          @keyframes lineFlow {
             0% { stroke-dashoffset: 24; }
             100% { stroke-dashoffset: 0; }
           }
-          .animated-red-flow-line {
+          .animated-flow-line {
             stroke-dasharray: 8, 8;
-            animation: redLineFlow 0.8s linear infinite;
+            animation: lineFlow 1s linear infinite;
           }
         `}</style>
 
@@ -201,7 +192,8 @@ export default function GraphTab({ assets, setActiveTab }) {
 
                 if (!p1 || !p2) return null;
 
-                // Only show active flow lines originating/terminating from the selected target asset
+                const isAffectedPath =
+                  impactedNodes.includes(edge.from) && impactedNodes.includes(edge.to);
                 const isTargetInputFlow =
                   selectedAsset && (edge.from === selectedAsset.name || edge.to === selectedAsset.name);
 
@@ -212,15 +204,15 @@ export default function GraphTab({ assets, setActiveTab }) {
                       y1={p1.y}
                       x2={p2.x}
                       y2={p2.y}
-                      stroke={isTargetInputFlow ? "#E11D48" : "#CBD5E1"}
-                      strokeWidth={isTargetInputFlow ? "2.5" : "1.5"}
-                      className={isTargetInputFlow && (hasSimulated || isSimulating) ? "animated-red-flow-line" : ""}
+                      stroke={isAffectedPath ? "#E11D48" : isTargetInputFlow ? "#0D9488" : "#CBD5E1"}
+                      strokeWidth={isAffectedPath || isTargetInputFlow ? "2.5" : "1.5"}
+                      className={hasSimulated || isSimulating || isTargetInputFlow ? "animated-flow-line" : ""}
                     />
                     <circle
                       cx={(p1.x + p2.x) / 2}
                       cy={(p1.y + p2.y) / 2}
                       r="3.5"
-                      fill={isTargetInputFlow ? "#E11D48" : "#94A3B8"}
+                      fill={isAffectedPath ? "#F43F5E" : isTargetInputFlow ? "#0D9488" : "#94A3B8"}
                     />
                   </g>
                 );
@@ -231,13 +223,7 @@ export default function GraphTab({ assets, setActiveTab }) {
             {safeAssets.map((asset) => {
               const pos = nodePositions[asset.name] || { x: 450, y: 260 };
               const isTarget = selectedAsset && asset.id === selectedAsset.id;
-              
-              // Determine if this connected asset receives input/output from target asset
-              const isConnectedToTarget = selectedAsset && (
-                (pos.x < nodePositions[selectedAsset.name]?.x && asset.name.toLowerCase().includes("7")) ||
-                (pos.x > nodePositions[selectedAsset.name]?.x && (asset.name.toLowerCase().includes("akash") || asset.name.toLowerCase().includes("5"))) ||
-                (pos.y < nodePositions[selectedAsset.name]?.y && asset.name.toLowerCase().includes("4"))
-              );
+              const isImpacted = impactedNodes.includes(asset.name);
 
               return (
                 <div
@@ -255,7 +241,7 @@ export default function GraphTab({ assets, setActiveTab }) {
                     className={`w-16 h-16 rounded-2xl flex items-center justify-center border transition-all shadow-md relative ${
                       isTarget
                         ? "bg-teal-50 border-teal-500 ring-4 ring-teal-500/20"
-                        : isConnectedToTarget
+                        : isImpacted
                         ? "bg-rose-50 border-rose-500 ring-4 ring-rose-500/20"
                         : "bg-white border-slate-300 hover:border-slate-400"
                     }`}
@@ -264,7 +250,7 @@ export default function GraphTab({ assets, setActiveTab }) {
                       className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs ${
                         isTarget
                           ? "bg-teal-600 text-white"
-                          : isConnectedToTarget
+                          : isImpacted
                           ? "bg-rose-600 text-white"
                           : "bg-slate-100 text-slate-700"
                       }`}
@@ -272,8 +258,8 @@ export default function GraphTab({ assets, setActiveTab }) {
                       {asset.name ? asset.name.substring(0, 2).toUpperCase() : "ND"}
                     </div>
 
-                    {/* CAUSE alert badge on connected feeder/receiver assets */}
-                    {isConnectedToTarget && !isTarget && (
+                    {/* Cause / Impacted Alert Badge */}
+                    {isImpacted && !isTarget && (
                       <span className="absolute -top-2 -right-2 bg-rose-600 text-white text-[9px] font-bold font-mono px-1.5 py-0.5 rounded-full shadow-xs animate-bounce">
                         CAUSE
                       </span>
@@ -284,7 +270,7 @@ export default function GraphTab({ assets, setActiveTab }) {
                     {asset.name}
                   </div>
 
-                  {/* Clean Tooltip without background cards */}
+                  {/* Clean Tooltip (Plain Text Status without Background Cards) */}
                   {hoveredNode?.id === asset.id && (
                     <div className="absolute top-[-90px] left-1/2 -translate-x-1/2 bg-white border border-slate-200 text-slate-800 p-3 rounded-xl shadow-xl text-xs w-48 z-50 pointer-events-none font-sans space-y-1">
                       <div className="font-bold border-b border-slate-100 pb-1 flex justify-between items-center">
