@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { ChevronRight, RefreshCw, ZoomIn, ZoomOut } from "lucide-react";
 import { useAegis } from "../../context/AegisContext";
-import apiClient from "../../services/api";
 
 export default function GraphTab({ assets, setActiveTab }) {
   const safeAssets = useMemo(() => assets || [], [assets]);
@@ -30,22 +29,17 @@ export default function GraphTab({ assets, setActiveTab }) {
       } else {
         const nameLower = (asset.name || "").toLowerCase();
         if (nameLower.includes("7") || index === 0) {
-          // Left asset
           positions[asset.name] = { x: centerX - horizontalSpacing, y: centerY + 90 };
         } else if (nameLower.includes("akash") || nameLower.includes("5") || index === 1) {
-          // Right asset
           positions[asset.name] = { x: centerX + horizontalSpacing, y: centerY };
         } else if (nameLower.includes("4") || index === 2) {
-          // Top asset
           positions[asset.name] = { x: centerX, y: centerY - verticalSpacing };
         } else {
-          // Bottom / general layout
           positions[asset.name] = { x: centerX - 100, y: centerY + verticalSpacing };
         }
       }
     });
 
-    // Create edges strictly oriented from Target Asset to Connected Nodes
     if (selectedAsset) {
       safeAssets.forEach((asset) => {
         if (asset.name !== selectedAsset.name) {
@@ -53,7 +47,6 @@ export default function GraphTab({ assets, setActiveTab }) {
           const assetPos = positions[asset.name];
 
           if (targetPos && assetPos) {
-            // Outward flow direction: from target to connected node
             edges.push({
               from: selectedAsset.name,
               to: asset.name,
@@ -81,7 +74,7 @@ export default function GraphTab({ assets, setActiveTab }) {
 
   return (
     <div className="space-y-6 w-full pb-12 bg-[#F8FAFC] min-h-screen p-6">
-      {/* Top Header Card Without Simulate Button */}
+      {/* Top Header Card */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
         <div>
           <h2 className="text-lg font-bold text-slate-900 tracking-tight">Enterprise Decision Graph</h2>
@@ -114,7 +107,7 @@ export default function GraphTab({ assets, setActiveTab }) {
           </span>
         </div>
 
-        {/* Smooth Red Flow Line CSS Keyframes */}
+        {/* Smooth Red Flow Line CSS Keyframes without shaking */}
         <style>{`
           @keyframes smoothRedFlow {
             0% {
@@ -127,7 +120,7 @@ export default function GraphTab({ assets, setActiveTab }) {
           .smooth-red-flow {
             stroke-dasharray: 8, 8;
             animation: smoothRedFlow 1.2s linear infinite;
-            will-change: stroke-dashoffset;
+            shape-rendering: geometricPrecision;
           }
         `}</style>
 
@@ -137,7 +130,7 @@ export default function GraphTab({ assets, setActiveTab }) {
             className="w-full h-full relative transition-transform duration-200 origin-center"
             style={{ transform: `scale(${zoomLevel})` }}
           >
-            <svg className="absolute inset-0 w-full h-full pointer-events-none">
+            <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible">
               {dynamicEdges.map((edge, idx) => {
                 const p1 = edge.fromPos;
                 const p2 = edge.toPos;
@@ -146,7 +139,7 @@ export default function GraphTab({ assets, setActiveTab }) {
 
                 return (
                   <g key={idx}>
-                    {/* Red Flow Direction Line */}
+                    {/* Clean Smooth Red Flow Line without middle dots */}
                     <line
                       x1={p1.x}
                       y1={p1.y}
@@ -155,12 +148,6 @@ export default function GraphTab({ assets, setActiveTab }) {
                       stroke="#E11D48"
                       strokeWidth="2.5"
                       className="smooth-red-flow"
-                    />
-                    <circle
-                      cx={(p1.x + p2.x) / 2}
-                      cy={(p1.y + p2.y) / 2}
-                      r="3.5"
-                      fill="#E11D48"
                     />
                   </g>
                 );
@@ -171,7 +158,6 @@ export default function GraphTab({ assets, setActiveTab }) {
             {safeAssets.map((asset) => {
               const pos = nodePositions[asset.name] || { x: 450, y: 260 };
               const isTarget = selectedAsset && asset.id === selectedAsset.id;
-              
               const isConnectedToTarget = selectedAsset && asset.id !== selectedAsset.id;
 
               return (
@@ -184,7 +170,7 @@ export default function GraphTab({ assets, setActiveTab }) {
                   }}
                   onMouseEnter={() => setHoveredNode(asset)}
                   onMouseLeave={() => setHoveredNode(null)}
-                  className="absolute cursor-pointer group transition-transform hover:scale-110 z-10"
+                  className="absolute cursor-pointer group transition-transform hover:scale-110 z-20"
                 >
                   <div
                     className={`w-16 h-16 rounded-2xl flex items-center justify-center border transition-all shadow-md relative ${
@@ -206,22 +192,15 @@ export default function GraphTab({ assets, setActiveTab }) {
                     >
                       {asset.name ? asset.name.substring(0, 2).toUpperCase() : "ND"}
                     </div>
-
-                    {/* CAUSE alert badge on receiver assets */}
-                    {isConnectedToTarget && (
-                      <span className="absolute -top-2 -right-2 bg-rose-600 text-white text-[9px] font-bold font-mono px-1.5 py-0.5 rounded-full shadow-xs animate-bounce">
-                        CAUSE
-                      </span>
-                    )}
                   </div>
 
                   <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap bg-white/95 backdrop-blur-xs px-2 py-0.5 rounded border border-slate-200 text-[10px] font-mono font-bold text-slate-700 shadow-xs">
                     {asset.name}
                   </div>
 
-                  {/* Clean Tooltip without background card */}
+                  {/* Clean Tooltip with z-50 to prevent clipping */}
                   {hoveredNode?.id === asset.id && (
-                    <div className="absolute top-[-90px] left-1/2 -translate-x-1/2 bg-white border border-slate-200 text-slate-800 p-3 rounded-xl shadow-xl text-xs w-48 z-50 pointer-events-none font-sans space-y-1">
+                    <div className="absolute bottom-[75px] left-1/2 -translate-x-1/2 bg-white border border-slate-200 text-slate-800 p-3 rounded-xl shadow-2xl text-xs w-48 z-50 pointer-events-none font-sans space-y-1">
                       <div className="font-bold border-b border-slate-100 pb-1 flex justify-between items-center">
                         <span className="text-slate-900 font-mono text-xs">{asset.name}</span>
                         <span className={`text-[10px] font-mono ${getStatusTextColor(asset.status)}`}>
@@ -244,7 +223,7 @@ export default function GraphTab({ assets, setActiveTab }) {
           </div>
 
           {/* Interactive Zoom Controls */}
-          <div className="absolute bottom-2 left-2 bg-white/90 backdrop-blur-xs border border-slate-200 rounded-xl p-1 flex items-center gap-1 shadow-xs z-20">
+          <div className="absolute bottom-2 left-2 bg-white/90 backdrop-blur-xs border border-slate-200 rounded-xl p-1 flex items-center gap-1 shadow-xs z-30">
             <button
               onClick={() => setZoomLevel((prev) => Math.min(prev + 0.15, 1.8))}
               title="Zoom In"
