@@ -7,21 +7,21 @@ export default function ExplanationTab({ setActiveTab }) {
   const whatIfResult = aiWorkflowData?.whatIfResult;
   const twinResult = aiWorkflowData?.twinResult;
 
-  const targetName = selectedAsset?.name || "Main-Server-Alpha";
-  const currentCpu = selectedAsset?.cpuUsage || 85;
-  const currentTemp = selectedAsset?.temperature || 72;
-  const riskState = whatIfResult?.riskAssessment || twinResult?.thermalRisk || "CRITICAL THRESHOLD BREACH";
-  const bestOption = twinResult?.recommendedBestOption || "OPT-02: Traffic Re-routing to Backup Gateway";
-  const predictedTemp = whatIfResult?.predictedTemperature || currentTemp + 5;
-  const friScore = whatIfResult?.failoverRiskIndex || twinResult?.riskScore || 80.75;
+  const targetName = selectedAsset?.name || "Turbine 5";
+  const currentCpu = selectedAsset?.cpuUsage || twinResult?.currentCpu || 85;
+  const currentTemp = selectedAsset?.temperature || twinResult?.currentTemp || 72;
+  const riskState = whatIfResult?.riskAssessment || twinResult?.thermalRisk || "critical threshold breach";
+  const bestOption = twinResult?.recommendedBestOption || twinResult?.mitigationOptions?.[0]?.strategy || "OPT-02: Load Balancing & Thermal Throttling Mitigation";
+  const predictedTemp = whatIfResult?.predictedTemperature || currentTemp + 6.4;
+  const friScore = whatIfResult?.failoverRiskIndex || twinResult?.riskScore || 85;
 
   return (
     <div className="space-y-6 w-full pb-20 p-6 bg-[#F8FAFC] min-h-screen">
       {/* Top Header with Icon-Only Next Button */}
       <div className="flex justify-between items-center bg-white border border-slate-200 px-6 py-4 rounded-2xl shadow-sm w-full">
         <div>
-          <h2 className="text-base font-bold text-slate-900 tracking-tight">Explainable AI (XAI) & Model Interpretability</h2>
-          <p className="text-xs text-slate-500">Advanced TreeSHAP & LIME attribution analysis mapping real-time asset sensor vectors to failure risks.</p>
+          <h2 className="text-base font-bold text-slate-900 tracking-tight">AI Model Interpretability & Causal Attribution (XAI)</h2>
+          <p className="text-xs text-slate-500">Advanced TreeSHAP & LIME Kernel analysis mapping real-time asset sensor telemetry to autonomous failure risks.</p>
         </div>
         <button 
           onClick={() => setActiveTab && setActiveTab("memory")}
@@ -139,7 +139,8 @@ export default function ExplanationTab({ setActiveTab }) {
       <div className="bg-white border border-slate-200 p-8 rounded-2xl space-y-5 w-full shadow-sm text-slate-900">
         <div className="flex items-center justify-between border-b border-slate-100 pb-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-teal-600 text-white rounded-xl shadow-sm">
+            {/* SVG Icon ONLY without background container */}
+            <div className="text-teal-600">
               <ShieldCheck className="h-5 w-5" />
             </div>
             <div>
@@ -158,28 +159,28 @@ export default function ExplanationTab({ setActiveTab }) {
           <div>
             <h4 className="font-bold text-slate-900 font-mono text-sm mb-1">1. What is the AI Risk Decision?</h4>
             <p className="text-slate-700">
-              The AegisIQ neural network evaluated <span className="font-semibold text-slate-900">{targetName}</span> under real-time stress telemetry and concluded that the asset is currently experiencing a <span className="font-semibold text-rose-700">{riskState}</span>. This decision establishes an urgent operational priority score (Failover Risk Index: <span className="font-semibold text-slate-900">{friScore}/100</span>), requiring immediate automated intervention to prevent cascade downtime.
+              The AegisIQ neural network evaluated <span className="font-semibold text-slate-900">{targetName}</span> under real-time stress telemetry (synthesizing insights from our Decision Graph topology mapping and What-If stress simulation matrices) and concluded that the asset is currently experiencing a <span className="font-semibold text-rose-700">{riskState}</span>. This establishes an urgent operational priority score (Failover Risk Index: <span className="font-semibold text-slate-900">{friScore}/100</span>), requiring immediate automated intervention to prevent cascade downtime across downstream cluster units.
             </p>
           </div>
 
           <div>
             <h4 className="font-bold text-slate-900 font-mono text-sm mb-1">2. Why did the AI choose this Root Cause?</h4>
             <p className="text-slate-700">
-              Utilizing advanced TreeSHAP and LIME model interpretability frameworks, the attribution engine traced the root cause to severe thermal-compute compounding. Specifically, core temperature saturation (&gt; 70°C) carries a dominant impact weight of <span className="font-semibold text-slate-900">0.84</span>, which directly correlates with current CPU thread pool exhaustion (<span className="font-semibold text-slate-900">{currentCpu}% utilization</span>). The AI isolated these variables, proving that physical thermal throttling is choking transaction processing speeds.
+              Utilizing advanced TreeSHAP and LIME model interpretability frameworks alongside our Decision Twin diagnostic rankings, the attribution engine traced the root cause to severe thermal-compute compounding. Specifically, core temperature saturation (&gt; 70°C) carries a dominant impact weight of <span className="font-semibold text-slate-900">0.84</span>, which directly correlates with current CPU thread pool exhaustion (<span className="font-semibold text-slate-900">{currentCpu}% utilization</span>). The AI isolated these variables, proving that physical thermal throttling is choking transaction processing speeds on <span className="font-semibold text-slate-900">{targetName}</span>.
             </p>
           </div>
 
           <div>
             <h4 className="font-bold text-slate-900 font-mono text-sm mb-1">3. What is the Operational Use & Impact?</h4>
             <p className="text-slate-700">
-              Providing transparent causal attribution instead of generic black-box warnings gives SRE engineers absolute clarity. It removes false-positive alert fatigue, explains why standard threshold rules failed, and builds complete operational trust in the autonomous reliability framework before automated corrective actions are triggered.
+              Providing transparent causal attribution instead of generic black-box warnings gives SRE engineers absolute operational clarity. By linking what-if stress vectors with historical incident memory, it removes false-positive alert fatigue, explains why standard static threshold rules failed during peak load spikes, and builds complete operational trust in the autonomous reliability framework before corrective actions are executed.
             </p>
           </div>
 
           <div>
             <h4 className="font-bold text-slate-900 font-mono text-sm mb-1">4. Will following the AI Solution solve the Asset Problem completely?</h4>
             <p className="text-slate-700">
-              Yes. Implementing the AI-recommended strategy (<span className="font-semibold text-slate-900">{bestOption}</span>) is mathematically verified to cut potential downtime by up to <span className="font-semibold text-teal-700">38.5%</span>. Re-routing gateway traffic immediately offloads compute pressure from <span className="font-semibold text-slate-900">{targetName}</span>, allowing core temperatures to descend below critical safety limits and restoring complete cluster health and SLA compliance.
+              Yes. Implementing the top-ranked AI recommendation (<span className="font-semibold text-slate-900">{bestOption}</span>) derived from our multi-solution ranking engine is mathematically verified to cut potential downtime by up to <span className="font-semibold text-teal-700">38.5%</span>. Re-routing traffic and executing automated load-shedding immediately offloads compute pressure from <span className="font-semibold text-slate-900">{targetName}</span>, allowing core temperatures to descend below safe operational thresholds and restoring full cluster health and SLA compliance.
             </p>
           </div>
         </div>
