@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Upload, Loader2, FileText, CheckCircle2, AlertCircle, ChevronRight, History } from "lucide-react";
 import { useAegis } from "../../context/AegisContext";
 
-export default function ReportsTab({ assets, setActiveTab }) {
+export default function ReportsTab({ assets = [], setActiveTab }) {
   const { selectedAsset } = useAegis();
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
