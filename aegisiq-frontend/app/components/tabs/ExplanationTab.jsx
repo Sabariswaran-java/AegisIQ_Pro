@@ -7,7 +7,6 @@ export default function ExplanationTab({ setActiveTab }) {
   const whatIfResult = aiWorkflowData?.whatIfResult;
   const twinResult = aiWorkflowData?.twinResult;
 
-  // Fully dynamic binding linked from Decision Graph, Decision Twin, and What-If Simulation
   const targetName = selectedAsset?.name || twinResult?.assetName || "Turbine 5";
   const currentCpu = selectedAsset?.cpuUsage || twinResult?.currentCpu || 85;
   const currentTemp = selectedAsset?.temperature || twinResult?.currentTemp || 72;
@@ -18,10 +17,10 @@ export default function ExplanationTab({ setActiveTab }) {
 
   return (
     <div className="space-y-6 w-full pb-20 p-6 bg-[#F8FAFC] min-h-screen">
-      {/* Top Professional Header with Next Icon Button */}
+      {/* Top Header */}
       <div className="flex justify-between items-center bg-white border border-slate-200 px-6 py-4 rounded-2xl shadow-sm w-full">
         <div>
-          <h2 className="text-base font-bold text-slate-900 tracking-tight">AI Causal Inference & Explainable SRE Intelligence (XAI)</h2>
+          <h2 className="text-base font-bold text-slate-900 tracking-tight">XAI</h2>
           <p className="text-xs text-slate-500">Advanced TreeSHAP & LIME attribution synthesis mapping real-time asset telemetry from Graph topology & What-If stress matrices.</p>
         </div>
         <button 
@@ -75,7 +74,7 @@ export default function ExplanationTab({ setActiveTab }) {
         </div>
       </div>
 
-      {/* GLOBAL FEATURE IMPORTANCE & DECISION TREE BREAKDOWN */}
+      {/* GLOBAL FEATURE IMPORTANCE & DECISION TREE BREAKDOWN (POLISHED UI) */}
       <div className="bg-white border border-slate-200 p-6 rounded-2xl space-y-5 w-full shadow-sm">
         <div className="flex justify-between items-center border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2.5">
@@ -92,7 +91,7 @@ export default function ExplanationTab({ setActiveTab }) {
         <div className="space-y-4 font-mono text-xs">
           <div className="space-y-1.5 pb-3 border-b border-slate-100">
             <div className="flex justify-between text-slate-800">
-              <span className="font-bold">1. Core Temperature Saturation (&gt; 70°C)</span>
+              <span className="font-bold">1. Core Temperature Saturation Limit</span>
               <span className="text-slate-900 font-bold">0.84 SHAP Impact</span>
             </div>
             <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-200">
@@ -103,7 +102,7 @@ export default function ExplanationTab({ setActiveTab }) {
 
           <div className="space-y-1.5 pb-3 border-b border-slate-100">
             <div className="flex justify-between text-slate-800">
-              <span className="font-bold">2. CPU Thread Pool Saturation (&gt; 90%)</span>
+              <span className="font-bold">2. CPU Thread Pool Saturation Threshold</span>
               <span className="text-slate-900 font-bold">0.72 SHAP Impact</span>
             </div>
             <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-200">
@@ -125,7 +124,7 @@ export default function ExplanationTab({ setActiveTab }) {
 
           <div className="space-y-1.5">
             <div className="flex justify-between text-slate-800">
-              <span className="font-bold">4. Harmonic Vibration Deviation (&gt; 0.05g)</span>
+              <span className="font-bold">4. Harmonic Vibration Deviation Metric</span>
               <span className="text-slate-900 font-bold">0.21 SHAP Impact</span>
             </div>
             <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-200">
@@ -166,7 +165,7 @@ export default function ExplanationTab({ setActiveTab }) {
           <div>
             <h4 className="font-bold text-slate-900 font-mono text-sm mb-1">2. Why did the AI choose this Root Cause?</h4>
             <p className="text-slate-700">
-              Utilizing advanced TreeSHAP and LIME model interpretability frameworks alongside our Decision Twin diagnostic rankings, the attribution engine traced the root cause to severe thermal-compute compounding. Specifically, core temperature saturation (&gt; 70°C) carries a dominant impact weight of <span className="font-semibold text-slate-900">0.84</span>, which directly correlates with current CPU thread pool exhaustion (<span className="font-semibold text-slate-900">{currentCpu}% utilization</span>). The AI isolated these variables, proving that physical thermal throttling is choking transaction processing speeds on <span className="font-semibold text-slate-900">{targetName}</span>.
+              Utilizing advanced TreeSHAP and LIME model interpretability frameworks alongside our Decision Twin diagnostic rankings, the attribution engine traced the root cause to severe thermal-compute compounding. Specifically, core temperature saturation carries a dominant impact weight of <span className="font-semibold text-slate-900">0.84</span>, which directly correlates with current CPU thread pool exhaustion (<span className="font-semibold text-slate-900">{currentCpu}% utilization</span>). The AI isolated these variables, proving that physical thermal throttling is choking transaction processing speeds on <span className="font-semibold text-slate-900">{targetName}</span>.
             </p>
           </div>
 
