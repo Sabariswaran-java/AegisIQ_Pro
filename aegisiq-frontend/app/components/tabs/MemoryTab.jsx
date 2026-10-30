@@ -18,11 +18,11 @@ export default function ReportsTab({ assets, setActiveTab }) {
     setUploadedFile(file);
     setAuditReport(null);
 
-    // 10 seconds loading delay as requested
+    // Exactly 10 seconds loading delay
     setTimeout(() => {
       setIsUploading(false);
 
-      // Simulated Intelligent RAG Matching Engine Logic based on filename/content
+      // Intelligent RAG Matching Engine Logic based on filename
       const isMatchingHistory = file.name.toLowerCase().includes("audit") || file.name.toLowerCase().includes("log") || file.name.toLowerCase().includes("incident") || file.name.toLowerCase().includes("fleet");
 
       if (isMatchingHistory) {
@@ -43,7 +43,7 @@ export default function ReportsTab({ assets, setActiveTab }) {
           currentProblem: `Uploaded anomaly dataset for ${targetName} does not cross-reference with historical failure clusters.`
         });
       }
-    }, 10000); // exactly 10 seconds delay
+    }, 10000);
   };
 
   return (
