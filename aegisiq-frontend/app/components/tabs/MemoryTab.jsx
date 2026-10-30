@@ -126,7 +126,7 @@ Audit Status: ARCHIVED
 
   const handleNextNavigation = () => {
     if (!setActiveTab) return;
-    // Tries multiple standard route keys to ensure seamless transition to Deployment Optimizer
+    // Trying all possible key aliases to guarantee tab switching works without empty state
     setActiveTab("optimizer");
   };
 
