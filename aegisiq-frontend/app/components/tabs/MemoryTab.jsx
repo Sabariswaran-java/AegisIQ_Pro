@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Upload, Loader2, FileText, CheckCircle2, AlertCircle, ChevronRight, ShieldCheck, Terminal, Database } from "lucide-react";
+import { Upload, Loader2, FileText, CheckCircle2, AlertCircle, ChevronRight, ShieldAlert, FileCheck } from "lucide-react";
 import { useAegis } from "../../context/AegisContext";
 
 export default function ReportsTab({ assets = [], setActiveTab }) {
@@ -8,7 +8,7 @@ export default function ReportsTab({ assets = [], setActiveTab }) {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [auditReport, setAuditReport] = useState(null);
 
-  const targetName = selectedAsset?.name || "Turbine 5";
+  const targetName = selectedAsset?.name || "Assembly Line 03 / Mechanical Conveyor Unit";
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
@@ -27,19 +27,45 @@ export default function ReportsTab({ assets = [], setActiveTab }) {
       if (isMatchingHistory) {
         setAuditReport({
           matchFound: true,
-          incidentCode: "INC-8921-X",
-          confidenceScore: "98.4%",
-          vectorSignature: "THERMAL_RUNAWAY_CPU_SATURATED",
-          historicalReference: "Core-Node-Alpha (14 Sept 2025)",
-          diagnostics: `Critical thermal saturation (>82°C) coupled with 95% thread pool exhaustion on ${targetName}.`,
-          remediationProtocol: "Executed automated traffic re-routing to secondary gateway node, initiated aggressive thread pool garbage collection, and applied frequency voltage scaling (FVS).",
-          executionStack: ["Spring Boot Circuit Breaker", "PostgreSQL Vector Audit Log", "Next.js Load-Shedding Matrix"],
-          validationHash: "SHA-256: 8f94b21c7e6a3... (Zero downtime verified)"
+          metadata: {
+            reportId: "INC-2026-AegisIQ-042",
+            dateTime: "28-10-2026 | 14:35 PM",
+            plantLocation: targetName,
+            shift: "Afternoon Shift (Shift B)",
+            reportedBy: "AegisIQ Automated Sensor Trigger / M. Sabariswaran (Backend Engineer)",
+            supervisor: "R. Karthikeyan (Production Supervisor)"
+          },
+          classification: "Equipment / Property Damage (Conveyor Motor Overload & Proximity Sensor Failure)",
+          personnel: {
+            affected: "S. Ramesh (Machine Operator, ID: EMP-4029)",
+            witness: "M. Vignesh (Shift Technician, ID: EMP-4112)"
+          },
+          chronologicalSteps: [
+            "Normal Operation: Assembly Line 03 operating at optimal speed (120 units/hour) with predictive parameters green.",
+            "Anomaly Detected: AegisIQ real-time telemetry recorded sudden voltage spike and temperature rise (+18°C) on Conveyor Motor Unit 03 with unresponsive proximity feedback.",
+            "Trigger Event: Delayed feedback synchronization caused mechanical jam at sorting gate, motor stall, and minor structural housing damage.",
+            "Immediate Reaction: Emergency stop triggered automatically via AegisIQ interlock within 450ms; power cut off and floor crew deployed."
+          ],
+          immediateActions: [
+            "Main power feed to Assembly Line 03 cut off immediately via automated system interlock.",
+            "Area isolated with caution tape by safety response team.",
+            "Maintenance crew inspected jammed motor housing and cleared blocked metallic debris.",
+            "Affected operator underwent precautionary first-aid screening (no injuries recorded)."
+          ],
+          rootCause: {
+            immediate: "Operator attempted manual clearance override without locking out primary breaker; worn-out proximity sensor surface and carbonized contact points inside motor relay switch.",
+            systemic: "Lack of automated predictive maintenance triggers for proximity sensors exceeding 500+ operational hours; inadequate real-time alert dispatch configuration on secondary branch sub-nodes."
+          },
+          capaPlan: [
+            { no: 1, action: "Replace faulty proximity sensor & relay switch", owner: "Maintenance Team (S. Murugan)", date: "30-10-2026", status: "Completed" },
+            { no: 2, action: "Update AegisIQ anomaly detection threshold rules for Line 03", owner: "Backend Team (M. Sabariswaran)", date: "01-11-2026", status: "In Progress" },
+            { no: 3, action: "Conduct safety re-training for shift crew on Lockout/Tagout (LOTO)", owner: "Safety Officer (K. Selvam)", date: "02-11-2026", status: "Pending" }
+          ],
+          aiInsights: "Integrating real-time sensor feedback logs directly with automated circuit breakers prevents catastrophic motor burnout. Indexed into AegisIQ Incident Memory vector store."
         });
       } else {
         setAuditReport({
-          matchFound: false,
-          diagnostics: `Uploaded dataset for ${targetName} exhibits novel telemetry vectors with no historical cluster match.`
+          matchFound: false
         });
       }
     }, 10000);
@@ -95,113 +121,162 @@ export default function ReportsTab({ assets = [], setActiveTab }) {
         <div className="bg-white border border-slate-200 p-10 rounded-2xl text-center space-y-3 shadow-sm w-full animate-pulse">
           <Loader2 className="h-7 w-7 animate-spin mx-auto text-teal-600" />
           <p className="text-xs font-mono text-slate-700 font-semibold">
-            Parsing uploaded dataset and cross-referencing against 1,420 historical enterprise incident vectors (Processing for 10 seconds)...
+            Parsing uploaded dataset and cross-referencing against enterprise incident vectors (Processing for 10 seconds)...
           </p>
         </div>
       )}
 
-      {/* PROFESSIONAL ENTERPRISE AUDIT REPORT */}
+      {/* PROFESSIONAL INDUSTRIAL INCIDENT REPORT (DOCUMENT STYLE) */}
       {auditReport && !isUploading && (
-        <div className="bg-white border border-slate-200 p-8 rounded-2xl space-y-6 w-full shadow-sm animate-in fade-in duration-500 text-slate-900 font-sans">
-          
-          {/* Report Header */}
-          <div className="flex items-center justify-between border-b border-slate-200 pb-4">
-            <div className="flex items-center gap-3">
-              <div className="text-teal-600">
-                <ShieldCheck className="h-6 w-6" />
-              </div>
-              <div>
-                <h3 className="text-sm uppercase font-bold text-slate-900 tracking-wider font-mono">
-                  Enterprise Incident Remediation & RAG Synthesis Report
-                </h3>
-                <p className="text-xs text-slate-500 font-mono mt-0.5">Target Node: <span className="font-bold text-slate-800">{targetName}</span> | Source: {uploadedFile?.name}</p>
-              </div>
-            </div>
-            <span className={`text-[11px] font-mono font-bold px-3 py-1.5 rounded-xl border ${
-              auditReport.matchFound ? 'bg-teal-50 text-teal-700 border-teal-200' : 'bg-rose-50 text-rose-700 border-rose-200'
-            }`}>
-              {auditReport.matchFound ? `MATCH CONFIRMED (${auditReport.confidenceScore})` : "NO HISTORY MATCH FOUND"}
-            </span>
-          </div>
-
+        <div>
           {auditReport.matchFound ? (
-            <div className="space-y-6 text-xs text-slate-800">
+            <div className="bg-white border border-slate-300 p-8 rounded-xl space-y-6 w-full text-slate-900 font-sans shadow-sm">
               
-              {/* Metadata Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono">
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1">
-                  <span className="text-[10px] text-slate-400 uppercase block font-sans">Matched Incident ID</span>
-                  <div className="text-sm font-bold text-slate-900">{auditReport.incidentCode}</div>
+              {/* Document Title Header */}
+              <div className="border-b-2 border-slate-900 pb-4 flex justify-between items-start">
+                <div>
+                  <h3 className="text-sm font-bold uppercase tracking-widest text-slate-900 font-mono">
+                    INDUSTRIAL INCIDENT MEMORY REPORT & ROOT CAUSE ANALYSIS
+                  </h3>
+                  <p className="text-[11px] text-slate-500 font-mono mt-1">Platform Generated by AegisIQ | Evaluated Source: {uploadedFile?.name}</p>
                 </div>
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1">
-                  <span className="text-[10px] text-slate-400 uppercase block font-sans">Vector Signature</span>
-                  <div className="text-sm font-bold text-teal-700 truncate">{auditReport.vectorSignature}</div>
-                </div>
-                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1">
-                  <span className="text-[10px] text-slate-400 uppercase block font-sans">Historical Anchor</span>
-                  <div className="text-sm font-bold text-slate-900">{auditReport.historicalReference}</div>
+                <span className="px-3 py-1 bg-teal-50 border border-teal-200 text-teal-800 text-[11px] font-mono font-bold rounded">
+                  VERIFIED MATCH (98.4%)
+                </span>
+              </div>
+
+              {/* 1. INCIDENT METADATA */}
+              <div className="space-y-2">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 font-mono bg-slate-100 px-3 py-1.5 border-l-4 border-teal-600">
+                  1. Incident Metadata
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 text-xs pt-1 px-1">
+                  <div><span className="font-semibold text-slate-600">Report ID:</span> {auditReport.metadata.reportId}</div>
+                  <div><span className="font-semibold text-slate-600">Date & Time:</span> {auditReport.metadata.dateTime}</div>
+                  <div><span className="font-semibold text-slate-600">Plant Location:</span> {auditReport.metadata.plantLocation}</div>
+                  <div><span className="font-semibold text-slate-600">Shift:</span> {auditReport.metadata.shift}</div>
+                  <div><span className="font-semibold text-slate-600">Reported By:</span> {auditReport.metadata.reportedBy}</div>
+                  <div><span className="font-semibold text-slate-600">Supervisor In-charge:</span> {auditReport.metadata.supervisor}</div>
                 </div>
               </div>
 
-              {/* Section 1: Diagnostics */}
+              {/* 2. INCIDENT CLASSIFICATION */}
               <div className="space-y-2">
-                <h4 className="font-bold text-slate-900 font-mono text-xs uppercase tracking-wide border-b border-slate-100 pb-1 flex items-center gap-2">
-                  <Terminal className="h-3.5 w-3.5 text-teal-600" /> 1. Telemetry Anomaly Diagnostics
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 font-mono bg-slate-100 px-3 py-1.5 border-l-4 border-teal-600">
+                  2. Incident Classification
                 </h4>
-                <p className="text-slate-700 leading-relaxed bg-slate-50/50 p-4 rounded-xl border border-slate-100">
-                  {auditReport.diagnostics}
-                </p>
+                <div className="text-xs px-1 pt-1 font-semibold text-rose-700">
+                  [X] {auditReport.classification}
+                </div>
               </div>
 
-              {/* Section 2: Methodology */}
+              {/* 3. PERSONNEL INVOLVED */}
               <div className="space-y-2">
-                <h4 className="font-bold text-slate-900 font-mono text-xs uppercase tracking-wide border-b border-slate-100 pb-1 flex items-center gap-2">
-                  <Database className="h-3.5 w-3.5 text-teal-600" /> 2. Validated Remediation Methodology
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 font-mono bg-slate-100 px-3 py-1.5 border-l-4 border-teal-600">
+                  3. Personnel Involved / Witnesses
                 </h4>
-                <p className="text-slate-700 leading-relaxed bg-slate-50/50 p-4 rounded-xl border border-slate-100 font-medium">
-                  {auditReport.remediationProtocol}
-                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1 text-xs pt-1 px-1">
+                  <div><span className="font-semibold text-slate-600">Affected Person:</span> {auditReport.personnel.affected}</div>
+                  <div><span className="font-semibold text-slate-600">Witness Name:</span> {auditReport.personnel.witness}</div>
+                </div>
               </div>
 
-              {/* Section 3: Tech Stack */}
+              {/* 4. CHRONOLOGICAL DESCRIPTION */}
               <div className="space-y-2">
-                <h4 className="font-bold text-slate-900 font-mono text-xs uppercase tracking-wide border-b border-slate-100 pb-1">
-                  3. Execution Stack & Frameworks
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 font-mono bg-slate-100 px-3 py-1.5 border-l-4 border-teal-600">
+                  4. Chronological Description of Events
                 </h4>
-                <div className="flex flex-wrap gap-2 pt-1">
-                  {auditReport.executionStack.map((tech, idx) => (
-                    <span key={idx} className="px-3 py-1.5 bg-slate-100 border border-slate-200 text-slate-800 rounded-lg font-mono text-[11px] font-semibold">
-                      ✓ {tech}
-                    </span>
+                <div className="space-y-1.5 text-xs pt-1 px-1 text-slate-700">
+                  {auditReport.chronologicalSteps.map((step, idx) => (
+                    <div key={idx} className="flex items-start gap-2">
+                      <span className="font-mono font-bold text-slate-900">Step {idx + 1}:</span>
+                      <span>{step}</span>
+                    </div>
                   ))}
                 </div>
               </div>
 
-              {/* Section 4: Verification */}
+              {/* 5. IMMEDIATE CORRECTIVE ACTIONS */}
               <div className="space-y-2">
-                <h4 className="font-bold text-slate-900 font-mono text-xs uppercase tracking-wide border-b border-slate-100 pb-1">
-                  4. Cryptographic Audit Trail Verification
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 font-mono bg-slate-100 px-3 py-1.5 border-l-4 border-teal-600">
+                  5. Immediate Corrective Actions (ICA) Taken
                 </h4>
-                <div className="p-4 bg-teal-50/40 border border-teal-200 rounded-xl text-teal-900 font-mono text-xs">
-                  <p className="font-bold mb-0.5">Verification Hash & SLA Status:</p>
-                  <p className="text-slate-700">{auditReport.validationHash}</p>
+                <ul className="list-disc list-inside text-xs pt-1 px-1 space-y-1 text-slate-700">
+                  {auditReport.immediateActions.map((action, idx) => (
+                    <li key={idx}>{action}</li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* 6. ROOT CAUSE ANALYSIS */}
+              <div className="space-y-2">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 font-mono bg-slate-100 px-3 py-1.5 border-l-4 border-teal-600">
+                  6. Root Cause Analysis (RCA) - Why Did It Happen?
+                </h4>
+                <div className="space-y-2 text-xs pt-1 px-1">
+                  <p><strong className="text-slate-900 font-mono">A. Immediate Causes:</strong> {auditReport.rootCause.immediate}</p>
+                  <p><strong className="text-slate-900 font-mono">B. Root Causes (Systemic Failures):</strong> {auditReport.rootCause.systemic}</p>
                 </div>
+              </div>
+
+              {/* 7. CAPA PLAN */}
+              <div className="space-y-2">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 font-mono bg-slate-100 px-3 py-1.5 border-l-4 border-teal-600">
+                  7. Corrective & Preventive Actions (CAPA Plan)
+                </h4>
+                <div className="overflow-x-auto pt-1">
+                  <table className="w-full text-left text-xs border border-slate-200">
+                    <thead>
+                      <tr className="bg-slate-50 border-b border-slate-200 font-mono text-[10px] uppercase text-slate-600">
+                        <th className="py-2 px-3 border-r border-slate-200">S.No</th>
+                        <th className="py-2 px-3 border-r border-slate-200">Action Item</th>
+                        <th className="py-2 px-3 border-r border-slate-200">Responsible Owner</th>
+                        <th className="py-2 px-3 border-r border-slate-200">Target Date</th>
+                        <th className="py-2 px-3">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200 font-mono text-[11px]">
+                      {auditReport.capaPlan.map((item) => (
+                        <tr key={item.no}>
+                          <td className="py-2 px-3 border-r border-slate-200">{item.no}</td>
+                          <td className="py-2 px-3 border-r border-slate-200 font-sans font-medium text-slate-800">{item.action}</td>
+                          <td className="py-2 px-3 border-r border-slate-200">{item.owner}</td>
+                          <td className="py-2 px-3 border-r border-slate-200">{item.date}</td>
+                          <td className="py-2 px-3 font-bold text-teal-700">{item.status}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* 8. LESSONS LEARNED */}
+              <div className="space-y-2">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 font-mono bg-slate-100 px-3 py-1.5 border-l-4 border-teal-600">
+                  8. Lessons Learned & Permanent Memory Archive
+                </h4>
+                <p className="text-xs text-slate-700 pt-1 px-1 leading-relaxed">
+                  {auditReport.aiInsights}
+                </p>
+              </div>
+
+              {/* Footer Sign-offs */}
+              <div className="border-t border-slate-200 pt-6 mt-6 flex justify-between items-center text-xs font-mono text-slate-500">
+                <span>Safety Officer Signature: __________________</span>
+                <span>Plant Manager Signature: __________________</span>
+                <span className="font-bold text-slate-900">Audit Status: ARCHIVED</span>
               </div>
 
             </div>
           ) : (
-            <div className="p-8 bg-rose-50 border border-rose-200 rounded-2xl text-center space-y-2 text-rose-900 font-mono">
-              <AlertCircle className="h-7 w-7 mx-auto text-rose-600" />
-              <p className="font-bold text-sm">NO HISTORICAL VECTOR MATCH FOUND</p>
-              <p className="text-xs text-slate-600 font-sans">The uploaded dataset contains novel anomalous telemetry signatures. Recommended to export data for autonomous SRE neural model fine-tuning.</p>
+            <div className="bg-white border border-slate-300 p-10 rounded-xl text-center space-y-3 shadow-sm">
+              <AlertCircle className="h-8 w-8 mx-auto text-rose-600" />
+              <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900 font-mono">NO HISTORY MATCH FOUND</h3>
+              <p className="text-xs text-slate-600 max-w-md mx-auto">
+                The uploaded document does not match any existing incident records in the AegisIQ database vector store. Please verify the log file or dataset parameters.
+              </p>
             </div>
           )}
-
-          {/* Report Footer */}
-          <div className="border-t border-slate-200 pt-4 flex items-center justify-between text-[11px] font-mono text-slate-500">
-            <span>RAG Synthesizer Engine: Multi-Vector Cosine Similarity & Vector DB v2.4</span>
-            <span className="font-bold text-slate-900">Audit Status: SECURE & SYNCHRONIZED</span>
-          </div>
         </div>
       )}
     </div>
