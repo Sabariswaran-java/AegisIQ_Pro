@@ -71,7 +71,7 @@ Audit Status: ARCHIVED
     setUploadedFile(file);
     setAuditReport(null);
 
-    // Exactly 10 seconds professional simulation delay
+    // 10 seconds professional simulation delay (Without showing 10s text)
     setTimeout(() => {
       setIsUploading(false);
 
@@ -125,14 +125,13 @@ Audit Status: ARCHIVED
   };
 
   const handleNextNavigation = () => {
-    if (!setActiveTab) return;
-    // Mapped correctly to the main layout key "deploy" for Deployment Optimizer
+    if (!setActiveTab || !auditReport) return;
     setActiveTab("deploy");
   };
 
   return (
     <div className="space-y-6 w-full pb-20 p-6 bg-[#F8FAFC] min-h-screen font-sans">
-      {/* Top Header */}
+      {/* Top Header with Conditioned Next Button */}
       <div className="flex justify-between items-center bg-white border border-slate-200 px-6 py-4 rounded-2xl shadow-sm w-full">
         <div>
           <h2 className="text-base font-bold text-slate-900 tracking-tight">Incident Memory & Dynamic RAG Synthesizer</h2>
@@ -140,8 +139,13 @@ Audit Status: ARCHIVED
         </div>
         <button 
           onClick={handleNextNavigation}
-          title="Proceed to Deployment Optimizer"
-          className="p-2.5 rounded-xl text-xs transition flex items-center justify-center text-slate-700 hover:text-slate-900 hover:bg-slate-100 cursor-pointer active:scale-95"
+          disabled={!auditReport}
+          title={auditReport ? "Proceed to Deployment Optimizer" : "Generate report first to proceed"}
+          className={`p-2.5 rounded-xl text-xs transition flex items-center justify-center ${
+            auditReport 
+              ? "text-slate-700 hover:text-slate-900 hover:bg-slate-100 cursor-pointer active:scale-95" 
+              : "text-slate-300 cursor-not-allowed"
+          }`}
         >
           <ChevronRight className="h-5 w-5" />
         </button>
@@ -175,12 +179,12 @@ Audit Status: ARCHIVED
         </div>
       </div>
 
-      {/* LOADING SKELETON */}
+      {/* LOADING SKELETON (Without 10s text) */}
       {isUploading && (
         <div className="bg-white border border-slate-200 p-10 rounded-2xl text-center space-y-3 shadow-sm w-full animate-pulse">
           <Loader2 className="h-7 w-7 animate-spin mx-auto text-teal-600" />
           <p className="text-xs font-mono text-slate-700 font-semibold">
-            Parsing uploaded dataset and cross-referencing against enterprise incident vectors (Processing for 10 seconds)...
+            Parsing uploaded dataset and cross-referencing against enterprise incident vectors...
           </p>
         </div>
       )}
