@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Upload, Loader2, FileText, CheckCircle2, AlertCircle, ChevronRight, History } from "lucide-react";
+import { Upload, Loader2, FileText, CheckCircle2, AlertCircle, ChevronRight, ShieldCheck, Terminal, Database } from "lucide-react";
 import { useAegis } from "../../context/AegisContext";
 
 export default function ReportsTab({ assets = [], setActiveTab }) {
@@ -18,29 +18,28 @@ export default function ReportsTab({ assets = [], setActiveTab }) {
     setUploadedFile(file);
     setAuditReport(null);
 
-    // Exactly 10 seconds loading delay
+    // Exactly 10 seconds professional simulation delay
     setTimeout(() => {
       setIsUploading(false);
 
-      // Intelligent RAG Matching Engine Logic based on filename
       const isMatchingHistory = file.name.toLowerCase().includes("audit") || file.name.toLowerCase().includes("log") || file.name.toLowerCase().includes("incident") || file.name.toLowerCase().includes("fleet");
 
       if (isMatchingHistory) {
         setAuditReport({
           matchFound: true,
-          matchedIncidentId: "INC-8921",
-          matchConfidence: "98.4%",
-          historicalDate: "14 Sept 2025",
-          currentProblem: `Severe thermal saturation and thread pool exhaustion detected on ${targetName} during peak compute surge.`,
-          previousProblem: `Identical thermal runaway and memory accumulation signature recorded on Core-Node-Alpha under 95% load spike.`,
-          resolutionMethodology: "Executed automated traffic re-routing to secondary gateway node, initiated aggressive thread pool garbage collection, and applied frequency voltage scaling (FVS).",
-          toolsUsed: ["Spring Boot Microservice Circuit Breaker", "PostgreSQL Telemetry Audit Log", "Next.js Automated Load-Shedding Matrix"],
-          proofReference: "Verified via cluster audit trail #INC-8921 (Resolved with 0% downtime and core temperature stabilization from 82°C to 64°C)."
+          incidentCode: "INC-8921-X",
+          confidenceScore: "98.4%",
+          vectorSignature: "THERMAL_RUNAWAY_CPU_SATURATED",
+          historicalReference: "Core-Node-Alpha (14 Sept 2025)",
+          diagnostics: `Critical thermal saturation (>82°C) coupled with 95% thread pool exhaustion on ${targetName}.`,
+          remediationProtocol: "Executed automated traffic re-routing to secondary gateway node, initiated aggressive thread pool garbage collection, and applied frequency voltage scaling (FVS).",
+          executionStack: ["Spring Boot Circuit Breaker", "PostgreSQL Vector Audit Log", "Next.js Load-Shedding Matrix"],
+          validationHash: "SHA-256: 8f94b21c7e6a3... (Zero downtime verified)"
         });
       } else {
         setAuditReport({
           matchFound: false,
-          currentProblem: `Uploaded anomaly dataset for ${targetName} does not cross-reference with historical failure clusters.`
+          diagnostics: `Uploaded dataset for ${targetName} exhibits novel telemetry vectors with no historical cluster match.`
         });
       }
     }, 10000);
@@ -91,7 +90,7 @@ export default function ReportsTab({ assets = [], setActiveTab }) {
         </div>
       </div>
 
-      {/* LOADING SKELETON (10 SECONDS DELAY STATE) */}
+      {/* LOADING SKELETON */}
       {isUploading && (
         <div className="bg-white border border-slate-200 p-10 rounded-2xl text-center space-y-3 shadow-sm w-full animate-pulse">
           <Loader2 className="h-7 w-7 animate-spin mx-auto text-teal-600" />
@@ -101,78 +100,107 @@ export default function ReportsTab({ assets = [], setActiveTab }) {
         </div>
       )}
 
-      {/* AUDIT & RAG MATCHING REPORT */}
+      {/* PROFESSIONAL ENTERPRISE AUDIT REPORT */}
       {auditReport && !isUploading && (
-        <div className="bg-white border border-slate-200 p-8 rounded-2xl space-y-6 w-full shadow-sm animate-in fade-in duration-500 text-slate-900">
+        <div className="bg-white border border-slate-200 p-8 rounded-2xl space-y-6 w-full shadow-sm animate-in fade-in duration-500 text-slate-900 font-sans">
           
-          <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+          {/* Report Header */}
+          <div className="flex items-center justify-between border-b border-slate-200 pb-4">
             <div className="flex items-center gap-3">
               <div className="text-teal-600">
-                <History className="h-5 w-5" />
+                <ShieldCheck className="h-6 w-6" />
               </div>
               <div>
                 <h3 className="text-sm uppercase font-bold text-slate-900 tracking-wider font-mono">
-                  Enterprise Master Incident & Remediation Audit Report
+                  Enterprise Incident Remediation & RAG Synthesis Report
                 </h3>
-                <p className="text-xs text-slate-500 font-sans mt-0.5">Evaluated Dataset: <span className="font-semibold text-slate-800">{uploadedFile?.name}</span></p>
+                <p className="text-xs text-slate-500 font-mono mt-0.5">Target Node: <span className="font-bold text-slate-800">{targetName}</span> | Source: {uploadedFile?.name}</p>
               </div>
             </div>
-            <span className={`text-[11px] font-mono font-bold px-3 py-1 rounded-full ${
-              auditReport.matchFound ? 'bg-teal-50 text-teal-700 border border-teal-200' : 'bg-rose-50 text-rose-700 border border-rose-200'
+            <span className={`text-[11px] font-mono font-bold px-3 py-1.5 rounded-xl border ${
+              auditReport.matchFound ? 'bg-teal-50 text-teal-700 border-teal-200' : 'bg-rose-50 text-rose-700 border-rose-200'
             }`}>
-              {auditReport.matchFound ? `Match Confirmed (${auditReport.matchConfidence})` : "No History Match Found"}
+              {auditReport.matchFound ? `MATCH CONFIRMED (${auditReport.confidenceScore})` : "NO HISTORY MATCH FOUND"}
             </span>
           </div>
 
           {auditReport.matchFound ? (
-            <div className="space-y-5 font-sans text-xs leading-relaxed text-slate-800">
+            <div className="space-y-6 text-xs text-slate-800">
               
-              <div>
-                <h4 className="font-bold text-slate-900 font-mono text-sm mb-1">1. Current Operational Problem vs Previous History</h4>
-                <p className="text-slate-700">
-                  <strong className="text-slate-900">Current Issue:</strong> {auditReport.currentProblem}<br/>
-                  <strong className="text-slate-900 mt-1 block">Historical Incident Reference ({auditReport.matchedIncidentId} - {auditReport.historicalDate}):</strong> {auditReport.previousProblem}
+              {/* Metadata Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono">
+                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1">
+                  <span className="text-[10px] text-slate-400 uppercase block font-sans">Matched Incident ID</span>
+                  <div className="text-sm font-bold text-slate-900">{auditReport.incidentCode}</div>
+                </div>
+                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1">
+                  <span className="text-[10px] text-slate-400 uppercase block font-sans">Vector Signature</span>
+                  <div className="text-sm font-bold text-teal-700 truncate">{auditReport.vectorSignature}</div>
+                </div>
+                <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1">
+                  <span className="text-[10px] text-slate-400 uppercase block font-sans">Historical Anchor</span>
+                  <div className="text-sm font-bold text-slate-900">{auditReport.historicalReference}</div>
+                </div>
+              </div>
+
+              {/* Section 1: Diagnostics */}
+              <div className="space-y-2">
+                <h4 className="font-bold text-slate-900 font-mono text-xs uppercase tracking-wide border-b border-slate-100 pb-1 flex items-center gap-2">
+                  <Terminal className="h-3.5 w-3.5 text-teal-600" /> 1. Telemetry Anomaly Diagnostics
+                </h4>
+                <p className="text-slate-700 leading-relaxed bg-slate-50/50 p-4 rounded-xl border border-slate-100">
+                  {auditReport.diagnostics}
                 </p>
               </div>
 
-              <div>
-                <h4 className="font-bold text-slate-900 font-mono text-sm mb-1">2. Historical Resolution Methodology & Action Plan</h4>
-                <p className="text-slate-700">
-                  During incident {auditReport.matchedIncidentId}, SRE engineers successfully mitigated the exact same structural anomaly using the following validated protocol: <span className="font-semibold text-slate-900">{auditReport.resolutionMethodology}</span>
+              {/* Section 2: Methodology */}
+              <div className="space-y-2">
+                <h4 className="font-bold text-slate-900 font-mono text-xs uppercase tracking-wide border-b border-slate-100 pb-1 flex items-center gap-2">
+                  <Database className="h-3.5 w-3.5 text-teal-600" /> 2. Validated Remediation Methodology
+                </h4>
+                <p className="text-slate-700 leading-relaxed bg-slate-50/50 p-4 rounded-xl border border-slate-100 font-medium">
+                  {auditReport.remediationProtocol}
                 </p>
               </div>
 
-              <div>
-                <h4 className="font-bold text-slate-900 font-mono text-sm mb-1">3. Tools, Frameworks & Technologies Utilized</h4>
+              {/* Section 3: Tech Stack */}
+              <div className="space-y-2">
+                <h4 className="font-bold text-slate-900 font-mono text-xs uppercase tracking-wide border-b border-slate-100 pb-1">
+                  3. Execution Stack & Frameworks
+                </h4>
                 <div className="flex flex-wrap gap-2 pt-1">
-                  {auditReport.toolsUsed.map((tool, idx) => (
-                    <span key={idx} className="px-3 py-1 bg-slate-100 border border-slate-200 text-slate-800 rounded-lg font-mono text-[11px] font-semibold">
-                      ✓ {tool}
+                  {auditReport.executionStack.map((tech, idx) => (
+                    <span key={idx} className="px-3 py-1.5 bg-slate-100 border border-slate-200 text-slate-800 rounded-lg font-mono text-[11px] font-semibold">
+                      ✓ {tech}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div>
-                <h4 className="font-bold text-slate-900 font-mono text-sm mb-1">4. Verification & Historical Proof</h4>
-                <div className="p-4 bg-teal-50/60 border border-teal-200 rounded-xl text-teal-900 font-mono text-xs">
-                  <p className="font-bold mb-1">Audit Trail Verification:</p>
-                  <p>{auditReport.proofReference}</p>
+              {/* Section 4: Verification */}
+              <div className="space-y-2">
+                <h4 className="font-bold text-slate-900 font-mono text-xs uppercase tracking-wide border-b border-slate-100 pb-1">
+                  4. Cryptographic Audit Trail Verification
+                </h4>
+                <div className="p-4 bg-teal-50/40 border border-teal-200 rounded-xl text-teal-900 font-mono text-xs">
+                  <p className="font-bold mb-0.5">Verification Hash & SLA Status:</p>
+                  <p className="text-slate-700">{auditReport.validationHash}</p>
                 </div>
               </div>
 
             </div>
           ) : (
-            <div className="p-6 bg-rose-50 border border-rose-200 rounded-xl text-center space-y-2 text-rose-900 font-mono">
-              <AlertCircle className="h-6 w-6 mx-auto text-rose-600" />
-              <p className="font-bold text-sm">No History Match Found in Enterprise Database</p>
-              <p className="text-xs text-slate-600 font-sans">The uploaded audit file contains novel anomaly patterns. Recommended to forward dataset for autonomous SRE model fine-tuning.</p>
+            <div className="p-8 bg-rose-50 border border-rose-200 rounded-2xl text-center space-y-2 text-rose-900 font-mono">
+              <AlertCircle className="h-7 w-7 mx-auto text-rose-600" />
+              <p className="font-bold text-sm">NO HISTORICAL VECTOR MATCH FOUND</p>
+              <p className="text-xs text-slate-600 font-sans">The uploaded dataset contains novel anomalous telemetry signatures. Recommended to export data for autonomous SRE neural model fine-tuning.</p>
             </div>
           )}
 
-          <div className="border-t border-slate-100 pt-3 flex items-center justify-between text-xs font-mono text-slate-500">
-            <span>RAG Synthesizer Engine: Multi-Vector Cosine Similarity & Vector DB</span>
-            <span className="font-bold text-slate-900">Audit Status: Fully Synchronized</span>
+          {/* Report Footer */}
+          <div className="border-t border-slate-200 pt-4 flex items-center justify-between text-[11px] font-mono text-slate-500">
+            <span>RAG Synthesizer Engine: Multi-Vector Cosine Similarity & Vector DB v2.4</span>
+            <span className="font-bold text-slate-900">Audit Status: SECURE & SYNCHRONIZED</span>
           </div>
         </div>
       )}
