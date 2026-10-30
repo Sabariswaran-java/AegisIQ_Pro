@@ -7,7 +7,8 @@ export default function ExplanationTab({ setActiveTab }) {
   const whatIfResult = aiWorkflowData?.whatIfResult;
   const twinResult = aiWorkflowData?.twinResult;
 
-  const targetName = selectedAsset?.name || "Turbine 5";
+  // Fully dynamic binding linked from Decision Graph, Decision Twin, and What-If Simulation
+  const targetName = selectedAsset?.name || twinResult?.assetName || "Turbine 5";
   const currentCpu = selectedAsset?.cpuUsage || twinResult?.currentCpu || 85;
   const currentTemp = selectedAsset?.temperature || twinResult?.currentTemp || 72;
   const riskState = whatIfResult?.riskAssessment || twinResult?.thermalRisk || "critical threshold breach";
@@ -17,11 +18,11 @@ export default function ExplanationTab({ setActiveTab }) {
 
   return (
     <div className="space-y-6 w-full pb-20 p-6 bg-[#F8FAFC] min-h-screen">
-      {/* Top Header with Icon-Only Next Button */}
+      {/* Top Professional Header with Next Icon Button */}
       <div className="flex justify-between items-center bg-white border border-slate-200 px-6 py-4 rounded-2xl shadow-sm w-full">
         <div>
-          <h2 className="text-base font-bold text-slate-900 tracking-tight">AI Model Interpretability & Causal Attribution (XAI)</h2>
-          <p className="text-xs text-slate-500">Advanced TreeSHAP & LIME Kernel analysis mapping real-time asset sensor telemetry to autonomous failure risks.</p>
+          <h2 className="text-base font-bold text-slate-900 tracking-tight">AI Causal Inference & Explainable SRE Intelligence (XAI)</h2>
+          <p className="text-xs text-slate-500">Advanced TreeSHAP & LIME attribution synthesis mapping real-time asset telemetry from Graph topology & What-If stress matrices.</p>
         </div>
         <button 
           onClick={() => setActiveTab && setActiveTab("memory")}
@@ -35,7 +36,7 @@ export default function ExplanationTab({ setActiveTab }) {
       {/* TOP DYNAMIC METRICS GRID */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 font-mono text-xs w-full">
         <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-1 shadow-sm">
-          <span className="text-[10px] text-slate-400 uppercase block font-sans">Active Target Node</span>
+          <span className="text-[10px] text-slate-400 uppercase block font-sans">Active Target Node (Linked)</span>
           <div className="text-sm font-bold text-slate-900 truncate pt-1">{targetName}</div>
         </div>
         <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-1 shadow-sm">
@@ -60,7 +61,7 @@ export default function ExplanationTab({ setActiveTab }) {
         <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-1 shadow-sm">
           <span className="text-[10px] text-slate-400 uppercase block font-sans">Thermal Drift (SHAP)</span>
           <div className="text-lg font-bold text-slate-900">+{predictedTemp}°C</div>
-          <span className="text-[10px] text-slate-500 block font-sans">Primary risk driver for {targetName}</span>
+          <span className="text-[10px] text-slate-500 block font-sans">Primary risk driver derived from What-If simulation</span>
         </div>
         <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-1 shadow-sm">
           <span className="text-[10px] text-slate-400 uppercase block font-sans">Compute Load Impact</span>
@@ -139,7 +140,6 @@ export default function ExplanationTab({ setActiveTab }) {
       <div className="bg-white border border-slate-200 p-8 rounded-2xl space-y-5 w-full shadow-sm text-slate-900">
         <div className="flex items-center justify-between border-b border-slate-100 pb-4">
           <div className="flex items-center gap-3">
-            {/* SVG Icon ONLY without background container */}
             <div className="text-teal-600">
               <ShieldCheck className="h-5 w-5" />
             </div>
