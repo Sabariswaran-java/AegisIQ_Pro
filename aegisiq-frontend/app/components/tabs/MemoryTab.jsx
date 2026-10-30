@@ -126,8 +126,8 @@ Audit Status: ARCHIVED
 
   const handleNextNavigation = () => {
     if (!setActiveTab) return;
-    // Trying all possible key aliases to guarantee tab switching works without empty state
-    setActiveTab("optimizer");
+    // Mapped correctly to the main layout key "deploy" for Deployment Optimizer
+    setActiveTab("deploy");
   };
 
   return (
